@@ -82,9 +82,92 @@ const (
 
 type (
 	PolicyResponse struct {
-		PaymentPolicies    []PaymentPolicyResponse    `json:"paymentPolicies"`
-		CheckInOutPolicies []CheckInOutPolicyResponse `json:"checkInOutPolicies"`
-		PetsPolicies       []PetsPolicyResponse       `json:"petsPolicies"`
+		PaymentPolicies      []PaymentPolicyResponse      `json:"paymentPolicies"`
+		CheckInOutPolicies   []CheckInOutPolicyResponse   `json:"checkInOutPolicies"`
+		PetsPolicies         []PetsPolicyResponse         `json:"petsPolicies"`
+		CancellationPolicies []CancellationPolicyResponse `json:"cancellationPolicies"` // Describes the cancellation policies applicable to the property
+		TaxPolicies          []TaxPolicyResponse          `json:"taxPolicies"`          // Describes the taxes applicable at the property
+		CommissionPolicies   []CommissionPolicyResponse   `json:"commissionPolicies"`   // Describes the commission policies applicable to the property
+		StayRequirements     []QualifiedFreeTextResponse  `json:"stayRequirements"`     // Describes the stay requirements such as minimum/maximum length of stay
+		GuestPolicies        []GuestPolicyResponse        `json:"guestPolicies"`        // Describes the guest policies applicable to the property
+		LoyaltyPolicies      []LoyaltyBenefitResponse     `json:"loyaltyPolicies"`      // Describes the loyalty benefits applicable to the property
+	}
+
+	// * Describes the conditions under which a booking can be cancelled and the resulting charges.
+	CancellationPolicyResponse struct {
+		Amount         string                    `json:"amount"`         // Cancellation charge amount applicable when the policy is triggered
+		NumberOfNights int                       `json:"numberOfNights"` // Number of nights charged as a cancellation penalty
+		Percentage     string                    `json:"percentage"`     // Cancellation charge expressed as a percentage
+		Deadline       string                    `json:"deadline"`       // Deadline before which the booking can be cancelled free of charge
+		Description    QualifiedFreeTextResponse `json:"description"`    // Free-text description of the cancellation policy
+		PolicyType     string                    `json:"policyType"`     // Type of the cancellation policy
+	}
+
+	// * Describes a tax or fee applicable at the property.
+	TaxPolicyResponse struct {
+		Currency         string `json:"currency"`         // ISO currency code of the tax amount
+		Amount           string `json:"amount"`           // Tax amount
+		Code             string `json:"code"`             // Code identifying the tax
+		Percentage       string `json:"percentage"`       // Tax expressed as a percentage
+		Included         bool   `json:"included"`         // True if the tax is already included in the price
+		Description      string `json:"description"`      // Description of the tax
+		PricingFrequency string `json:"pricingFrequency"` // Frequency at which the tax is applied
+		PricingMode      string `json:"pricingMode"`      // Mode in which the tax is priced
+	}
+
+	// * Describes the commission applicable to a booking.
+	CommissionPolicyResponse struct {
+		Percentage  string                    `json:"percentage"`  // Commission expressed as a percentage
+		Amount      string                    `json:"amount"`      // Commission amount
+		Description QualifiedFreeTextResponse `json:"description"` // Free-text description of the commission policy
+	}
+
+	// * Describes the policies applicable to guests such as age restrictions and child sharing rules.
+	GuestPolicyResponse struct {
+		MinGuestAge              int  `json:"minGuestAge"`              // Minimum age required for a guest to stay at the property
+		MaxChildAgeforBedSharing int  `json:"maxChildAgeforBedSharing"` // Maximum age of a child allowed to share a bed
+		ChildStayFreeCutoffAge   int  `json:"childStayFreeCutoffAge"`   // Maximum age up to which a child stays free of charge
+		ChildStayFree            bool `json:"childStayFree"`            // True if children stay free of charge
+	}
+
+	// * Describes the loyalty benefits a member can accrue or redeem at the property.
+	LoyaltyBenefitResponse struct {
+		Eligibility      string                    `json:"eligibility"`      // Describes the eligibility for the loyalty benefit
+		BenefitsAccruals []BenefitAccrualResponse  `json:"benefitsAccruals"` // Describes the benefits accrued through the loyalty program
+		Discount         LoyaltyDiscountResponse   `json:"discount"`         // Describes the discount associated with the loyalty benefit
+		Membership       LoyaltyMembershipResponse `json:"membership"`       // Describes the membership tied to the loyalty benefit
+	}
+
+	// * Describes a benefit accrued through a loyalty program.
+	BenefitAccrualResponse struct {
+		LoyaltyAwardType string `json:"loyaltyAwardType"` // Type of the loyalty award
+		Amount           string `json:"amount"`           // Amount accrued for the benefit
+		Category         string `json:"category"`         // Category of the benefit
+		Code             string `json:"code"`             // Code identifying the benefit
+		CodeDescription  string `json:"codeDescription"`  // Description of the benefit code
+	}
+
+	// * Describes a discount applicable through a loyalty program.
+	LoyaltyDiscountResponse struct {
+		Percentage string `json:"percentage"` // Discount expressed as a percentage
+	}
+
+	// * Describes the membership tied to a loyalty benefit.
+	LoyaltyMembershipResponse struct {
+		ActiveTier LoyaltyTierResponse    `json:"activeTier"` // Describes the active tier of the membership
+		Program    LoyaltyProgramResponse `json:"program"`    // Describes the loyalty program of the membership
+	}
+
+	// * Describes the active tier of a loyalty membership.
+	LoyaltyTierResponse struct {
+		Level string `json:"level"` // Level of the active tier
+	}
+
+	// * Describes a loyalty program.
+	LoyaltyProgramResponse struct {
+		Name  string          `json:"name"`  // Name of the loyalty program
+		Owner string          `json:"owner"` // Owner of the loyalty program
+		Media []MediaResponse `json:"media"` // Media associated to the loyalty program
 	}
 
 	// * Pets policies

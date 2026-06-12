@@ -266,7 +266,7 @@ type (
 		IsNonSmoking             bool                             `json:"isNonSmoking"`             // Indicates whether the room is a smoking room or not
 		StandardPersonCapacity   int                              `json:"standardPersonCapacity"`   // Indicates the typical capacity for the room
 		MaxPersonCapacity        MaxPersonCapacityResponse        `json:"maxPersonCapacity"`        // Capacity of hotel room ( total of number of adult, children)
-		MaxSleepFurnishing       MaxSleepFurnishingResponse       `json:"maxSleepFurnishing"`       // Indicates the maximum number of extra beds, cribs that can be accomodated in the room
+		MaxSleepFurnishings      MaxSleepFurnishingResponse       `json:"maxSleepFurnishings"`      // Indicates the maximum number of extra beds, cribs that can be accomodated in the room
 		Dimensions               DimensionsResponse               `json:"dimensions"`               // A dimension is a measurement such as length, width, or height. Dimensions of a place refers to its size and proportions. The value of height, length and width can be collectively used to calculate multiple values such as total surface area and weight, volume and density.
 	}
 
@@ -287,7 +287,7 @@ type (
 
 	MaxPersonCapacityResponse struct {
 		Total    int `json:"total"`    // Indicates the total number of person capacity for the room
-		Adult    int `json:"adult"`    // Indicates the number of adults in the room
+		Adults   int `json:"adults"`   // Indicates the number of adults in the room
 		Children int `json:"children"` // Indicates the number of children in the room
 	}
 

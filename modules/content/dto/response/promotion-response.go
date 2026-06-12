@@ -112,12 +112,12 @@ const (
 type (
 	// * Promotion refers to the list of things that is done to increase the sales or to advertise a product
 	PromotionResponse struct {
-		Name             string                   `json:"name"`             // example: Year End Sale . Name of the promotion
-		Description      string                   `json:"description"`      // example: Get 20% off by using this promotion code. Enjoy extra benefits while applying this promotion Description of the promotion
-		Category         PromotionCategory        `json:"category"`         // Category of the promotion. These enum values are inspired from OTA - "https://opentravel.org/" with code list as - DIS
-		Code             string                   `json:"code"`             // example: XYZ123 Promotion code to be used at the time of booking
-		TermsOfCondition TermsOfConditionResponse `json:"termsOfCondition"` // example: Terms and conditions of the promotion
-		Media            []MediaResponse          `json:"media"`            // example: Media of the promotion
+		Name               string                   `json:"name"`               // example: Year End Sale . Name of the promotion
+		Description        string                   `json:"description"`        // example: Get 20% off by using this promotion code. Enjoy extra benefits while applying this promotion Description of the promotion
+		Category           PromotionCategory        `json:"category"`           // Category of the promotion. These enum values are inspired from OTA - "https://opentravel.org/" with code list as - DIS
+		Code               string                   `json:"code"`               // example: XYZ123 Promotion code to be used at the time of booking
+		TermsAndConditions TermsOfConditionResponse `json:"termsAndConditions"` // example: Terms and conditions of the promotion
+		Media              []MediaResponse          `json:"media"`              // example: Media of the promotion
 	}
 
 	TermsOfConditionResponse struct {
@@ -130,6 +130,7 @@ type (
 	MediaResponse struct {
 		Id            string                    `json:"id"`            // example: 69810B23CB8644A18AF760DC66BE41A6. Image Id
 		Title         string                    `json:"title"`         // example: My image title. media title
+		Caption       string                    `json:"caption"`       // example: Hotel exterior view. Caption of the media
 		Href          string                    `json:"href"`          // example: http:pdt.multimediarepository.testing.amadeus.com/cmr/retrieve/hotel/69810B23CB8644A18AF760DC66BE41A6. href to display the original media. href for scaled versions of that media are provided at MediaScale level
 		Description   QualifiedFreeTextResponse `json:"description"`   // example: Description of the media
 		Tags          []string                  `json:"tags"`          // example: ["hotel", "promotion", "sale"]. Tags of the media

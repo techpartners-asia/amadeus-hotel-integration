@@ -158,6 +158,31 @@ type (
 		Room *RoomDetails `json:"room,omitempty"`
 		// RoomInformation - detailed hotel room information including amenities and room type.
 		RoomInformation *RoomInformation `json:"roomInformation,omitempty"`
+		// RoomQuantity - number of rooms booked under this offer.
+		RoomQuantity int `json:"roomQuantity,omitempty"`
+		// Services - list of additional services attached to the offer (e.g. extra beds, parking).
+		Services []OfferService `json:"services,omitempty"`
+	}
+
+	// OfferService represents an additional service offered with the hotel offer.
+	OfferService struct {
+		// Code - unique code representing the service.
+		Code string `json:"code,omitempty"`
+		// Description - free text description of the service.
+		Description string `json:"description,omitempty"`
+		// IsChargeable - true if the service is chargeable. Default: false.
+		IsChargeable bool `json:"isChargeable,omitempty"`
+		// Price - price information for the service.
+		Price *HotelPrice `json:"price,omitempty"`
+		// PricingMethod - how the service cost is assessed.
+		// Enum: DAILY, HOURLY, HALF_DAY, PER_OCCURRENCE, PER_EVENT, PER_PERSON, FIRST_USE,
+		// PER_MINUTE, COMPLIMENTARY, WEEKLY, PER_STAY, PER_FUNCTION, PER_ROOM_PER_STAY,
+		// PER_ROOM_PER_NIGHT, PER_PERSON_PER_STAY, PER_PERSON_PER_NIGHT, PER_RESERVATION_BOOKNG, PER_USE.
+		PricingMethod string `json:"pricingMethod,omitempty"`
+		// Quantity - how many counts are available for this service.
+		Quantity int `json:"quantity,omitempty"`
+		// ServiceAttribute - attribute related to the service. Example: "Parking" attribute.
+		ServiceAttribute string `json:"serviceAttribute,omitempty"`
 	}
 
 	// Commission represents commission paid to the travel seller.
@@ -464,18 +489,80 @@ type (
 
 	// RoomInformation contains detailed hotel room information including amenities.
 	RoomInformation struct {
+		// Id - unique identifier of the room information record.
+		Id string `json:"id,omitempty"`
 		// Amenities - list of room amenities (e.g. WIFI, minibar, etc.).
 		Amenities []Amenity `json:"amenities,omitempty"`
 		// ArchitectureCode - architectural style of the room.
 		// Enum: ART_DECO, BRAZILIAN, CONTEMPORARY, HIGH_RISE, HISTORIC, MEDITERRANEAN,
-		// MODERN, ORIENTAL, SOUTHWEST, TRADITIONAL, VICTORIAN, etc.
+		// MODERN, ORIENTAL, SOUTHWEST, TRADITIONAL, VICTORIAN, WESTERN, ANCIENT, THEMED.
 		ArchitectureCode string `json:"architectureCode,omitempty"`
+		// BathroomsPerRoom - number of bathrooms in the room.
+		BathroomsPerRoom int `json:"bathroomsPerRoom,omitempty"`
+		// BedroomsPerRoom - number of bedrooms in the room.
+		BedroomsPerRoom int `json:"bedroomsPerRoom,omitempty"`
+		// BedType - type of the bed.
+		// Enum: DOUBLE, FUTON, KING, MURPHY_BED, QUEEN, SOFA_BED, TATAMI_MATS, TWIN, SINGLE,
+		// FULL, RUN_OF_THE_HOUSE, DORM_BED, WATER_BED.
+		BedType string `json:"bedType,omitempty"`
+		// Beds - number of beds in the room.
+		Beds int `json:"beds,omitempty"`
 		// Description - free text description of the room.
 		Description *QualifiedFreeText `json:"description,omitempty"`
+		// Dimensions - physical dimensions (area, height, width, etc.) of the room.
+		Dimensions *Dimensions `json:"dimensions,omitempty"`
+		// HotelRoomCategory - marketing/pricing category of the room.
+		// Enum: SUITE, BUDGET, CORPORATE_BUSINESS_TRANSIENT, DELUXE, ECONOMY, EXTENDED_STAY,
+		// FIRST_CLASS, LUXURY, MEETING_CONVENTION, MODERATE, RESIDENTIAL_APARTMENT, RESORT,
+		// UPSCALE, EFFICIENCY, STANDARD, MIDSCALE, OTHER, MIDSCALE_WITHOUT_FOOD_AND_BEVERAGES,
+		// UPPER_UPSCALE.
+		HotelRoomCategory string `json:"hotelRoomCategory,omitempty"`
+		// HotelRoomClassification - structural classification of the room.
+		// Enum: ROOM, VILLA, SUITES, APARTMENTS, PENTHOUSES, LOFTS, ACCESSIBLE_ROOMS,
+		// NONSMOKING_ROOMS, BUNGALOWS_AND_VILLAS, EXECUTIVE_FLOOR, DOUBLE_BEDROOMS,
+		// KING_BEDROOMS, QUEEN_BEDROOMS, STUDIOS, SMOKING_ROOMS, TWIN_BEDROOMS, etc.
+		HotelRoomClassification string `json:"hotelRoomClassification,omitempty"`
+		// HotelRoomLocation - location of the room within the hotel.
+		HotelRoomLocation string `json:"hotelRoomLocation,omitempty"`
+		// MaxPersonCapacity - maximum occupancy of the room (adults, children, total).
+		MaxPersonCapacity *MaxPersonCapacity `json:"maxPersonCapacity,omitempty"`
+		// MaxSleepFurnishings - extra sleeping furnishings available in the room (cribs, extra beds).
+		MaxSleepFurnishings *MaxSleepFurnishings `json:"maxSleepFurnishings,omitempty"`
+		// Media - list of media (images/videos) associated with the room.
+		Media []Media `json:"media,omitempty"`
+		// Name - room name as free text with language info.
+		Name *QualifiedFreeText `json:"name,omitempty"`
+		// PolicyDescriptions - free text descriptions of the room-level policies with language info.
+		PolicyDescriptions []QualifiedFreeText `json:"policyDescriptions,omitempty"`
+		// Quantity - number of rooms of this type available.
+		Quantity int `json:"quantity,omitempty"`
 		// Type - room type code (3 chars).
 		Type string `json:"type,omitempty"`
 		// TypeEstimated - estimated room category, bed type, and number of beds.
 		TypeEstimated *EstimatedRoomType `json:"typeEstimated,omitempty"`
+		// ViewCode - the view from the room.
+		// Enum: AIRPORT, BAY, CITY, COURTYARD, GOLF, HARBOR, INTERCOASTAL, LAKE, MARINA,
+		// MOUNTAIN, OCEAN, POOL, RIVER, WATER, BEACH, GARDEN, PARK, FOREST, RAIN_FOREST,
+		// VARIOUS, SLOPE, STRIP, COUNTRYSIDE, SEA.
+		ViewCode string `json:"viewCode,omitempty"`
+	}
+
+	// MaxPersonCapacity describes the maximum occupancy of a room.
+	MaxPersonCapacity struct {
+		// Adults - maximum number of adults the room can accommodate.
+		Adults int `json:"adults,omitempty"`
+		// Children - maximum number of children the room can accommodate.
+		Children int `json:"children,omitempty"`
+		// Total - maximum total number of persons the room can accommodate.
+		Total int `json:"total,omitempty"`
+	}
+
+	// MaxSleepFurnishings describes extra sleeping furnishings available in a room.
+	MaxSleepFurnishings struct {
+		// Cribs - number of cribs available in the room.
+		Cribs int `json:"cribs,omitempty"`
+		// ExtraBeds - number of extra beds available in the room.
+		ExtraBeds int `json:"extraBeds,omitempty"`
 	}
 
 	// Amenity represents a room amenity with its type, pricing, and associated media.
@@ -916,6 +1003,8 @@ type (
 		TargetMediaType string `json:"targetMediaType,omitempty"`
 		// HrefSchema - type/format/pattern/enum definitions for each URI parameter.
 		HrefSchema string `json:"hrefSchema,omitempty"`
+		// ExpirationDate - expiration date and time of the related resource. ISO 8601 format.
+		ExpirationDate string `json:"expirationDate,omitempty"`
 	}
 
 	// Error contains error information for 400/500 responses.

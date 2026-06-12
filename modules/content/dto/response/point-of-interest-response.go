@@ -535,6 +535,7 @@ type (
 		} `json:"officialWebsite"` // Indicates the official website of the point of interest
 		OperatingHours   CalendarScheduleResponse  `json:"operatingHours"`   // As defined in: https://schema.org/Schedule A schedule defines a repeating time period used to describe a regularly occurring Event. At a minimum a schedule will specify repeatFrequency which describes the interval between occurences of the event. Additional information can be provided to specify the schedule more precisely. This includes identifying the day(s) of the week or month when the recurring event will take place, in addition to its start and end time. Schedules may also have start and end dates to indicate when they are active, e.g. to define a limited calendar of events.
 		PriceEquation    []PricingEquationResponse `json:"priceEquation"`    // Indicates the price equation of the point of interest
+		PriceQuotation   []PriceQuotationResponse  `json:"priceQuotation"`   // Indicates the price quotations to access the point of interest
 		Transportations  []TransportationResponse  `json:"transportations"`  // Indicates the transportation info to reach the point of interest via various transportation modes
 		LocationDistance LocationDistanceResponse  `json:"locationDistance"` // Indicates the location distance of the point of interest
 		Media            []MediaResponse           `json:"media"`            // Indicates the media of the point of interest

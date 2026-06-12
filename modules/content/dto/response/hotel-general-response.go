@@ -6,6 +6,17 @@ import (
 	sharedResponseDTO "github.com/techpartners-asia/amadeus-hotel-integration/shared/dto/response"
 )
 
+type FrequencyType string
+
+const (
+	FrequencyTypeHourly     FrequencyType = "HOURLY"
+	FrequencyTypeDaily      FrequencyType = "DAILY"
+	FrequencyTypeMonthly    FrequencyType = "MONTHLY"
+	FrequencyTypeWeekend    FrequencyType = "WEEKEND"
+	FrequencyTypeWeekly     FrequencyType = "WEEKLY"
+	FrequencyTypeFullPeriod FrequencyType = "FULL_PERIOD"
+)
+
 type (
 	BasicResponse struct {
 		Season struct {
@@ -54,9 +65,9 @@ type (
 	}
 
 	HotelResponse struct {
-		TaxID            string                     `json:"taxId"`        // Describes the unique tax identifier of a hotel property
-		CurrencyCode     []string                   `json:"currencyCode"` // Describes the currency code accepted at the property. Example : [EUR]
-		SpokenLanguages  []string                   // Describes the list of languages spoken at the property. Follows the standard of ISO 639-1 (Alpha-2). Example : [es]
+		TaxID            string                     `json:"taxId"`            // Describes the unique tax identifier of a hotel property
+		CurrencyCode     []string                   `json:"currencyCode"`     // Describes the currency code accepted at the property. Example : [EUR]
+		SpokenLanguages  []string                   `json:"spokenLanguages"`  // Describes the list of languages spoken at the property. Follows the standard of ISO 639-1 (Alpha-2). Example : [es]
 		TimeZone         TimeZoneResponse           `json:"timeZone"`         // Element defining a time zone
 		Climate          string                     `json:"climate"`          // Describes the climate at the location of the property. example: Dry
 		Certifications   []AwardsResponse           `json:"certifications"`   // Describes the certifications received by the Hotel
@@ -67,7 +78,7 @@ type (
 
 	BuildingResponse struct {
 		ArchitectureCode        ArchitectureCode `json:"architectureCode"`        // Denotes the architecture in which the property was built upon. Can contain values such as
-		BuildDate               string           `json:"buildDate"`               // Denotes the year at which the property was built. Format YYYY-MM-DD (ISO 8601)
+		BuiltDate               string           `json:"builtDate"`               // Denotes the year at which the property was built. Format YYYY-MM-DD (ISO 8601)
 		RenovationDate          string           `json:"renovationDate"`          // Denotes the year at which the property was renovated. Format YYYY-MM-DD (ISO 8601)
 		NumberOfFloors          int              `json:"numberOfFloors"`          // Indicates the number of floors in the property
 		NumberOfRooms           int              `json:"numberOfRooms"`           // Indicates the number of rooms in the property
@@ -77,9 +88,28 @@ type (
 	}
 
 	SeasonResponse struct {
-		ClosedSeasons   []Period `json:"closedSeasons"`   // Closed seasons of the hotel refers to the season where in the property is shut down
-		BlackoutSeasons []Period `json:"blackoutSeasons"` // Blackout dates of the hotel during which the hotel is open but no bookings are available
-		OpenCalendar    []Period `json:"openCalendar"`    // Indicates the opening time and days of the property
+		ClosedSeasons         []Period               `json:"closedSeasons"`         // Closed seasons of the hotel refers to the season where in the property is shut down
+		BlackoutSeasons       []Period               `json:"blackoutSeasons"`       // Blackout dates of the hotel during which the hotel is open but no bookings are available
+		OpenCalendar          []Period               `json:"openCalendar"`          // Indicates the opening time and days of the property
+		ClosedSeasonsDetail   []SeasonPeriodResponse `json:"closedSeasonsDetail"`   // Detailed closed seasons including recurrence (dow, moy, frequencyType) and excluded periods
+		BlackoutSeasonsDetail []SeasonPeriodResponse `json:"blackoutSeasonsDetail"` // Detailed blackout seasons including recurrence (dow, moy, frequencyType) and excluded periods
+		OpenCalendarDetail    []SeasonPeriodResponse `json:"openCalendarDetail"`    // Detailed open calendar including recurrence (dow, moy, frequencyType) and excluded periods
+	}
+
+	// * Models a period of time between two dates inclusive only of the days of the week and months of the year specified, with optional excluded sub-periods.
+	SeasonPeriodResponse struct {
+		Start           string                   `json:"start"`           // Start date and time following ISO 8601 format
+		End             string                   `json:"end"`             // End date and time following ISO 8601 format
+		Dow             string                   `json:"dow"`             // Days of the week the period applies to
+		FrequencyType   FrequencyType            `json:"frequencyType"`   // Recurrence frequency of the period
+		Moy             string                   `json:"moy"`             // Months of the year the period applies to
+		ExcludedPeriods []ExcludedPeriodResponse `json:"excludedPeriods"` // Sub-periods excluded from this period
+	}
+
+	// * Models a sub-period excluded from an enclosing season period.
+	ExcludedPeriodResponse struct {
+		Start string `json:"start"` // Start date and time following ISO 8601 format
+		End   string `json:"end"`   // End date and time following ISO 8601 format
 	}
 
 	TimeZoneResponse struct {
@@ -90,6 +120,7 @@ type (
 		OffSetInSeconds        int    `json:"offSetInSeconds"`        // Total offset from UTC including the Daylight Saving Time (DST) in second. example: 7200
 		DstOffset              string `json:"dstOffset"`              // Indicates whether the day light savings is observed at the location. example: True
 		DstOffsetInSeconds     int    `json:"dstOffsetInSeconds"`     // Daylight Saving Time (DST) in second. 0 if the zone is not in the Daylight Saving time at specified date. example: -3600
+		DstSetInSeconds        int    `json:"dstSetInSeconds"`        // Daylight Saving Time (DST) in second. 0 if the zone is not in the Daylight Saving time.
 		ReferenceLocalDateTime string `json:"referenceLocalDateTime"` // Date and time used as reference to determine the time zone name, code, offset, and dstOffset following ISO 8601 (https://en.wikipedia.org/wiki/ISO_8601) standard. example: 2022-09-28T19:20:30
 	}
 
@@ -110,12 +141,19 @@ type (
 		OperatingHours        CalendarScheduleResponse  `json:"operatingHours"`        // As defined in: https://schema.org/Schedule A schedule defines a repeating time period used to describe a regularly occurring Event. At a minimum a schedule will specify repeatFrequency which describes the interval between occurences of the event. Additional information can be provided to specify the schedule more precisely. This includes identifying the day(s) of the week or month when the recurring event will take place, in addition to its start and end time. Schedules may also have start and end dates to indicate when they are active, e.g. to define a limited calendar of events.
 		Description           string                    `json:"description"`           // Description of the transportation
 		PriceEquation         []PricingEquationResponse `json:"priceEquation"`         // Indicates the price equation of the transportation
+		PriceQuotation        []PriceQuotationResponse  `json:"priceQuotation"`        // Indicates the price quotations for the transportation
 		Media                 []MediaResponse           `json:"media"`                 // Indicates the media of the transportation
 	}
 
 	PricingEquationResponse struct {
 		PricingMethod PricingMethod           `json:"pricingMethod"` // Indicates the pricing method of the point of interest
 		UnitPrice     ElementaryPriceResponse `json:"unitPrice"`     // Indicates the price of the point of interest per unit
+	}
+
+	// * Indicates a price quote for a given pricing method, using an elementary (itemized) price.
+	PriceQuotationResponse struct {
+		PricingMethod PricingMethod           `json:"pricingMethod"` // Indicates the pricing method used to assess the quoted price
+		UnitPrice     ElementaryPriceResponse `json:"unitPrice"`     // Indicates the quoted price per unit
 	}
 
 	ElementaryPriceResponse struct {

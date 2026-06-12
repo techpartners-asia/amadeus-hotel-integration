@@ -175,8 +175,8 @@ type (
 	}
 
 	RestaurantInfoResponse struct {
-		Quantity   int                  `json:"quantity"`   // Indicates the number of restaurants within the property
-		Restaurant []RestaurantResponse `json:"restaurant"` // Indicates the various restaurants in the property
+		Quantity    int                  `json:"quantity"`    // Indicates the number of restaurants within the property
+		Restaurants []RestaurantResponse `json:"restaurants"` // Indicates the various restaurants in the property
 	}
 
 	RestaurantResponse struct {
@@ -212,12 +212,28 @@ type (
 	ContactResponse struct {
 		AddresseeName AddresseeNameResponse `json:"addresseeName"` // Indicates the name of the person, company or organization that the contact is for
 		Phones        PhoneResponse         `json:"phone"`         // Indicates the phone numbers of the person, company or organization that the contact is for
+		Address       AddressResponse       `json:"address"`       // Indicates the postal address of the person, company or organization that the contact is for
 		Email         EmailResponse         `json:"email"`         // Indicates the email addresses of the person, company or organization that the contact is for
 		Purpose       []string              `json:"purpose"`       // the purpose for which this contact is to be used
 		LocationType  LocationType          `json:"locationType"`  // Describes the locationType of the contact. It can contain values such as
 		Website       struct {
 			Url string `json:"url"` // Indicates the URL of the website
 		} `json:"website"` // Object containing URL and description
+	}
+
+	// * A postal address used to locate a person, company or organization.
+	AddressResponse struct {
+		Category    string   `json:"category"`    // Category of the address
+		Lines       []string `json:"lines"`       // Address lines (street, building, etc.)
+		PostalCode  string   `json:"postalCode"`  // Postal or ZIP code
+		CountryCode string   `json:"countryCode"` // ISO country code
+		CityName    string   `json:"cityName"`    // City name
+		CountyName  string   `json:"countyName"`  // County name
+		CountryName string   `json:"countryName"` // Country name
+		StateCode   string   `json:"stateCode"`   // State or province code
+		PostalBox   string   `json:"postalBox"`   // Post office box
+		Text        string   `json:"text"`        // Free-text representation of the address
+		State       string   `json:"state"`       // State or province name
 	}
 
 	AddresseeNameResponse struct {
