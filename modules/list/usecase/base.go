@@ -1,8 +1,6 @@
 package usecaseHotelList
 
 import (
-	"errors"
-
 	"github.com/techpartners-asia/amadeus-hotel-integration/constants"
 	amadeusIntegration "github.com/techpartners-asia/amadeus-hotel-integration/integrations/amadeus"
 	requestHotelListCityDTO "github.com/techpartners-asia/amadeus-hotel-integration/modules/list/dto/request/city"
@@ -40,8 +38,8 @@ func (h *hotelListUsecase) HotelListByGeocode(request requestHotelListGeocodeDTO
 		return nil, err
 	}
 
-	if res.IsError() {
-		return nil, errors.New(res.String())
+	if apiErr := sharedResponseDTO.ErrorFromResponse(res.StatusCode(), res.IsError(), res.String()); apiErr != nil {
+		return nil, apiErr
 	}
 
 	return responses, nil
@@ -57,12 +55,8 @@ func (h *hotelListUsecase) HotelListByCityCode(request requestHotelListCityDTO.H
 		return nil, err
 	}
 
-	if len(responses.Errors) > 0 {
-		return nil, errors.New(responses.Errors[0].Detail)
-	}
-
-	if res.IsError() {
-		return nil, errors.New(res.String())
+	if apiErr := sharedResponseDTO.ErrorFromResponse(res.StatusCode(), res.IsError(), res.String()); apiErr != nil {
+		return nil, apiErr
 	}
 
 	return responses.Data, nil
@@ -78,12 +72,8 @@ func (h *hotelListUsecase) HotelListByHotelIds(request requestHotelListHotelsDTO
 		return nil, err
 	}
 
-	if len(responses.Errors) > 0 {
-		return nil, errors.New(responses.Errors[0].Detail)
-	}
-
-	if res.IsError() {
-		return nil, errors.New(res.String())
+	if apiErr := sharedResponseDTO.ErrorFromResponse(res.StatusCode(), res.IsError(), res.String()); apiErr != nil {
+		return nil, apiErr
 	}
 
 	return responses.Data, nil

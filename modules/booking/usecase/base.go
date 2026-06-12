@@ -1,8 +1,6 @@
 package usecaseBooking
 
 import (
-	"errors"
-
 	"github.com/techpartners-asia/amadeus-hotel-integration/constants"
 	amadeusIntegration "github.com/techpartners-asia/amadeus-hotel-integration/integrations/amadeus"
 	requestBookingDTO "github.com/techpartners-asia/amadeus-hotel-integration/modules/booking/dto/request"
@@ -53,8 +51,8 @@ func (b *bookingUsecase) Create(request requestBookingDTO.HotelBookingRequest) (
 		return nil, err
 	}
 
-	if res.IsError() {
-		return nil, errors.New(res.String())
+	if apiErr := sharedResponseDTO.ErrorFromResponse(res.StatusCode(), res.IsError(), res.String()); apiErr != nil {
+		return nil, apiErr
 	}
 
 	return &response.Data, nil
@@ -70,8 +68,8 @@ func (b *bookingUsecase) GetByReference(reference string) (*responseBookingDTO.H
 		return nil, err
 	}
 
-	if res.IsError() {
-		return nil, errors.New(res.String())
+	if apiErr := sharedResponseDTO.ErrorFromResponse(res.StatusCode(), res.IsError(), res.String()); apiErr != nil {
+		return nil, apiErr
 	}
 
 	return &response.Data, nil
@@ -87,12 +85,8 @@ func (b *bookingUsecase) GetByID(hotelOrderId string) (*responseBookingDTO.Hotel
 		return nil, err
 	}
 
-	if len(response.Errors) > 0 {
-		return nil, errors.New(response.Errors[0].Detail)
-	}
-
-	if res.IsError() {
-		return nil, errors.New(res.String())
+	if apiErr := sharedResponseDTO.ErrorFromResponse(res.StatusCode(), res.IsError(), res.String()); apiErr != nil {
+		return nil, apiErr
 	}
 
 	return &response.Data, nil
@@ -108,12 +102,8 @@ func (b *bookingUsecase) Cancel(hotelOrderId, hotelBookingId string) (*responseB
 		return nil, err
 	}
 
-	if len(response.Errors) > 0 {
-		return nil, errors.New(response.Errors[0].Detail)
-	}
-
-	if res.IsError() {
-		return nil, errors.New(res.String())
+	if apiErr := sharedResponseDTO.ErrorFromResponse(res.StatusCode(), res.IsError(), res.String()); apiErr != nil {
+		return nil, apiErr
 	}
 
 	return &response.Data, nil
@@ -131,12 +121,8 @@ func (b *bookingUsecase) Modify(hotelOrderId, hotelBookingId string, request req
 		return nil, err
 	}
 
-	if len(response.Errors) > 0 {
-		return nil, errors.New(response.Errors[0].Detail)
-	}
-
-	if res.IsError() {
-		return nil, errors.New(res.String())
+	if apiErr := sharedResponseDTO.ErrorFromResponse(res.StatusCode(), res.IsError(), res.String()); apiErr != nil {
+		return nil, apiErr
 	}
 
 	return &response, nil
@@ -152,12 +138,8 @@ func (b *bookingUsecase) Delete(hotelOrderId, hotelBookingId string) (*responseB
 		return nil, err
 	}
 
-	if len(response.Errors) > 0 {
-		return nil, errors.New(response.Errors[0].Detail)
-	}
-
-	if res.IsError() {
-		return nil, errors.New(res.String())
+	if apiErr := sharedResponseDTO.ErrorFromResponse(res.StatusCode(), res.IsError(), res.String()); apiErr != nil {
+		return nil, apiErr
 	}
 
 	return &response.Included, nil

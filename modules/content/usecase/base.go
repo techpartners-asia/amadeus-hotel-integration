@@ -1,8 +1,6 @@
 package usecaseContent
 
 import (
-	"errors"
-
 	"github.com/techpartners-asia/amadeus-hotel-integration/constants"
 	amadeusIntegration "github.com/techpartners-asia/amadeus-hotel-integration/integrations/amadeus"
 	requestContentDTO "github.com/techpartners-asia/amadeus-hotel-integration/modules/content/dto/request"
@@ -38,8 +36,8 @@ func (c *contentUsecase) GetByID(request requestContentDTO.ContentByIDRequest) (
 		return nil, err
 	}
 
-	if res.IsError() {
-		return nil, errors.New(res.String())
+	if apiErr := sharedResponseDTO.ErrorFromResponse(res.StatusCode(), res.IsError(), res.String()); apiErr != nil {
+		return nil, apiErr
 	}
 
 	return &response.Data, nil

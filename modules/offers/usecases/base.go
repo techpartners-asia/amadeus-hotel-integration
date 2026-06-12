@@ -1,8 +1,6 @@
 package usecasesHotelOffers
 
 import (
-	"errors"
-
 	"github.com/techpartners-asia/amadeus-hotel-integration/constants"
 	amadeusIntegration "github.com/techpartners-asia/amadeus-hotel-integration/integrations/amadeus"
 	requestHotelOffersDTO "github.com/techpartners-asia/amadeus-hotel-integration/modules/offers/dto/request"
@@ -35,8 +33,8 @@ func (h *hotelOffersUsecase) List(request requestHotelOffersDTO.HotelOffersListR
 		return nil, err
 	}
 
-	if res.IsError() {
-		return nil, errors.New(res.String())
+	if apiErr := sharedResponseDTO.ErrorFromResponse(res.StatusCode(), res.IsError(), res.String()); apiErr != nil {
+		return nil, apiErr
 	}
 
 	return response.Data, nil
@@ -51,8 +49,8 @@ func (h *hotelOffersUsecase) GetByID(request requestHotelOffersDTO.HotelOffersBy
 		return nil, err
 	}
 
-	if res.IsError() {
-		return nil, errors.New(res.String())
+	if apiErr := sharedResponseDTO.ErrorFromResponse(res.StatusCode(), res.IsError(), res.String()); apiErr != nil {
+		return nil, apiErr
 	}
 
 	return &response.Data, nil
