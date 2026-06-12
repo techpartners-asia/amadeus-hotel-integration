@@ -167,8 +167,10 @@ SDK.New(clientID, clientSecret)
 
 - **Auto-refreshing auth**: a token manager fetches the OAuth2 token once and refreshes it before expiry; each module gets its own HTTP client (via `amadeus.NewClient`) bound to its own base URL, so modules never clobber each other's configuration.
 - **Use case interfaces**: Each module exposes an interface, making it easy to mock for testing.
-- **Separated DTOs**: Request and response data structures are in dedicated packages, fully typed with JSON tags.
+- **Separated DTOs**: Request and response data structures are in dedicated packages, fully typed with JSON tags modeled from the Amadeus swagger schemas.
+- **Shared models**: Types that are identical across the APIs (media, dimensions, geocode, amenity, currency, and other value objects) live once in `shared/dto/response` and are aliased by each module. Types that genuinely differ per API (`Hotel`, `Price`, `Room`, `PaymentPolicy`) are kept per-module to preserve full schema fidelity.
 - **Generic base response**: A shared `BaseResponse[T]` generic struct handles the standard Amadeus response envelope (data, errors, meta).
+- **Typed errors**: Every failure is a `*sharedResponseDTO.APIError` (see [Error Handling](#error-handling)) carrying the HTTP status and structured Amadeus error objects.
 
 ---
 
@@ -448,21 +450,59 @@ modules).
 
 ## Error Handling
 
-All SDK methods return `(result, error)`. Errors can come from:
+All SDK methods return `(result, error)`. Errors come from:
 
-1. **Network errors** -- connection failures, timeouts
-2. **API errors** -- returned as structured error responses with status code, error code, title, and detail
+1. **Network errors** -- connection failures, timeouts (returned verbatim from the HTTP client).
+2. **API errors** -- any non-2xx response, or a `2xx` response that carries an `errors` array. These are returned as a typed `*APIError`.
+
+### The `APIError` type
+
+Every API failure is a `*sharedResponseDTO.APIError`, which carries the HTTP status and the structured Amadeus error objects:
 
 ```go
+import (
+    "errors"
+    sharedResponseDTO "github.com/techpartners-asia/amadeus-hotel-integration/shared/dto/response"
+)
+
 offers, err := client.Offers.List(request)
 if err != nil {
-    // err.Error() contains the full API error response as a string
-    log.Printf("API call failed: %v", err)
+    var apiErr *sharedResponseDTO.APIError
+    if errors.As(err, &apiErr) {
+        // Structured API error -- inspect it.
+        log.Printf("HTTP %d", apiErr.StatusCode)
+        for _, e := range apiErr.Errors {
+            log.Printf("  [%d] %s - %s", e.Code, e.Title, e.Detail)
+            // e.Source.Parameter / e.Source.Pointer / e.Documentation also available
+        }
+        switch apiErr.StatusCode {
+        case 401:
+            // token rejected -- re-create the SDK with valid credentials
+        case 404:
+            // resource not found (e.g. unknown offer id / hotel order)
+        case 429:
+            // rate limited -- back off and retry
+        }
+        return
+    }
+    // Network / transport error.
+    log.Printf("request failed: %v", err)
     return
 }
 ```
 
-The Amadeus API returns structured errors in this format:
+`err.Error()` renders a readable summary, e.g.
+`amadeus: [38196] Resource not found - The targeted resource doesn't exist (status 404)`.
+
+`APIError` fields:
+
+| Field        | Type              | Description                                              |
+| ------------ | ----------------- | ------------------------------------------------------- |
+| `StatusCode` | `int`             | HTTP status of the failed response.                     |
+| `Errors`     | `[]ErrorResponse` | Structured Amadeus errors (`Status`, `Code`, `Title`, `Detail`, `Source`, `Documentation`). |
+| `Raw`        | `string`          | Raw response body (fallback for non-standard errors).   |
+
+The Amadeus error envelope looks like:
 
 ```json
 {
@@ -471,11 +511,51 @@ The Amadeus API returns structured errors in this format:
       "status": 400,
       "code": 477,
       "title": "INVALID FORMAT",
-      "detail": "The parameter is missing or has an incorrect format"
+      "detail": "invalid query parameter format",
+      "source": { "parameter": "cityCode", "pointer": "", "example": "PAR" },
+      "documentation": "https://developers.amadeus.com"
     }
   ]
 }
 ```
+
+### Possible errors
+
+**HTTP status codes**
+
+| Status | Meaning | Typical cause |
+| ------ | ------- | ------------- |
+| `400`  | Bad Request | Malformed/missing parameter or body (see error `code`). |
+| `401`  | Unauthorized | Expired/invalid token, or **self-service credentials used against the Enterprise host** (`invalid_client` at `New()`). |
+| `403`  | Forbidden | Credentials lack access to the endpoint. |
+| `404`  | Not Found | Unknown hotel id, offer id, or hotel order; or endpoint not enabled for your account. |
+| `429`  | Too Many Requests | Rate limit exceeded -- back off and retry. |
+| `500`  | Server Error | Amadeus-side failure (`code` 141 "SYSTEM ERROR HAS OCCURRED"); safe to retry idempotent calls. |
+
+**Common Amadeus error codes** (the `code` field; not exhaustive):
+
+| Code  | Title | Where it shows up |
+| ----- | ----- | ----------------- |
+| 477   | INVALID FORMAT | bad query parameter / body format |
+| 1797  | NOT FOUND | no result for the query |
+| 141   | SYSTEM ERROR HAS OCCURRED | transient Amadeus error |
+| 38196 | Resource not found | retrieving a non-existent hotel order |
+| 1257  | INVALID PROPERTY CODE | bad `hotelId` |
+| 3237  | PROPERTY CODE NOT FOUND IN SYSTEM | unknown property in List/Content |
+| 1157  | INVALID CITY CODE | bad `cityCode` in List |
+| 36801 | INVALID OFFER ID | bad `offerId` in Offers/Booking |
+| 38420 | OFFER NOT FOUND | offer expired between search and booking |
+| 33555 | NUMBER OF ROOMS MISMATCH BETWEEN SHOPPING AND BOOKING | booking payload inconsistent with offer |
+| 27706 | PRICING CONDITIONS HAVE CHANGED | re-price before booking |
+| 38592 | INVALID METHOD OF PAYMENT | unsupported `payment.method` |
+| 1146 / 1427 | DEPOSIT / GUARANTEE REQUIRED | payment guarantee missing |
+| 8622  | MODIFY/CANCEL NOT ALLOWED | booking can no longer be modified/cancelled |
+| 1694  | ITEM ALREADY CANCELLED | cancelling an already-cancelled booking |
+| 25859 | MODIFICATION NOT ALLOWED FOR THIS CHAIN | chain does not support `Modify` |
+
+> Amadeus error codes are returned as strings/ints depending on the endpoint; the SDK
+> exposes them as `int` in `ErrorResponse.Code`. Always branch on `code` (machine-readable)
+> rather than `title` (which may be localized).
 
 ---
 
