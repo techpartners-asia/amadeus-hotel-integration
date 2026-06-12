@@ -15,14 +15,17 @@ type SDK struct {
 	List    usecaseHotelList.HotelListUsecase
 }
 
-func New(id, secret string) *SDK {
-
-	amadeusIntegration.Init(id, secret)
+// New authenticates with Amadeus and returns a ready-to-use SDK. It returns an
+// error if authentication fails so callers can handle invalid credentials.
+func New(id, secret string) (*SDK, error) {
+	if err := amadeusIntegration.Init(id, secret); err != nil {
+		return nil, err
+	}
 
 	return &SDK{
 		Offers:  usecasesHotelOffers.NewHotelOffersUsecase(),
 		Content: usecaseContent.NewContentUsecase(),
 		Booking: usecaseBooking.NewBookingUsecase(),
 		List:    usecaseHotelList.NewHotelListUsecase(),
-	}
+	}, nil
 }

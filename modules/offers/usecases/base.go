@@ -22,12 +22,8 @@ type hotelOffersUsecase struct {
 }
 
 func NewHotelOffersUsecase() HotelOffersUsecase {
-
-	baseClient := amadeusIntegration.Client
-	baseClient.SetBaseURL(constants.BASE_V3_URL + "/shopping/hotels-offers")
-
 	return &hotelOffersUsecase{
-		client: baseClient,
+		client: amadeusIntegration.NewClient(constants.OFFERS_BASE_URL),
 	}
 }
 

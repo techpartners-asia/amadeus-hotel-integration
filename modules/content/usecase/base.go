@@ -3,6 +3,7 @@ package usecaseContent
 import (
 	"errors"
 
+	"github.com/techpartners-asia/amadeus-hotel-integration/constants"
 	amadeusIntegration "github.com/techpartners-asia/amadeus-hotel-integration/integrations/amadeus"
 	requestContentDTO "github.com/techpartners-asia/amadeus-hotel-integration/modules/content/dto/request"
 	responseContentDTO "github.com/techpartners-asia/amadeus-hotel-integration/modules/content/dto/response"
@@ -11,7 +12,9 @@ import (
 	"resty.dev/v3"
 )
 
-// TODO : Get App from the Amadeus
+// contentPath is the Hotel Content (v3.1) details endpoint.
+const contentPath = "/reference-data/locations/by-hotel"
+
 type ContentUsecase interface {
 	GetByID(request requestContentDTO.ContentByIDRequest) (*responseContentDTO.HotelContentResponse, error)
 }
@@ -22,7 +25,7 @@ type contentUsecase struct {
 
 func NewContentUsecase() ContentUsecase {
 	return &contentUsecase{
-		client: amadeusIntegration.Client,
+		client: amadeusIntegration.NewClient(constants.CONTENT_BASE_URL),
 	}
 }
 
@@ -30,7 +33,7 @@ func (c *contentUsecase) GetByID(request requestContentDTO.ContentByIDRequest) (
 
 	var response sharedResponseDTO.BaseResponse[responseContentDTO.HotelContentResponse]
 
-	res, err := c.client.R().SetQueryParams(request.ToQueryParams()).SetResult(&response).Get(request.ID)
+	res, err := c.client.R().SetQueryParams(request.ToQueryParams()).SetResult(&response).Get(contentPath)
 	if err != nil {
 		return nil, err
 	}

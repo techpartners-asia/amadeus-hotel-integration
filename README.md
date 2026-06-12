@@ -59,7 +59,10 @@ import (
 
 func main() {
     // 1. Initialize the SDK with your Amadeus credentials
-    client := sdk.New("YOUR_CLIENT_ID", "YOUR_CLIENT_SECRET")
+    client, err := sdk.New("YOUR_CLIENT_ID", "YOUR_CLIENT_SECRET")
+    if err != nil {
+        log.Fatal(err)
+    }
 
     // 2. Search for hotels in Paris
     hotels, err := client.List.HotelListByCityCode(requestList.HotelListByCityCodeRequest{
@@ -151,18 +154,18 @@ The SDK follows a modular, use-case-driven architecture:
 SDK.New(clientID, clientSecret)
   |
   |-- Authenticates via OAuth2 (client_credentials grant)
-  |-- Creates a shared HTTP client with Bearer token
+  |-- Starts a token manager that auto-refreshes the Bearer token
   |
   +-- SDK
        |-- List    (HotelListUsecase)     --> Amadeus Hotel List API v1
        |-- Offers  (HotelOffersUsecase)   --> Amadeus Hotel Shopping API v3
        |-- Content (ContentUsecase)       --> Amadeus Hotel Content API v3
-       |-- Booking (BookingUsecase)       --> Amadeus Hotel Booking API v2
+       |-- Booking (BookingUsecase)       --> Amadeus Hotel Booking API v2 (travel host)
 ```
 
 **Key design decisions:**
 
-- **Single authentication**: OAuth2 token is fetched once at initialization and shared across all modules via a global Resty HTTP client.
+- **Auto-refreshing auth**: a token manager fetches the OAuth2 token once and refreshes it before expiry; each module gets its own HTTP client (via `amadeus.NewClient`) bound to its own base URL, so modules never clobber each other's configuration.
 - **Use case interfaces**: Each module exposes an interface, making it easy to mock for testing.
 - **Separated DTOs**: Request and response data structures are in dedicated packages, fully typed with JSON tags.
 - **Generic base response**: A shared `BaseResponse[T]` generic struct handles the standard Amadeus response envelope (data, errors, meta).
@@ -205,6 +208,17 @@ hotels, err := client.List.HotelListByGeocode(requestGeocode.HotelListByGeocodeR
 ```
 
 **Returns**: `[]HotelListResponse` -- array of hotels matching the geographic criteria.
+
+#### Search by Hotel IDs
+
+```go
+hotels, err := client.List.HotelListByHotelIds(requestHotels.HotelListByHotelsRequest{
+    HotelIds: []string{"MCLONGHM", "ACPAR419"},
+})
+```
+
+**Returns**: `[]GeneralInfoResponse` -- the hotels matching the supplied Amadeus
+property codes.
 
 ---
 
@@ -348,6 +362,50 @@ order, err := client.Booking.GetByReference("ABCDEF")  // 6-char PNR locator
 
 **Returns**: `*HotelOrder` -- the full hotel order with all bookings, guests, and associated records.
 
+#### Retrieve a Booking by Order ID
+
+```go
+order, err := client.Booking.GetByID("HOTEL_ORDER_ID")
+```
+
+**Returns**: `*HotelOrder` -- the full hotel order. Uses Hotel Booking Retrieve (v2.1).
+
+#### Cancel a Booking
+
+```go
+order, err := client.Booking.Cancel("HOTEL_ORDER_ID", "HOTEL_BOOKING_ID")
+```
+
+**Returns**: `*HotelOrder` -- the order with the cancelled booking's `bookingStatus`
+set to `CANCELLED`. Uses Hotel Booking Manage (v2.2).
+
+#### Modify a Booking
+
+```go
+result, err := client.Booking.Modify("HOTEL_ORDER_ID", "HOTEL_BOOKING_ID",
+    requestBooking.UpdateHotelBookingRequest{
+        Data: requestBooking.UpdateHotelBooking{
+            HotelBooking: requestBooking.UpdateHotelBookingData{
+                RoomAssociation: &requestBooking.UpdateRoomAssociation{
+                    SpecialRequest: "Late check-in",
+                },
+            },
+        },
+    })
+```
+
+**Returns**: `*HotelBookingUpdateResponse` -- `Included` carries the full updated
+order. Send only the fields you want to change. Uses Hotel Booking Manage (v2.2).
+
+#### Delete a Booking
+
+```go
+result, err := client.Booking.Delete("HOTEL_ORDER_ID", "HOTEL_BOOKING_ID")
+```
+
+**Returns**: `*DeleteBookingResult` -- contains the provider `CancellationNumber`.
+Uses Hotel Booking Manage (v2.2).
+
 ---
 
 ## Authentication
@@ -355,7 +413,7 @@ order, err := client.Booking.GetByReference("ABCDEF")  // 6-char PNR locator
 The SDK uses **OAuth2 Client Credentials** flow to authenticate with the Amadeus API.
 
 ```
-POST https://test.api.amadeus.com/v1/security/oauth2/token
+POST https://test.travel.api.amadeus.com/v1/security/oauth2/token
 Content-Type: application/x-www-form-urlencoded
 
 grant_type=client_credentials
@@ -363,16 +421,28 @@ grant_type=client_credentials
 &client_secret=YOUR_CLIENT_SECRET
 ```
 
-Authentication happens automatically when you call `sdk.New()`. The resulting Bearer token is attached to all subsequent API requests. The token is **not** automatically refreshed -- if it expires, you need to create a new SDK instance.
+Authentication happens automatically when you call `sdk.New()`, which returns an
+`error` if the credentials are rejected. The resulting Bearer token is attached to
+all subsequent API requests and is **automatically refreshed** before it expires, so
+a single SDK instance can be reused for the lifetime of your process.
+
+> **Important — Enterprise credentials required.** Every endpoint targets the Amadeus
+> Enterprise ("travel") host, matching the swagger specifications. Self-service
+> credentials (`api.amadeus.com`) are **rejected** by this host — `sdk.New()` will
+> return an `invalid_client` error. Use the Enterprise credentials issued for your
+> Amadeus travel-host contract.
 
 **Environments:**
 
-| Environment | Base URL                         |
-| ----------- | -------------------------------- |
-| Test        | `https://test.api.amadeus.com`   |
-| Production  | `https://travel.api.amadeus.com` |
+| Environment | Auth + API host                          |
+| ----------- | ---------------------------------------- |
+| Test        | `https://test.travel.api.amadeus.com`    |
+| Production  | `https://travel.api.amadeus.com`         |
 
-The SDK currently uses the **test environment**. To switch to production, update the constants in `constants/url.go` and the auth base URL in `integrations/amadeus/base.go`.
+The SDK uses the **test environment** by default. To switch to production, change the
+`test.travel.api.amadeus.com` host prefixes to `travel.api.amadeus.com` in
+`constants/url.go` (a single set of `TRAVEL_BASE_*` constants drives both auth and all
+modules).
 
 ---
 
@@ -414,10 +484,10 @@ The Amadeus API returns structured errors in this format:
 ### SDK Initialization
 
 ```go
-func New(id, secret string) *SDK
+func New(id, secret string) (*SDK, error)
 ```
 
-Creates and returns a new SDK instance. Authenticates with Amadeus using the provided credentials. Panics with `log.Fatalf` if authentication fails.
+Creates and returns a new SDK instance. Authenticates with Amadeus using the provided credentials and returns an `error` if authentication fails.
 
 ### List Module
 
@@ -425,6 +495,7 @@ Creates and returns a new SDK instance. Authenticates with Amadeus using the pro
 | --------------------- | ------------------------------------------------------------- | --------------------------------------- |
 | `HotelListByCityCode` | `(HotelListByCityCodeRequest) ([]GeneralInfoResponse, error)` | Search hotels by IATA city code         |
 | `HotelListByGeocode`  | `(HotelListByGeocodeRequest) ([]HotelListResponse, error)`    | Search hotels by geographic coordinates |
+| `HotelListByHotelIds` | `(HotelListByHotelsRequest) ([]GeneralInfoResponse, error)`   | Look up hotels by Amadeus property codes |
 
 ### Offers Module
 
@@ -441,10 +512,14 @@ Creates and returns a new SDK instance. Authenticates with Amadeus using the pro
 
 ### Booking Module
 
-| Method           | Signature                                    | Description                         |
-| ---------------- | -------------------------------------------- | ----------------------------------- |
-| `Create`         | `(HotelBookingRequest) (*HotelOrder, error)` | Create a hotel booking              |
-| `GetByReference` | `(string) (*HotelOrder, error)`              | Retrieve a booking by PNR reference |
+| Method           | Signature                                                                       | Description                              |
+| ---------------- | ------------------------------------------------------------------------------- | ---------------------------------------- |
+| `Create`         | `(HotelBookingRequest) (*HotelOrder, error)`                                    | Create a hotel booking                   |
+| `GetByReference` | `(string) (*HotelOrder, error)`                                                 | Retrieve a booking by PNR reference      |
+| `GetByID`        | `(string) (*HotelOrder, error)`                                                 | Retrieve a hotel order by order id       |
+| `Cancel`         | `(orderID, bookingID string) (*HotelOrder, error)`                              | Cancel a booking within an order         |
+| `Modify`         | `(orderID, bookingID string, UpdateHotelBookingRequest) (*HotelBookingUpdateResponse, error)` | Modify a booking within an order |
+| `Delete`         | `(orderID, bookingID string) (*DeleteBookingResult, error)`                     | Delete a booking within an order         |
 
 ---
 
