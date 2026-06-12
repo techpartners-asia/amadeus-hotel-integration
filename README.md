@@ -241,7 +241,7 @@ offers, err := client.Offers.List(requestOffers.HotelOffersListRequest{
     RoomQuantity: 1,                       // Number of rooms (1-9, default: 1)
     Currency:     "EUR",                   // ISO currency code
     BoardType:    "BREAKFAST",             // ROOM_ONLY, BREAKFAST, HALF_BOARD, etc.
-    BestRateOnly: true,                    // Only cheapest offer per hotel
+    BestRateOnly: requestOffers.Bool(true), // Only cheapest offer per hotel (*bool; nil = API default true)
     Lang:         "EN",                    // Language for descriptions
 })
 ```
