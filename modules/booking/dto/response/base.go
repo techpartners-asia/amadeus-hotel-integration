@@ -1,8 +1,29 @@
 package responseBookingDTO
 
-import "time"
+import (
+	"time"
+
+	sharedResponseDTO "github.com/techpartners-asia/amadeus-hotel-integration/shared/dto/response"
+)
 
 type (
+	// ==================== Aliases to shared response DTOs ====================
+
+	Media               = sharedResponseDTO.MediaResponse
+	MediaMetaData       = sharedResponseDTO.MediaMetaDataResponse
+	MediaScale          = sharedResponseDTO.MediaScaleResponse
+	MediaSize           = sharedResponseDTO.MediaSizeResponse
+	MediaSource         = sharedResponseDTO.MediaSourceResponse
+	Dimensions          = sharedResponseDTO.DimensionsResponse
+	ClickToAction       = sharedResponseDTO.ClickToActionResponse
+	Markup              = sharedResponseDTO.MarkupResponse
+	AmenityProvider     = sharedResponseDTO.AmenityProvider
+	AmenityPrice        = sharedResponseDTO.AmenityPrice
+	MaxPersonCapacity   = sharedResponseDTO.MaxPersonCapacityResponse
+	MaxSleepFurnishings = sharedResponseDTO.MaxSleepFurnishingsResponse
+	RateFamilyEstimated = sharedResponseDTO.RateFamilyEstimatedResponse
+	WarningSource       = sharedResponseDTO.WarningSourceResponse
+
 	// ==================== Top-Level Response ====================
 
 	// HotelBookingResponse is the 201 Created response from POST /v2/booking/hotel-orders.
@@ -391,12 +412,6 @@ type (
 		Variations *PriceVariations `json:"variations,omitempty"`
 	}
 
-	// Markup represents a markup applied by a stakeholder (travel agent, merchant mode, etc.).
-	Markup struct {
-		// Amount - the monetary value of the markup as a string with decimal.
-		Amount string `json:"amount,omitempty"`
-	}
-
 	// HotelTax represents an IATA tax definition applied to the hotel price.
 	HotelTax struct {
 		// Amount - amount of the tax.
@@ -451,14 +466,6 @@ type (
 		SellingTotal string `json:"sellingTotal,omitempty"`
 		// Total - total for this period = base + totalTaxes.
 		Total string `json:"total,omitempty"`
-	}
-
-	// RateFamilyEstimated groups various rate plan codes that belong to the same family.
-	RateFamilyEstimated struct {
-		// Code - estimated rate family code. Examples: PRO, FAM, GOV. Pattern: [A-Z0-9]{3}.
-		Code string `json:"code,omitempty"`
-		// Type - type of the rate. P=public, N=negotiated, C=conditional. Pattern: [PNC].
-		Type string `json:"type,omitempty"`
 	}
 
 	// ==================== Room ====================
@@ -547,24 +554,6 @@ type (
 		ViewCode string `json:"viewCode,omitempty"`
 	}
 
-	// MaxPersonCapacity describes the maximum occupancy of a room.
-	MaxPersonCapacity struct {
-		// Adults - maximum number of adults the room can accommodate.
-		Adults int `json:"adults,omitempty"`
-		// Children - maximum number of children the room can accommodate.
-		Children int `json:"children,omitempty"`
-		// Total - maximum total number of persons the room can accommodate.
-		Total int `json:"total,omitempty"`
-	}
-
-	// MaxSleepFurnishings describes extra sleeping furnishings available in a room.
-	MaxSleepFurnishings struct {
-		// Cribs - number of cribs available in the room.
-		Cribs int `json:"cribs,omitempty"`
-		// ExtraBeds - number of extra beds available in the room.
-		ExtraBeds int `json:"extraBeds,omitempty"`
-	}
-
 	// Amenity represents a room amenity with its type, pricing, and associated media.
 	Amenity struct {
 		// Code - unique code representing the amenity.
@@ -594,145 +583,6 @@ type (
 		Quantity int `json:"quantity,omitempty"`
 		// Medias - list of media (images/videos) associated with the amenity.
 		Medias []Media `json:"Medias,omitempty"`
-	}
-
-	// AmenityProvider contains the source of the amenity content.
-	AmenityProvider struct {
-		// Name - name of the amenity content source. Example: "ATPCO".
-		Name string `json:"name,omitempty"`
-	}
-
-	// AmenityPrice contains price information for an amenity.
-	AmenityPrice struct {
-		// Base - base price of the amenity.
-		Base string `json:"base,omitempty"`
-		// Currency - currency code applied to the price.
-		Currency string `json:"currency,omitempty"`
-		// Markups - markups applied to the amenity price.
-		Markups []Markup `json:"markups,omitempty"`
-		// SellingTotal - selling total = total + margins + markup + totalFees - discounts.
-		SellingTotal string `json:"sellingTotal,omitempty"`
-		// Total - total = base + totalTaxes.
-		Total string `json:"total,omitempty"`
-	}
-
-	// Media represents a digital content item (image, video, etc.) associated with hotel or room.
-	Media struct {
-		// Id - unique media identifier. Example: "69810B23CB8644A18AF760DC66BE41A6".
-		Id string `json:"id,omitempty"`
-		// Type - media data type. Enum: file, Image, Icon.
-		Type string `json:"type,omitempty"`
-		// Name - name of the media file. Example: "guest_room".
-		Name string `json:"name,omitempty"`
-		// Title - media title. Example: "My image title".
-		Title string `json:"title,omitempty"`
-		// Caption - media caption text.
-		Caption string `json:"caption,omitempty"`
-		// Hint - additional hint for the media.
-		Hint string `json:"hint,omitempty"`
-		// Alt - media description for visually impaired (screen reader text). See W3C WAI guidelines.
-		Alt string `json:"alt,omitempty"`
-		// Href - URL to display the original media.
-		Href string `json:"href,omitempty"`
-		// Description - free text description of the media with language info.
-		Description *QualifiedFreeText `json:"description,omitempty"`
-		// Category - media category. Example: "EXTERIOR".
-		Category string `json:"category,omitempty"`
-		// Tags - tags associated with the media.
-		Tags []string `json:"tags,omitempty"`
-		// MediaType - MIME type of the media. Example: "IMAGE".
-		MediaType string `json:"mediaType,omitempty"`
-		// MediaScales - scaled versions of the media with different sizes and dimensions.
-		MediaScales []MediaScale `json:"mediaScales,omitempty"`
-		// MediaMetaData - metadata about the media (encoding, dimensions, source, etc.).
-		MediaMetaData *MediaMetaData `json:"mediaMetaData,omitempty"`
-	}
-
-	// MediaScale represents a scaled version of media with different size and dimension.
-	MediaScale struct {
-		// Href - URL to display the scaled version of the media.
-		Href string `json:"href,omitempty"`
-		// Size - file size of the scaled media.
-		Size *MediaSize `json:"size,omitempty"`
-		// Dimensions - physical dimensions (width, height, etc.) of the scaled media.
-		Dimensions *Dimensions `json:"dimensions,omitempty"`
-		// Duration - duration of the media per ISO 8601. Example: "P1Y2M3DT4H5M6S".
-		Duration string `json:"duration,omitempty"`
-	}
-
-	// MediaSize represents the size of a media file.
-	MediaSize struct {
-		// Unit - unit type for the size value.
-		// Enum: NIGHT, PIXELS, KILOGRAMS, POUNDS, CENTIMETERS, INCHES, BYTES, KILOBYTES, etc.
-		Unit string `json:"unit,omitempty"`
-		// Value - numeric size value. Example: 200.
-		Value int `json:"value,omitempty"`
-	}
-
-	// Dimensions represents measurements (width, height, length, area) of a media or object.
-	Dimensions struct {
-		// Area - total surface area. Example: 445.
-		Area float64 `json:"area,omitempty"`
-		// AreaUnit - unit for area measurement.
-		// Enum: SQUARE_FEET, SQUARE_METERS, SQUARE_INCHES, SQUARE_YARDS, etc.
-		AreaUnit string `json:"areaUnit,omitempty"`
-		// DecimalPlaces - number of decimal places for values.
-		DecimalPlaces int `json:"decimalPlaces,omitempty"`
-		// Height - height of the object in specified unit.
-		Height int `json:"height,omitempty"`
-		// Length - length of the object in specified unit.
-		Length int `json:"length,omitempty"`
-		// Unit - unit type for height/width/length.
-		// Enum: PIXELS, CENTIMETERS, INCHES, etc.
-		Unit string `json:"unit,omitempty"`
-		// Width - width of the object in specified unit.
-		Width int `json:"width,omitempty"`
-	}
-
-	// MediaMetaData contains metadata about a media file (type, encoding, source, etc.).
-	MediaMetaData struct {
-		// MediaType - IANA media type. Enum: application, audio, font, example, image, message, model, multipart, text, video.
-		MediaType string `json:"mediaType,omitempty"`
-		// SubType - media subtype / file format. Example: "PNG", "MKV".
-		SubType string `json:"subType,omitempty"`
-		// Encoding - media encoding format. Example: "PNG", "H265".
-		Encoding string `json:"encoding,omitempty"`
-		// Etag - date and time of the last update in ISO 8601 format.
-		Etag string `json:"etag,omitempty"`
-		// Size - file size of the media.
-		Size *MediaSize `json:"size,omitempty"`
-		// Dimensions - physical dimensions of the media.
-		Dimensions *Dimensions `json:"dimensions,omitempty"`
-		// Duration - duration per ISO 8601. Example: "P1Y2M3DT4H5M6S".
-		Duration string `json:"duration,omitempty"`
-		// Application - application name for viewing or editing the media.
-		Application string `json:"application,omitempty"`
-		// MediaSource - source and copyright information of the media owner.
-		MediaSource *MediaSource `json:"mediaSource,omitempty"`
-		// ClickToAction - hyperlink action associated with the media.
-		ClickToAction *ClickToAction `json:"clickToAction,omitempty"`
-	}
-
-	// MediaSource contains source and copyright information for the media owner.
-	MediaSource struct {
-		// Code - owner code of the media.
-		Code string `json:"code,omitempty"`
-		// Copyright - copyright text related to the media owner.
-		Copyright string `json:"copyright,omitempty"`
-		// Filename - file name of the media.
-		Filename string `json:"filename,omitempty"`
-		// Symbology - logo or icon designation.
-		Symbology string `json:"symbology,omitempty"`
-		// Version - version of the file.
-		Version string `json:"version,omitempty"`
-	}
-
-	// ClickToAction represents a hyperlink action (e.g. <a href="$href">plainText</a>).
-	ClickToAction struct {
-		// PlainText - hyperlink text content.
-		PlainText string `json:"plainText,omitempty"`
-		// Href - URL associated with the action text.
-		Href string `json:"href,omitempty"`
 	}
 
 	// ==================== Hotel ====================
@@ -963,16 +813,6 @@ type (
 		Sources []WarningSource `json:"sources,omitempty"`
 		// Relationships - relationships from one entity to other entities (e.g. passenger to flight segments).
 		Relationships *Relationships `json:"relationships,omitempty"`
-	}
-
-	// WarningSource identifies the source of a warning.
-	WarningSource struct {
-		// Parameter - the key of the URI path or query parameter that caused the warning.
-		Parameter string `json:"parameter,omitempty"`
-		// Pointer - a JSON Pointer [RFC6901] to the associated entity in the request body.
-		Pointer string `json:"pointer,omitempty"`
-		// Example - a sample input to guide the user when resolving the issue.
-		Example string `json:"example,omitempty"`
 	}
 
 	// Relationships indicates relationships from one entity to many other entities.

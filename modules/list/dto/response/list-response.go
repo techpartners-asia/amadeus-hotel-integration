@@ -19,10 +19,7 @@ type (
 		Distance  DistanceModel `json:"distance"`
 	}
 
-	GeoCodeModel struct {
-		Latitude  float64 `json:"latitude"`
-		Longitude float64 `json:"longitude"`
-	}
+	GeoCodeModel = sharedResponseDTO.GeoCodeResponse
 
 	AddressModel struct {
 		CountryCode string `json:"countryCode"`

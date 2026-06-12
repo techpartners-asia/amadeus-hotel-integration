@@ -1,5 +1,7 @@
 package responseContentDTO
 
+import sharedResponseDTO "github.com/techpartners-asia/amadeus-hotel-integration/shared/dto/response"
+
 type QualifiedFreeTextType string
 
 const (
@@ -157,13 +159,5 @@ type (
 	}
 
 	// * Specific type to convey a list of string for specific information type ( via qualifier) in specific character set, or language
-	QualifiedFreeTextResponse struct {
-		Text            string                `json:"text"`            // example: Text of the qualified free text
-		Type            QualifiedFreeTextType `json:"type"`            // example: PROPERTY_DESCRIPTION. Type of the qualified free text
-		Lang            string                `json:"lang"`            // example: fr-FR. Language of the qualified free text
-		Status          string                `json:"status"`          // example: ACTIVE. Status of the qualified free text
-		CharSet         string                `json:"charSet"`         // example: UTF-8. Character set of the qualified free text
-		Encoding        string                `json:"encoding"`        // example: Base-64. Encoding of the qualified free text
-		IamaContentType string                `json:"iamaContentType"` // example: text/plain Follow the RFC define by http://www.iana.org/assignments/media-types/media-types.xhtml
-	}
+	QualifiedFreeTextResponse = sharedResponseDTO.QualifiedFreeTextResponse
 )

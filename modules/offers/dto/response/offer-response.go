@@ -1,5 +1,9 @@
 package responseHotelOffersDTO
 
+import (
+	sharedResponseDTO "github.com/techpartners-asia/amadeus-hotel-integration/shared/dto/response"
+)
+
 type (
 	// OffersResponse models a single item of the GET /shopping/hotel-offers
 	// 200 response `data` array (a hotel with its bookable offers).
@@ -55,11 +59,7 @@ type (
 	}
 
 	// WarningSourceResponse pinpoints the request element causing a warning.
-	WarningSourceResponse struct {
-		Parameter string `json:"parameter,omitempty"`
-		Pointer   string `json:"pointer,omitempty"`
-		Example   string `json:"example,omitempty"`
-	}
+	WarningSourceResponse = sharedResponseDTO.WarningSourceResponse
 
 	HotelResponse struct {
 		Type      string `json:"type"`
@@ -143,10 +143,7 @@ type (
 		Ref string `json:"ref,omitempty"`
 	}
 
-	RateFamilyEstimatedResponse struct {
-		Code string `json:"code"`
-		Type string `json:"type"`
-	}
+	RateFamilyEstimatedResponse = sharedResponseDTO.RateFamilyEstimatedResponse
 
 	RoomResponse struct {
 		Type          string                `json:"type"`
@@ -231,9 +228,7 @@ type (
 	}
 
 	// MarkupResponse models a markup amount.
-	MarkupResponse struct {
-		Amount string `json:"amount,omitempty"`
-	}
+	MarkupResponse = sharedResponseDTO.MarkupResponse
 
 	// TaxResponse models a tax line item.
 	TaxResponse struct {
@@ -482,35 +477,16 @@ type (
 	}
 
 	// AmenityProviderResponse names the provider of an amenity.
-	AmenityProviderResponse struct {
-		Name string `json:"name,omitempty"`
-	}
+	AmenityProviderResponse = sharedResponseDTO.AmenityProvider
 
 	// DimensionsResponse models physical dimensions.
-	DimensionsResponse struct {
-		Area float64 `json:"area,omitempty"`
-		// Area unit. Enum includes SQUARE_FEET, SQUARE_METERS, etc.
-		AreaUnit      string `json:"areaUnit,omitempty"`
-		DecimalPlaces int    `json:"decimalPlaces,omitempty"`
-		Height        int    `json:"height,omitempty"`
-		Length        int    `json:"length,omitempty"`
-		// Unit. Enum includes PIXELS, CENTIMETERS, INCHES, etc.
-		Unit  string `json:"unit,omitempty"`
-		Width int    `json:"width,omitempty"`
-	}
+	DimensionsResponse = sharedResponseDTO.DimensionsResponse
 
 	// MaxPersonCapacityResponse models maximum room occupancy.
-	MaxPersonCapacityResponse struct {
-		Adults   int `json:"adults,omitempty"`
-		Children int `json:"children,omitempty"`
-		Total    int `json:"total,omitempty"`
-	}
+	MaxPersonCapacityResponse = sharedResponseDTO.MaxPersonCapacityResponse
 
 	// MaxSleepFurnishingsResponse models extra sleeping furnishings.
-	MaxSleepFurnishingsResponse struct {
-		Cribs     int `json:"cribs,omitempty"`
-		ExtraBeds int `json:"extraBeds,omitempty"`
-	}
+	MaxSleepFurnishingsResponse = sharedResponseDTO.MaxSleepFurnishingsResponse
 
 	// RoomInformationTypeEstimatedResponse models the estimated room type.
 	RoomInformationTypeEstimatedResponse struct {
@@ -522,69 +498,22 @@ type (
 	}
 
 	// MediaResponse models a media asset (image/icon/file).
-	MediaResponse struct {
-		Alt           string                 `json:"alt,omitempty"`
-		Caption       string                 `json:"caption,omitempty"`
-		Category      string                 `json:"category,omitempty"`
-		Description   *DescriptionResponse   `json:"description,omitempty"`
-		Hint          string                 `json:"hint,omitempty"`
-		Href          string                 `json:"href,omitempty"`
-		ID            string                 `json:"id,omitempty"`
-		MediaMetaData *MediaMetaDataResponse `json:"mediaMetaData,omitempty"`
-		MediaScales   []MediaScaleResponse   `json:"mediaScales,omitempty"`
-		MediaType     string                 `json:"mediaType,omitempty"`
-		Name          string                 `json:"name,omitempty"`
-		Tags          []string               `json:"tags,omitempty"`
-		Title         string                 `json:"title,omitempty"`
-		// Type. Enum: file, Image, Icon.
-		Type string `json:"type,omitempty"`
-	}
+	MediaResponse = sharedResponseDTO.MediaResponse
 
 	// MediaMetaDataResponse models metadata about a media asset.
-	MediaMetaDataResponse struct {
-		Application   string                 `json:"application,omitempty"`
-		ClickToAction *ClickToActionResponse `json:"clickToAction,omitempty"`
-		Dimensions    *DimensionsResponse    `json:"dimensions,omitempty"`
-		Duration      string                 `json:"duration,omitempty"`
-		Encoding      string                 `json:"encoding,omitempty"`
-		Etag          string                 `json:"etag,omitempty"`
-		MediaSource   *MediaSourceResponse   `json:"mediaSource,omitempty"`
-		// Media type. Enum: application, audio, font, example, image, message,
-		// model, multipart, text, video.
-		MediaType string             `json:"mediaType,omitempty"`
-		Size      *MediaSizeResponse `json:"size,omitempty"`
-		SubType   string             `json:"subType,omitempty"`
-	}
+	MediaMetaDataResponse = sharedResponseDTO.MediaMetaDataResponse
 
 	// ClickToActionResponse models a click-to-action link.
-	ClickToActionResponse struct {
-		Href      string `json:"href,omitempty"`
-		PlainText string `json:"plainText,omitempty"`
-	}
+	ClickToActionResponse = sharedResponseDTO.ClickToActionResponse
 
 	// MediaSourceResponse models the source of a media asset.
-	MediaSourceResponse struct {
-		Code      string `json:"code,omitempty"`
-		Copyright string `json:"copyright,omitempty"`
-		Filename  string `json:"filename,omitempty"`
-		Symbology string `json:"symbology,omitempty"`
-		Version   string `json:"version,omitempty"`
-	}
+	MediaSourceResponse = sharedResponseDTO.MediaSourceResponse
 
 	// MediaSizeResponse models the size of a media asset.
-	MediaSizeResponse struct {
-		// Unit. Enum includes BYTES, KILOBYTES, PIXELS, etc.
-		Unit  string `json:"unit,omitempty"`
-		Value int    `json:"value,omitempty"`
-	}
+	MediaSizeResponse = sharedResponseDTO.MediaSizeResponse
 
 	// MediaScaleResponse models a scaled variant of a media asset.
-	MediaScaleResponse struct {
-		Dimensions *DimensionsResponse `json:"dimensions,omitempty"`
-		Duration   string              `json:"duration,omitempty"`
-		Href       string              `json:"href,omitempty"`
-		Size       *MediaSizeResponse  `json:"size,omitempty"`
-	}
+	MediaScaleResponse = sharedResponseDTO.MediaScaleResponse
 
 	// StandardizedRoomResponse models normalized room data.
 	StandardizedRoomResponse struct {

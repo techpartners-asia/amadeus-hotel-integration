@@ -1,5 +1,7 @@
 package responseContentDTO
 
+import sharedResponseDTO "github.com/techpartners-asia/amadeus-hotel-integration/shared/dto/response"
+
 type HotelRoomClassification string
 
 const (
@@ -280,16 +282,9 @@ type (
 		AreaUnit      Unit `json:"areaUnit"`      // Indicates the unit of the area
 	}
 
-	MaxSleepFurnishingResponse struct {
-		ExtraBeds int `json:"extraBeds"` // Indicates the total number of extra beds that can be placed in the room
-		Cribs     int `json:"cribs"`     // Indicates the total number of cribs that can be placed in the room
-	}
+	MaxSleepFurnishingResponse = sharedResponseDTO.MaxSleepFurnishingsResponse
 
-	MaxPersonCapacityResponse struct {
-		Total    int `json:"total"`    // Indicates the total number of person capacity for the room
-		Adults   int `json:"adults"`   // Indicates the number of adults in the room
-		Children int `json:"children"` // Indicates the number of children in the room
-	}
+	MaxPersonCapacityResponse = sharedResponseDTO.MaxPersonCapacityResponse
 
 	// * Indicate relationships from one entity to many other entities of any kind (e.g. from one passenger to their flight segments).
 	ProviderContentReferenceResponse struct {
@@ -314,9 +309,7 @@ type (
 		PricingMethod    PricingMethod           `json:"pricingMethod"`    // indicates the pricing method used to asses the amenity's usage cost
 	}
 
-	AmenityProviderResponse struct {
-		Name string `json:"name"` // Name of the source of the AmenityContent
-	}
+	AmenityProviderResponse = sharedResponseDTO.AmenityProvider
 
 	PriceResponse struct {
 		Currency          CurrencyResponse  `json:"currency"`          // Indicates the currency of the price.
@@ -325,8 +318,5 @@ type (
 		PricingTimeWindow PricingTimeWindow `json:"pricingTimeWindow"` // Unit timing Price for which the rate plan pricing applies. It can contain values such as
 	}
 
-	CurrencyResponse struct {
-		Code string `json:"code"` // ISO currency code (http://www.iso.org/iso/home/standards/currency_codes.htm). For miles the code associated is MIL.
-		Name string `json:"name"` // Indicates the name of the currency.
-	}
+	CurrencyResponse = sharedResponseDTO.CurrencyResponse
 )
