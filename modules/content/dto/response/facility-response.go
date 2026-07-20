@@ -116,6 +116,7 @@ const (
 	PhoneCategoryTollFreeNumber   PhoneCategory = "TOLL_FREE_NUMBER"
 	PhoneCategoryGuestUse         PhoneCategory = "GUEST_USE"
 	PhoneCategoryPickupContact    PhoneCategory = "PICKUP_CONTACT"
+	PhoneCategoryContact          PhoneCategory = "CONTACT"
 )
 
 type DeviceType string
@@ -124,6 +125,8 @@ const (
 	DeviceTypeFax      DeviceType = "FAX"
 	DeviceTypeMobile   DeviceType = "MOBILE"
 	DeviceTypeLandline DeviceType = "LANDLINE"
+	DeviceTypeVoice    DeviceType = "VOICE"
+	DeviceTypeTelex    DeviceType = "TELEX"
 )
 
 type EmailCategory string
@@ -155,15 +158,18 @@ const (
 	LocationTypeDivisionalOffice         LocationType = "DIVISIONAL OFFICE"
 	LocationTypeGlobalSalesOffice        LocationType = "GLOBAL SALES OFFICE"
 	LocationTypeHotelDirect              LocationType = "HOTEL DIRECT"
-	LocationTypeLocalReservationOffice   LocationType = "LOCAL RESERVATION OFFICE"
-	LocationTypeSalesOffice              LocationType = "SALES_OFFICE"
-	LocationTypeFranchiseCompany         LocationType = "FRANCHISE COMPANY"
-	LocationTypeManagementCompany        LocationType = "MANAGEMENT COMPANY"
-	LocationTypeOwnershipCompany         LocationType = "OWNERSHIP COMPANY"
-	LocationTypeCustomerServiceOffice    LocationType = "CUSTOMER_SERVICE_OFFICE"
-	LocationTypeHomeResidence            LocationType = "HOME_RESIDENCE"
-	LocationTypeRegionalSalesOffice      LocationType = "REGIONAL SALES OFFICE"
-	LocationTypeTechnicalSupportOffice   LocationType = "TECHNICAL SUPPORT OFFICE"
+	// Hotel Content returns this unspaced spelling, not "HOTEL DIRECT".
+	LocationTypeHotelDirectUnspaced    LocationType = "HOTELDIRECT"
+	LocationTypeReservations           LocationType = "RESERVATIONS"
+	LocationTypeLocalReservationOffice LocationType = "LOCAL RESERVATION OFFICE"
+	LocationTypeSalesOffice            LocationType = "SALES_OFFICE"
+	LocationTypeFranchiseCompany       LocationType = "FRANCHISE COMPANY"
+	LocationTypeManagementCompany      LocationType = "MANAGEMENT COMPANY"
+	LocationTypeOwnershipCompany       LocationType = "OWNERSHIP COMPANY"
+	LocationTypeCustomerServiceOffice  LocationType = "CUSTOMER_SERVICE_OFFICE"
+	LocationTypeHomeResidence          LocationType = "HOME_RESIDENCE"
+	LocationTypeRegionalSalesOffice    LocationType = "REGIONAL SALES OFFICE"
+	LocationTypeTechnicalSupportOffice LocationType = "TECHNICAL SUPPORT OFFICE"
 )
 
 type (
@@ -185,7 +191,7 @@ type (
 		Category              RestaurantServiceCategory `json:"category"`              // Restaurant food service category. These enum values are inspired from OTA - "https://opentravel.org/" with code list as - RES. Can contain values such as
 		AcceptedCurrencyCodes []string                  `json:"acceptedCurrencyCodes"` // example: EUR
 		CuisineTypes          []string                  `json:"cuisineTypes"`          // Indicates the list of cuisines served at the restaurant. These enum values are inspired from OTA - "https://opentravel.org/" with code list as - CUI
-		MaxSeatingCapacity    int                       `json:"maxSeatingCapacity"`    // Indicates the max number of occupancy in the restaurant
+		MaxSeatingCapacity    float64                   `json:"maxSeatingCapacity"`    // Indicates the max number of occupancy in the restaurant
 		HasBreakfast          bool                      `json:"hasBreakfast"`          // True if breakfast is served in the restaurant. Default value is false
 		HasLunch              bool                      `json:"hasLunch"`              // True if lunch is served in the restaurant. Default value is false
 		HasBrunch             bool                      `json:"hasBrunch"`             // True if brunch is served in the restaurant. Default value is false
@@ -217,7 +223,8 @@ type (
 		Purpose       []string              `json:"purpose"`       // the purpose for which this contact is to be used
 		LocationType  LocationType          `json:"locationType"`  // Describes the locationType of the contact. It can contain values such as
 		Website       struct {
-			Url string `json:"url"` // Indicates the URL of the website
+			Url  string `json:"url"`  // Indicates the URL of the website
+			Href string `json:"href"` // Indicates the URL of the website (key actually returned by Hotel Content)
 		} `json:"website"` // Object containing URL and description
 	}
 
@@ -271,7 +278,7 @@ type (
 		SmallestRoomSeatOccupancy int                    `json:"smallestRoomSeatOccupancy"` // Indicates the number of people that can be accomodated in the smallest room meeting room within the property
 		LargestRoomSeatOccupancy  int                    `json:"largestRoomSeatOccupancy"`  // Indicates the number of people that can be accomodated in the largest room meeting room within the property
 		TotalRoomSeatOccupancy    int                    `json:"totalRoomSeatOccupancy"`    // Indicates the number of people that can be accomodated in the all the meeting rooms combined
-		MeetingRooms              MeetingRoomResponse    `json:"meetingRooms"`              // Indicates the various meeting rooms in the property
+		MeetingRooms              []MeetingRoomResponse  `json:"meetingRooms"`              // Indicates the various meeting rooms in the property
 	}
 	// * A meeting room is a space usually set aside for people to get together, often informally to hold meetings, for issues to be discussed, priorities set and decisions made.
 	MeetingRoomResponse struct {

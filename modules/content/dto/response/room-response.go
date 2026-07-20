@@ -249,37 +249,38 @@ const (
 
 type (
 	RoomResponse struct {
-		Name                     QualifiedFreeTextResponse        `json:"name"`
-		HotelRoomClassification  HotelRoomClassification          `json:"hotelRoomClassification"`  // Indicates the type of the hotel room. Enum values are taken from the OTA Code list GRI
-		ProviderContentReference ProviderContentReferenceResponse `json:"providerContentReference"` // Identifies the provider content reference for the room.
-		HotelRoomCategory        HotelRoomCategory                `json:"hotelRoomCategory"`        //
-		Beds                     int                              `json:"beds"`                     // example: 2. Number of beds in the room
-		BedType                  BedType                          `json:"bedType"`                  // Type of the bed.Enum values are taken from the OTA code list BED Here are the list of values
-		Description              QualifiedFreeTextResponse        `json:"description"`              //
-		Quantity                 int                              `json:"quantity"`                 // Indicates the number of rooms under the given type
-		BedRoomsPerRoom          int                              `json:"bedRoomsPerRoom"`          // Indicates the number of bed rooms under the room
-		BathroomsPerRoom         int                              `json:"bathroomsPerRoom"`         // Indicates the number of bathrooms under the room
-		PolicyDescriptions       []string                         `json:"policyDescriptions"`       // Lists out the set of policies for the room
-		ViewCode                 RoomViewType                     `json:"viewCode"`                 // Indicates the view of the room. Enum values are taken from the OTA Code list VIE
-		ArchitectureCode         ArchitectureCode                 `json:"architectureCode"`         // Indicates the architecture of the room. Enum values are taken from the OTA Code list ARC
-		HotelRoomLocation        string                           `json:"hotelRoomLocation"`        // Indicates the location of the room within the hotel property
-		SortOrder                int                              `json:"sortOrder"`                // Absolute order in which to display the room
-		Media                    []MediaResponse                  `json:"media"`                    // List of media associated to the room
-		IsNonSmoking             bool                             `json:"isNonSmoking"`             // Indicates whether the room is a smoking room or not
-		StandardPersonCapacity   int                              `json:"standardPersonCapacity"`   // Indicates the typical capacity for the room
-		MaxPersonCapacity        MaxPersonCapacityResponse        `json:"maxPersonCapacity"`        // Capacity of hotel room ( total of number of adult, children)
-		MaxSleepFurnishings      MaxSleepFurnishingResponse       `json:"maxSleepFurnishings"`      // Indicates the maximum number of extra beds, cribs that can be accomodated in the room
-		Dimensions               DimensionsResponse               `json:"dimensions"`               // A dimension is a measurement such as length, width, or height. Dimensions of a place refers to its size and proportions. The value of height, length and width can be collectively used to calculate multiple values such as total surface area and weight, volume and density.
+		Name                     QualifiedFreeTextResponse           `json:"name"`
+		HotelRoomClassification  HotelRoomClassification             `json:"hotelRoomClassification"`  // Indicates the type of the hotel room. Enum values are taken from the OTA Code list GRI
+		ProviderContentReference ProviderContentReferenceResponse    `json:"providerContentReference"` // Identifies the provider content reference for the room.
+		HotelRoomCategory        HotelRoomCategory                   `json:"hotelRoomCategory"`        //
+		Beds                     int                                 `json:"beds"`                     // example: 2. Number of beds in the room
+		BedType                  BedType                             `json:"bedType"`                  // Type of the bed.Enum values are taken from the OTA code list BED Here are the list of values
+		Description              QualifiedFreeTextResponse           `json:"description"`              //
+		Quantity                 int                                 `json:"quantity"`                 // Indicates the number of rooms under the given type
+		BedRoomsPerRoom          int                                 `json:"bedRoomsPerRoom"`          // Indicates the number of bed rooms under the room
+		BathroomsPerRoom         int                                 `json:"bathroomsPerRoom"`         // Indicates the number of bathrooms under the room
+		PolicyDescriptions       []string                            `json:"policyDescriptions"`       // Lists out the set of policies for the room
+		ViewCode                 RoomViewType                        `json:"viewCode"`                 // Indicates the view of the room. Enum values are taken from the OTA Code list VIE
+		ArchitectureCode         ArchitectureCode                    `json:"architectureCode"`         // Indicates the architecture of the room. Enum values are taken from the OTA Code list ARC
+		HotelRoomLocation        string                              `json:"hotelRoomLocation"`        // Indicates the location of the room within the hotel property
+		SortOrder                int                                 `json:"sortOrder"`                // Absolute order in which to display the room
+		Media                    []MediaResponse                     `json:"media"`                    // List of media associated to the room
+		Amenities                []sharedResponseDTO.AmenityResponse `json:"amenities"`                // Amenities available in the room
+		IsNonSmoking             bool                                `json:"isNonSmoking"`             // Indicates whether the room is a smoking room or not
+		StandardPersonCapacity   int                                 `json:"standardPersonCapacity"`   // Indicates the typical capacity for the room
+		MaxPersonCapacity        MaxPersonCapacityResponse           `json:"maxPersonCapacity"`        // Capacity of hotel room ( total of number of adult, children)
+		MaxSleepFurnishings      MaxSleepFurnishingResponse          `json:"maxSleepFurnishings"`      // Indicates the maximum number of extra beds, cribs that can be accomodated in the room
+		Dimensions               DimensionsResponse                  `json:"dimensions"`               // A dimension is a measurement such as length, width, or height. Dimensions of a place refers to its size and proportions. The value of height, length and width can be collectively used to calculate multiple values such as total surface area and weight, volume and density.
 	}
 
 	RoomDimensionsResponse struct {
-		Length        int  `json:"length"`        // Indicates the length of the room
-		Width         int  `json:"width"`         // Indicates the width of the room
-		Height        int  `json:"height"`        // Indicates the height of the room
-		DecimalPlaces int  `json:"decimalPlaces"` // Indicates the number of decimal places for the length, width and height
-		Unit          Unit `json:"unit"`          // Indicates the unit of the length, width and height
-		Area          int  `json:"area"`          // Indicates the area of the room
-		AreaUnit      Unit `json:"areaUnit"`      // Indicates the unit of the area
+		Length        int     `json:"length"`        // Indicates the length of the room
+		Width         int     `json:"width"`         // Indicates the width of the room
+		Height        int     `json:"height"`        // Indicates the height of the room
+		DecimalPlaces int     `json:"decimalPlaces"` // Indicates the number of decimal places for the length, width and height
+		Unit          Unit    `json:"unit"`          // Indicates the unit of the length, width and height
+		Area          float64 `json:"area"`          // Indicates the area of the room
+		AreaUnit      Unit    `json:"areaUnit"`      // Indicates the unit of the area
 	}
 
 	MaxSleepFurnishingResponse = sharedResponseDTO.MaxSleepFurnishingsResponse

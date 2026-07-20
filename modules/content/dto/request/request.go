@@ -31,8 +31,13 @@ func (r *ContentByIDRequest) ToQueryParams() map[string]string {
 		queryParams["lang"] = r.Lang
 	}
 
+	// Amadeus defaults to a light view that only returns the "basic" block.
+	// Ask for FULL unless the caller wants something narrower, so rooms,
+	// facilities, policies, awards and pointOfInterest come back populated.
 	if r.View != "" {
 		queryParams["view"] = r.View
+	} else {
+		queryParams["view"] = "FULL"
 	}
 
 	return queryParams

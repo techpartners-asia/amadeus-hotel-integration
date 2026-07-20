@@ -37,7 +37,8 @@ type (
 		Location                     LocationResponse                    `json:"location"`                     // Location of the point of interest
 		Altitude                     AltitudeResponse                    `json:"altitude"`                     // From analytics, Metrics describe the exact numbers that make up the data
 		CategoryCode                 CategoryCode                        `json:"categoryCode"`                 // Category code of the point of interest
-		Segment                      Segment                             `json:"segment"`                      // Segment of the point of interest
+		Category                     []string                            `json:"category"`                     // Category labels of the property
+		Segment                      []Segment                           `json:"segment"`                      // Segments of the point of interest
 		Area                         []AreaResponse                      `json:"area"`                         // Geographical zone like City, Region, Country
 		ChainName                    string                              `json:"chainName"`                    // Name of the chain to which the hotel belongs to
 		BrandName                    string                              `json:"brandName"`                    // Name of the brand to which the hotel or hotel chain belongs to
@@ -131,7 +132,7 @@ type (
 
 	DistanceResponse struct {
 		Unit         Unit         `json:"unit"`         // Indicates the unit of the distance
-		Value        int          `json:"value"`        // Indicates the value of the distance
+		Value        float64      `json:"value"`        // Indicates the value of the distance
 		DistanceType DistanceType `json:"distanceType"` // Indicates the type of the distance
 	}
 
@@ -166,6 +167,7 @@ type (
 
 	LocationResponse struct {
 		SubType  string                            `json:"subType"`  // Location sub-type (e.g. airport, port, rail-station, restaurant, atm...)
+		Subtype  string                            `json:"subtype"`  // Same as SubType; Hotel Content returns this all-lowercase spelling
 		Name     string                            `json:"name"`     // Name of the location
 		IataCode string                            `json:"iataCode"` // IATA code of the location
 		GeoCode  sharedResponseDTO.GeoCodeResponse `json:"geoCode"`  // GeoCode of the location

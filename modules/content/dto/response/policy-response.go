@@ -195,11 +195,11 @@ type (
 	// * the guarantee policy information applicable to the offer. It includes accepted payments
 	GuaranteeResponse struct {
 		Description      QualifiedFreeTextResponse `json:"description"`      // Specific type to convey a list of string for specific information type ( via qualifier) in specific character set, or language
-		AcceptedPayments []AcceptedPaymentResponse `json:"acceptedPayments"` // Accepted Payment Methods and Card Types. Several Payment Methods and Card Types may be available.
+		AcceptedPayments AcceptedPaymentResponse   `json:"acceptedPayments"` // Accepted Payment Methods and Card Types. Several Payment Methods and Card Types may be available.
 	}
 
 	AcceptedPaymentResponse struct {
-		CreditCards []string      `json:"creditCards"` // example: VI .CA - MasterCard (warning - use it instead of MC/IK/EC/MD/XS) VI - Visa AX - American Express DC - Diners Club AU - Carte Aurore CG - Cofinoga DS - Discover GK - Lufthansa GK Card JC - Japanese Credit Bureau TC - Torch Club TP - Universal Air Travel Card BC - Bank Card DL - Delta MA - Maestro UP - China UnionPay
-		Method      PaymentMethod `json:"method"`      // example: CREDIT_CARD. CREDIT_CARD (CC) - Payment Cards in creditCards are accepted AGENCY_ACCOUNT - Agency Account (Credit Line) is accepted. Agency is Charged at CheckOut TRAVEL_AGENT_ID - Agency IATA/ARC Number is accepted to Guarantee the booking CORPORATE_ID (COR-ID) - Corporate Account is accepted to Guarantee the booking HOTEL_GUEST_ID - Hotel Chain Rewards Card Number is accepted to Guarantee the booking CHECK - Checks are accepted MISC_CHARGE_ORDER - Miscellaneous Charge Order is accepted ADVANCE_DEPOSIT - Cash is accepted for Deposit/PrePay COMPANY_ADDRESS - Company Billing Address is accepted to Guarantee the booking
+		CreditCards []string        `json:"creditCards"` // example: VI .CA - MasterCard (warning - use it instead of MC/IK/EC/MD/XS) VI - Visa AX - American Express DC - Diners Club AU - Carte Aurore CG - Cofinoga DS - Discover GK - Lufthansa GK Card JC - Japanese Credit Bureau TC - Torch Club TP - Universal Air Travel Card BC - Bank Card DL - Delta MA - Maestro UP - China UnionPay
+		Methods     []PaymentMethod `json:"methods"`     // example: CREDIT_CARD. CREDIT_CARD (CC) - Payment Cards in creditCards are accepted AGENCY_ACCOUNT - Agency Account (Credit Line) is accepted. Agency is Charged at CheckOut TRAVEL_AGENT_ID - Agency IATA/ARC Number is accepted to Guarantee the booking CORPORATE_ID (COR-ID) - Corporate Account is accepted to Guarantee the booking HOTEL_GUEST_ID - Hotel Chain Rewards Card Number is accepted to Guarantee the booking CHECK - Checks are accepted MISC_CHARGE_ORDER - Miscellaneous Charge Order is accepted ADVANCE_DEPOSIT - Cash is accepted for Deposit/PrePay COMPANY_ADDRESS - Company Billing Address is accepted to Guarantee the booking
 	}
 )

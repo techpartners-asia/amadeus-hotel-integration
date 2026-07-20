@@ -76,6 +76,28 @@ type (
 		Longitude float64 `json:"longitude"`
 		// Link to the terms and conditions the guest must approve to book.
 		TermsAndConditions string `json:"termsAndConditions,omitempty"`
+		// Contact details of the hotel.
+		Contact *HotelContactResponse `json:"contact,omitempty"`
+		// Postal address of the hotel.
+		Address *HotelAddressResponse `json:"address,omitempty"`
+		// Amenity codes offered by the hotel.
+		Amenities []string `json:"amenities,omitempty"`
+	}
+
+	// HotelContactResponse models the hotel contact details returned with an offer.
+	HotelContactResponse struct {
+		Phone string `json:"phone,omitempty"`
+		Fax   string `json:"fax,omitempty"`
+		Email string `json:"email,omitempty"`
+	}
+
+	// HotelAddressResponse models the hotel postal address returned with an offer.
+	HotelAddressResponse struct {
+		Lines       []string `json:"lines,omitempty"`
+		PostalCode  string   `json:"postalCode,omitempty"`
+		CityName    string   `json:"cityName,omitempty"`
+		CountryCode string   `json:"countryCode,omitempty"`
+		StateCode   string   `json:"stateCode,omitempty"`
 	}
 
 	OfferResponse struct {
@@ -98,7 +120,8 @@ type (
 		Description *DescriptionResponse `json:"description,omitempty"`
 		Guests      GuestsResponse       `json:"guests"`
 		// Whether this is a loyalty rate.
-		IsLoyaltyRate       bool                        `json:"isLoyaltyRate,omitempty"`
+		// Amadeus returns this as a quoted string ("true"/"false"), not a JSON bool.
+		IsLoyaltyRate       string                      `json:"isLoyaltyRate,omitempty"`
 		RateCode            string                      `json:"rateCode"`
 		RateFamilyEstimated RateFamilyEstimatedResponse `json:"rateFamilyEstimated"`
 		// Marketing name of the rate.
@@ -367,8 +390,16 @@ type (
 
 	// CreditCardPolicyResponse models per-vendor credit card policy.
 	CreditCardPolicyResponse struct {
-		InputParameters []string `json:"inputParameters,omitempty"`
-		VendorCode      string   `json:"vendorCode,omitempty"`
+		InputParameters []InputParameterResponse `json:"inputParameters,omitempty"`
+		VendorCode      string                   `json:"vendorCode,omitempty"`
+	}
+
+	// InputParameterResponse describes one field the guest must supply for a
+	// credit card payment (e.g. card holder name), and whether it is optional.
+	InputParameterResponse struct {
+		Label string `json:"label,omitempty"`
+		// Amadeus returns this as a quoted string ("true"/"false"), not a JSON bool.
+		IsOptional string `json:"isOptional,omitempty"`
 	}
 
 	// HoldTimeResponse models a hold-time policy.

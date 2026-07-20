@@ -397,6 +397,14 @@ const (
 	CategoryCodeKidsBeachClub                            CategoryCode = "KIDS_BEACH_CLUB"
 	CategoryCodeKidsEquestrianClub                       CategoryCode = "KIDS_EQUESTRIAN_CLUB"
 	CategoryCodeLounge                                   CategoryCode = "LOUNGE"
+
+	// Values observed from Hotel Content that the original list omitted. Note
+	// that CategoryCode is not a closed set: for airport points of interest the
+	// API returns the IATA airport code itself (CDG, ORY, BVA, LBG, ...), so
+	// callers must tolerate values with no matching constant here.
+	CategoryCode24HourFoodOrBeverageKiosk CategoryCode = "24_HOUR_FOOD_OR_BEVERAGE_KIOSK"
+	CategoryCodeEntertainmentDistrict     CategoryCode = "ENTERTAINMENT_DISTRICT"
+	CategoryCodeTheaterOrCinema           CategoryCode = "THEATER_OR_CINEMA"
 )
 
 type TransportMode string

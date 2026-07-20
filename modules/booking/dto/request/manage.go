@@ -11,12 +11,12 @@ package requestBookingDTO
 type (
 	UpdateHotelBookingRequest struct {
 		// Data - the update payload.
-		Data UpdateHotelBooking `json:"data"`
+		Data UpdateHotelBooking `json:"data,omitempty"`
 	}
 
 	UpdateHotelBooking struct {
 		// HotelBooking - the hotel booking changes (room association, offer, payment).
-		HotelBooking UpdateHotelBookingData `json:"hotelBooking"`
+		HotelBooking UpdateHotelBookingData `json:"hotelBooking,omitempty"`
 	}
 
 	UpdateHotelBookingData struct {

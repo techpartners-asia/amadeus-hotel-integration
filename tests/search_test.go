@@ -15,8 +15,8 @@ import (
 
 // default test credentials; override with AMADEUS_CLIENT_ID / AMADEUS_CLIENT_SECRET.
 const (
-	defaultClientID     = "2Xt3NOH0ezVWVFp4MIVWjw9sGJSxxhQP"
-	defaultClientSecret = "UljgNTvUNW5Vy7ge"
+	defaultClientID     = "vhfFbxveAd0ubnYwDVOa7AzxGXi82tl0"
+	defaultClientSecret = "p5HEek8bOysXvrwu"
 )
 
 // newSDK builds an authenticated SDK, skipping the test when authentication
@@ -41,7 +41,15 @@ func envOr(key, fallback string) string {
 	return fallback
 }
 
+// maxContentFetches caps how many hotels this test pulls content for. A city
+// search returns hundreds of properties and one content call each blows any
+// reasonable test timeout, so only a sample is fetched.
+const maxContentFetches = 5
+
 func TestHotelSearch(t *testing.T) {
+	if testing.Short() {
+		t.Skip("skipping live API test in -short mode")
+	}
 	s := newSDK(t)
 
 	hotels, err := s.List.HotelListByCityCode(requestHotelListCityDTO.HotelListByCityCodeRequest{
@@ -49,6 +57,10 @@ func TestHotelSearch(t *testing.T) {
 	})
 	if err != nil {
 		t.Fatalf("Error getting hotels: %v", err)
+	}
+
+	if len(hotels) > maxContentFetches {
+		hotels = hotels[:maxContentFetches]
 	}
 
 	for _, hotel := range hotels {
@@ -66,6 +78,9 @@ func TestHotelSearch(t *testing.T) {
 }
 
 func TestHotelListByHotelIds(t *testing.T) {
+	if testing.Short() {
+		t.Skip("skipping live API test in -short mode")
+	}
 	s := newSDK(t)
 
 	// Resolve a couple of real hotel ids from a city search first.

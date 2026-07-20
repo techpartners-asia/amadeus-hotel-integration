@@ -13,7 +13,7 @@ import (
 )
 
 type HotelListUsecase interface {
-	HotelListByGeocode(request requestHotelListGeocodeDTO.HotelListByGeocodeRequest) ([]responseHotelListDTO.HotelListResponse, error)
+	HotelListByGeocode(request requestHotelListGeocodeDTO.HotelListByGeocodeRequest) ([]responseHotelListDTO.GeneralInfoResponse, error)
 	HotelListByCityCode(request requestHotelListCityDTO.HotelListByCityCodeRequest) ([]responseHotelListDTO.GeneralInfoResponse, error)
 	HotelListByHotelIds(request requestHotelListHotelsDTO.HotelListByHotelsRequest) ([]responseHotelListDTO.GeneralInfoResponse, error)
 }
@@ -29,9 +29,9 @@ func NewHotelListUsecase() HotelListUsecase {
 }
 
 // * : Hotel List By Geocode
-func (h *hotelListUsecase) HotelListByGeocode(request requestHotelListGeocodeDTO.HotelListByGeocodeRequest) ([]responseHotelListDTO.HotelListResponse, error) {
+func (h *hotelListUsecase) HotelListByGeocode(request requestHotelListGeocodeDTO.HotelListByGeocodeRequest) ([]responseHotelListDTO.GeneralInfoResponse, error) {
 
-	var responses []responseHotelListDTO.HotelListResponse
+	var responses sharedResponseDTO.BaseResponse[[]responseHotelListDTO.GeneralInfoResponse]
 
 	res, err := h.client.R().SetQueryParams(request.ToQueryParams()).SetResult(&responses).Get("/by-geocode")
 	if err != nil {
@@ -42,7 +42,7 @@ func (h *hotelListUsecase) HotelListByGeocode(request requestHotelListGeocodeDTO
 		return nil, apiErr
 	}
 
-	return responses, nil
+	return responses.Data, nil
 }
 
 // * : Hotel List By City Code
