@@ -1,6 +1,10 @@
 package requestContentDTO
 
-import "strings"
+import (
+	"strings"
+
+	"github.com/techpartners-asia/amadeus-hotel-integration/searchcriteria"
+)
 
 type (
 	// ContentByIDRequest fetches hotel content details for a single property.
@@ -13,8 +17,8 @@ type (
 		Fields []string `json:"fields,omitempty"`
 		// Lang - language for textual content (ISO 639-1, e.g. "EN", "FR"). Optional.
 		Lang string `json:"lang,omitempty"`
-		// View - response detail level. Available values: FULL, LIGHT. Optional.
-		View string `json:"view,omitempty"`
+		// View - response detail level. See searchcriteria.AllContentViews. Optional.
+		View searchcriteria.ContentView `json:"view,omitempty"`
 	}
 )
 
@@ -35,9 +39,9 @@ func (r *ContentByIDRequest) ToQueryParams() map[string]string {
 	// Ask for FULL unless the caller wants something narrower, so rooms,
 	// facilities, policies, awards and pointOfInterest come back populated.
 	if r.View != "" {
-		queryParams["view"] = r.View
+		queryParams["view"] = string(r.View)
 	} else {
-		queryParams["view"] = "FULL"
+		queryParams["view"] = string(searchcriteria.ContentViewFull)
 	}
 
 	return queryParams

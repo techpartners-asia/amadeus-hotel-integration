@@ -13,6 +13,7 @@ A Go SDK that wraps the [Amadeus Hotel APIs](https://developers.amadeus.com/) to
   - [Offers](#offers-module)
   - [Content](#content-module)
   - [Booking](#booking-module)
+- [Search Criteria](#search-criteria)
 - [Authentication](#authentication)
 - [Error Handling](#error-handling)
 - [API Reference](#api-reference)
@@ -186,14 +187,17 @@ Search for hotels by city code or geographic coordinates.
 
 ```go
 hotels, err := client.List.HotelListByCityCode(requestList.HotelListByCityCodeRequest{
-    CityCode: "PAR",                    // Required: IATA 3-letter city code
-    Radius:   intPtr(10),               // Optional: search radius (default: 5)
-    RadiusUnit: strPtr("KM"),           // Optional: KM or MILE (default: KM)
-    Ratings:  []string{"4", "5"},       // Optional: star ratings to filter
-    Amenities: []string{"WIFI", "SPA"}, // Optional: amenity filters
-    HotelSource: strPtr("ALL"),         // Optional: BEDBANK, DIRECTCHAIN, ALL
+    CityCode:    "PAR",                        // Required: IATA 3-letter city code
+    Radius:      searchcriteria.Ptr(10),       // Optional: search radius (default: 5)
+    RadiusUnit:  searchcriteria.Ptr(searchcriteria.RadiusUnitKM),
+    Ratings:     []searchcriteria.Rating{searchcriteria.Rating4, searchcriteria.Rating5},
+    Amenities:   []searchcriteria.Amenity{searchcriteria.AmenityWifi, searchcriteria.AmenitySpa},
+    HotelSource: searchcriteria.Ptr(searchcriteria.HotelSourceAll),
 })
 ```
+
+Filter values come from the `searchcriteria` package rather than raw strings, so a
+typo is a compile error instead of an Amadeus 400. See [Search Criteria](#search-criteria).
 
 **Returns**: `[]GeneralInfoResponse` -- array of hotels with ID, name, IATA code, geo coordinates, address, and distance.
 
@@ -201,11 +205,12 @@ hotels, err := client.List.HotelListByCityCode(requestList.HotelListByCityCodeRe
 
 ```go
 hotels, err := client.List.HotelListByGeocode(requestGeocode.HotelListByGeocodeRequest{
-    CityCode:   "PAR",
+    Latitude:    48.85,  // Required
+    Longitude:   2.29,   // Required
     Radius:      5,
-    RadiusUnit:  "KM",
-    Ratings:     []string{"3", "4", "5"},
-    HotelSource: "ALL",
+    RadiusUnit:  searchcriteria.RadiusUnitKM,
+    Ratings:     []searchcriteria.Rating{searchcriteria.Rating3, searchcriteria.Rating4, searchcriteria.Rating5},
+    HotelSource: searchcriteria.HotelSourceAll,
 })
 ```
 
@@ -240,7 +245,7 @@ offers, err := client.Offers.List(requestOffers.HotelOffersListRequest{
     CheckOutDate: "2026-06-05",           // Format: YYYY-MM-DD
     RoomQuantity: 1,                       // Number of rooms (1-9, default: 1)
     Currency:     "EUR",                   // ISO currency code
-    BoardType:    "BREAKFAST",             // ROOM_ONLY, BREAKFAST, HALF_BOARD, etc.
+    BoardType:    searchcriteria.BoardTypeBreakfast,
     BestRateOnly: requestOffers.Bool(true), // Only cheapest offer per hotel (*bool; nil = API default true)
     Lang:         "EN",                    // Language for descriptions
 })
@@ -407,6 +412,87 @@ result, err := client.Booking.Delete("HOTEL_ORDER_ID", "HOTEL_BOOKING_ID")
 
 **Returns**: `*DeleteBookingResult` -- contains the provider `CancellationNumber`.
 Uses Hotel Booking Manage (v2.2).
+
+---
+
+## Search Criteria
+
+Search filters take typed values from the `searchcriteria` package instead of raw
+strings, so an invalid code fails to compile rather than returning an Amadeus 400.
+
+```go
+import "github.com/techpartners-asia/amadeus-hotel-integration/searchcriteria"
+
+req := requestList.HotelListByCityCodeRequest{
+    CityCode:  "PAR",
+    Amenities: []searchcriteria.Amenity{
+        searchcriteria.AmenitySwimmingPool,
+        searchcriteria.AmenityWifi,
+    },
+}
+```
+
+### Available lists
+
+| Type | Values | Used by |
+|------|--------|---------|
+| `Amenity` | 34 codes | List (by-city, by-geocode) |
+| `Rating` | `1`-`5` (max 4 per request) | List (by-city, by-geocode) |
+| `HotelSource` | `BEDBANK`, `DIRECTCHAIN`, `ALL` | List (by-city, by-geocode) |
+| `RadiusUnit` | `KM`, `MILE` | List (by-city, by-geocode) |
+| `BoardType` | `ROOM_ONLY`, `BREAKFAST`, `HALF_BOARD`, `FULL_BOARD`, `ALL_INCLUSIVE` | Offers |
+| `PaymentPolicy` | `GUARANTEE`, `DEPOSIT`, `NONE` | Offers |
+| `RateCode` | `PRO`, `GOV`, `AAA`, `MIL`, `SNR`, `COR`, `RAC`, plus corporate codes | Offers |
+| `ContentView` | `FULL`, `LIGHT` | Content |
+
+### Enumerating a list
+
+Every type exposes `All<Type>s()` for building a filter UI, plus `Label()` and
+`IsValid()`:
+
+```go
+for _, a := range searchcriteria.AllAmenities() {
+    fmt.Printf("%s -- %s\n", a, a.Label())  // SWIMMING_POOL -- Swimming Pool
+}
+
+searchcriteria.Amenity("SWIMMING_POOL").IsValid()  // true
+searchcriteria.Amenity("POOL").IsValid()           // false
+```
+
+The same lists hang off the SDK value when that is easier to pass around:
+
+```go
+client.SearchCriteria.Amenities()
+client.SearchCriteria.BoardTypes()
+```
+
+Both forms return the same static data compiled into the SDK -- no network call,
+no credentials, and nothing that can fail. The package-level `All*` functions work
+without an SDK value at all.
+
+### Two codes differ from the Amadeus docs
+
+Amadeus documents two amenities with spellings its own API rejects
+(`7211 INVALID FACILITY CODE`). This SDK uses the values that actually work:
+
+| Amadeus docs | Accepted by the API | Constant |
+|--------------|---------------------|----------|
+| `BABY-SITTING` | `BABY_SITTING` | `AmenityBabySitting` |
+| `BAR or LOUNGE` | `BAR_LOUNGE` | `AmenityBarOrLounge` |
+
+`TestAmenityCodesAcceptedByAmadeus` probes every amenity against the live endpoint
+to catch further drift:
+
+```bash
+AMADEUS_PROBE_AMENITIES=1 go test ./tests/ -run TestAmenityCodesAcceptedByAmadeus
+```
+
+### Rate codes are not a closed set
+
+`RateCode.IsValid()` checks only that a code is three uppercase alphanumerics,
+because corporate rate codes are negotiated per account and cannot be enumerated.
+`AllRateCodes()` returns the documented public and qualified rates -- treat it as a
+starting list for a UI, not a whitelist.
 
 ---
 
@@ -601,6 +687,24 @@ Creates and returns a new SDK instance. Authenticates with Amadeus using the pro
 | `Modify`         | `(orderID, bookingID string, UpdateHotelBookingRequest) (*HotelBookingUpdateResponse, error)` | Modify a booking within an order |
 | `Delete`         | `(orderID, bookingID string) (*DeleteBookingResult, error)`                     | Delete a booking within an order         |
 
+### Search Criteria (`client.SearchCriteria`)
+
+Static lists compiled into the SDK. No method performs a network call or returns
+an error. See [Search Criteria](#search-criteria).
+
+| Method             | Signature            | Description                          |
+| ------------------ | -------------------- | ------------------------------------ |
+| `Amenities`        | `() []Amenity`       | 34 amenity filter codes              |
+| `Ratings`          | `() []Rating`        | Star ratings 1-5                     |
+| `HotelSources`     | `() []HotelSource`   | BEDBANK, DIRECTCHAIN, ALL            |
+| `RadiusUnits`      | `() []RadiusUnit`    | KM, MILE                             |
+| `BoardTypes`       | `() []BoardType`     | Meal plans                           |
+| `PaymentPolicies`  | `() []PaymentPolicy` | GUARANTEE, DEPOSIT, NONE             |
+| `ContentViews`     | `() []ContentView`   | FULL, LIGHT                          |
+| `RateCodes`        | `() []RateCode`      | Documented rate codes (not a whitelist) |
+
+Each returned type also has `Label() string` and `IsValid() bool`.
+
 ---
 
 ## Testing
@@ -683,6 +787,18 @@ sdk/
 │           └── response/
 │               └── base.go                 # Full booking response DTOs (50+ structs)
 │
+├── searchcriteria/                         # Typed values accepted in search filters
+│   ├── searchcriteria.go                   # entry[T], codes/labelOf/isValid, Join
+│   ├── catalog.go                          # Catalog interface behind sdk.SearchCriteria
+│   ├── amenity.go                          # Amenity (34 codes)
+│   ├── rating.go                           # Rating (1-5)
+│   ├── hotel-source.go                     # HotelSource
+│   ├── radius-unit.go                      # RadiusUnit
+│   ├── board-type.go                       # BoardType
+│   ├── payment-policy.go                   # PaymentPolicy
+│   ├── content-view.go                     # ContentView
+│   └── rate-code.go                        # RateCode (open-ended)
+│
 ├── shared/
 │   └── dto/
 │       ├── request/
@@ -693,7 +809,9 @@ sdk/
 │           └── ...                         # Other shared response types
 │
 └── tests/
-    └── search_test.go                      # Integration test: search + content
+    ├── search_test.go                      # Integration test: search + content
+    ├── searchcriteria_test.go              # Search-criteria lists (no network)
+    └── amenity_probe_test.go               # Probes each amenity live (opt-in)
 ```
 
 ---

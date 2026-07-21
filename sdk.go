@@ -6,6 +6,7 @@ import (
 	usecaseContent "github.com/techpartners-asia/amadeus-hotel-integration/modules/content/usecase"
 	usecaseHotelList "github.com/techpartners-asia/amadeus-hotel-integration/modules/list/usecase"
 	usecasesHotelOffers "github.com/techpartners-asia/amadeus-hotel-integration/modules/offers/usecases"
+	"github.com/techpartners-asia/amadeus-hotel-integration/searchcriteria"
 )
 
 type SDK struct {
@@ -13,6 +14,11 @@ type SDK struct {
 	Content usecaseContent.ContentUsecase
 	Booking usecaseBooking.BookingUsecase
 	List    usecaseHotelList.HotelListUsecase
+	// SearchCriteria lists the values Amadeus accepts in search filters
+	// (amenities, star ratings, board types...). It is static data compiled into
+	// the SDK, so its methods never call Amadeus and never fail. The equivalent
+	// searchcriteria.All* functions need no SDK value or credentials.
+	SearchCriteria searchcriteria.Catalog
 }
 
 // New authenticates with Amadeus and returns a ready-to-use SDK. It returns an
@@ -23,9 +29,10 @@ func New(id, secret string) (*SDK, error) {
 	}
 
 	return &SDK{
-		Offers:  usecasesHotelOffers.NewHotelOffersUsecase(),
-		Content: usecaseContent.NewContentUsecase(),
-		Booking: usecaseBooking.NewBookingUsecase(),
-		List:    usecaseHotelList.NewHotelListUsecase(),
+		Offers:         usecasesHotelOffers.NewHotelOffersUsecase(),
+		Content:        usecaseContent.NewContentUsecase(),
+		Booking:        usecaseBooking.NewBookingUsecase(),
+		List:           usecaseHotelList.NewHotelListUsecase(),
+		SearchCriteria: searchcriteria.NewCatalog(),
 	}, nil
 }

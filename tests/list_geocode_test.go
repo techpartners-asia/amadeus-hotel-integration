@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	requestHotelListGeocodeDTO "github.com/techpartners-asia/amadeus-hotel-integration/modules/list/dto/request/geocode"
+	"github.com/techpartners-asia/amadeus-hotel-integration/searchcriteria"
 )
 
 // TestGeocodeQueryParamsSendsCoordinates guards the bug that made this endpoint
@@ -51,9 +52,9 @@ func TestGeocodeQueryParamsIncludesSet(t *testing.T) {
 		Latitude:   48.85,
 		Longitude:  2.29,
 		Radius:     10,
-		RadiusUnit: "KM",
+		RadiusUnit: searchcriteria.RadiusUnitKM,
 		ChainCodes: []string{"RT", "XK"},
-		Ratings:    []string{"4", "5"},
+		Ratings:    []searchcriteria.Rating{searchcriteria.Rating4, searchcriteria.Rating5},
 	}
 
 	q := req.ToQueryParams()

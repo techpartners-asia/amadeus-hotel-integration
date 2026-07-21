@@ -5,6 +5,7 @@ import (
 	"time"
 
 	requestOffers "github.com/techpartners-asia/amadeus-hotel-integration/modules/offers/dto/request"
+	"github.com/techpartners-asia/amadeus-hotel-integration/searchcriteria"
 )
 
 // --- request building (no network) ---
@@ -75,7 +76,7 @@ func TestOffersListQueryParamsPageOffset(t *testing.T) {
 func TestOffersListQueryParamsRateCodesJoined(t *testing.T) {
 	req := requestOffers.HotelOffersListRequest{
 		HotelIDs:  []string{"RTPAREIF", "RTPARMAI"},
-		RateCodes: []string{"RAC", "GOV"},
+		RateCodes: []searchcriteria.RateCode{searchcriteria.RateCodeRack, searchcriteria.RateCodeGovernment},
 	}
 
 	q := req.ToQueryParams()

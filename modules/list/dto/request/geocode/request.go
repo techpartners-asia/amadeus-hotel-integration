@@ -3,6 +3,8 @@ package requestHotelListGeocodeDTO
 import (
 	"strconv"
 	"strings"
+
+	"github.com/techpartners-asia/amadeus-hotel-integration/searchcriteria"
 )
 
 type (
@@ -18,16 +20,16 @@ type (
 		Longitude float64 `json:"longitude" required:"true"`
 		// Radius - maximum distance from the coordinates, in RadiusUnit. Default 5. Optional.
 		Radius int `json:"radius,omitempty"`
-		// RadiusUnit - unit for Radius. Available values: KM, MILE. Default KM. Optional.
-		RadiusUnit string `json:"radiusUnit,omitempty"`
+		// RadiusUnit - unit for Radius. Default KM. See searchcriteria.AllRadiusUnits. Optional.
+		RadiusUnit searchcriteria.RadiusUnit `json:"radiusUnit,omitempty"`
 		// ChainCodes - hotel chain or brand codes, 2 capital letters each. Optional.
 		ChainCodes []string `json:"chainCodes,omitempty"`
-		// Amenities - filter by amenity codes such as SWIMMING_POOL, WIFI, PARKING. Optional.
-		Amenities []string `json:"amenities,omitempty"`
-		// Ratings - hotel stars, up to four values from 1..5. Optional.
-		Ratings []string `json:"ratings,omitempty"`
-		// HotelSource - BEDBANK, DIRECTCHAIN or ALL. Default ALL. Optional.
-		HotelSource string `json:"hotelSource,omitempty"`
+		// Amenities - filter by amenity. See searchcriteria.AllAmenities. Optional.
+		Amenities []searchcriteria.Amenity `json:"amenities,omitempty"`
+		// Ratings - hotel stars, up to searchcriteria.MaxRatings values. See searchcriteria.AllRatings. Optional.
+		Ratings []searchcriteria.Rating `json:"ratings,omitempty"`
+		// HotelSource - which inventory to search. Default ALL. See searchcriteria.AllHotelSources. Optional.
+		HotelSource searchcriteria.HotelSource `json:"hotelSource,omitempty"`
 	}
 )
 
@@ -45,19 +47,19 @@ func (r *HotelListByGeocodeRequest) ToQueryParams() map[string]string {
 		queryParams["radius"] = strconv.Itoa(r.Radius)
 	}
 	if r.RadiusUnit != "" {
-		queryParams["radiusUnit"] = r.RadiusUnit
+		queryParams["radiusUnit"] = string(r.RadiusUnit)
 	}
 	if len(r.ChainCodes) > 0 {
 		queryParams["chainCodes"] = strings.Join(r.ChainCodes, ",")
 	}
 	if len(r.Amenities) > 0 {
-		queryParams["amenities"] = strings.Join(r.Amenities, ",")
+		queryParams["amenities"] = searchcriteria.Join(r.Amenities)
 	}
 	if len(r.Ratings) > 0 {
-		queryParams["ratings"] = strings.Join(r.Ratings, ",")
+		queryParams["ratings"] = searchcriteria.Join(r.Ratings)
 	}
 	if r.HotelSource != "" {
-		queryParams["hotelSource"] = r.HotelSource
+		queryParams["hotelSource"] = string(r.HotelSource)
 	}
 
 	return queryParams
