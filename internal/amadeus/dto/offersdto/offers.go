@@ -1,6 +1,6 @@
 package offersdto
 
-import "github.com/techpartners-asia/amadeus-hotel-integration/internal/amadeus/dto"
+import "github.com/techpartners-asia/amadeus-hotel-integration/v2/internal/amadeus/dto"
 
 // Package offersdto holds the wire structures for the Hotel Search API (v3.5): GET /shopping/hotel-offers
 // (v3.5): GET /shopping/hotel-offers and GET /shopping/hotel-offers/{offerId}.

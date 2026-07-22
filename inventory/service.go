@@ -4,8 +4,8 @@ import (
 	"context"
 	"net/url"
 
-	"github.com/techpartners-asia/amadeus-hotel-integration/internal/amadeus"
-	"github.com/techpartners-asia/amadeus-hotel-integration/internal/amadeus/dto"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/internal/amadeus"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/internal/amadeus/dto"
 )
 
 // Endpoint paths on the Hotel List API (v1.2).

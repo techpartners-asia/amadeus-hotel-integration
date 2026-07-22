@@ -6,9 +6,9 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/techpartners-asia/amadeus-hotel-integration/apierr"
-	"github.com/techpartners-asia/amadeus-hotel-integration/codes"
-	"github.com/techpartners-asia/amadeus-hotel-integration/geo"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/apierr"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/codes"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/geo"
 )
 
 // radiusUnits are the distance units the Hotel List endpoints accept. The other

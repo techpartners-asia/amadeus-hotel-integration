@@ -7,10 +7,10 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/techpartners-asia/amadeus-hotel-integration/apierr"
-	"github.com/techpartners-asia/amadeus-hotel-integration/codes"
-	"github.com/techpartners-asia/amadeus-hotel-integration/internal/amadeus"
-	"github.com/techpartners-asia/amadeus-hotel-integration/internal/amadeus/dto/bookingres"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/apierr"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/codes"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/internal/amadeus"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/internal/amadeus/dto/bookingres"
 )
 
 // Endpoint paths on the Hotel Booking APIs.

@@ -13,11 +13,11 @@
 package offers
 
 import (
-	"github.com/techpartners-asia/amadeus-hotel-integration/codes"
-	"github.com/techpartners-asia/amadeus-hotel-integration/datetime"
-	"github.com/techpartners-asia/amadeus-hotel-integration/geo"
-	"github.com/techpartners-asia/amadeus-hotel-integration/media"
-	"github.com/techpartners-asia/amadeus-hotel-integration/money"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/codes"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/datetime"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/geo"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/media"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/money"
 )
 
 // OfferID identifies a bookable offer. It is the value the booking context

@@ -5,10 +5,10 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/techpartners-asia/amadeus-hotel-integration/apierr"
-	"github.com/techpartners-asia/amadeus-hotel-integration/codes"
-	"github.com/techpartners-asia/amadeus-hotel-integration/internal/amadeus"
-	"github.com/techpartners-asia/amadeus-hotel-integration/internal/amadeus/dto/contentdto"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/apierr"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/codes"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/internal/amadeus"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/internal/amadeus/dto/contentdto"
 )
 
 // contentPath is the Hotel Content (v3.1) endpoint.

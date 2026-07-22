@@ -1,8 +1,8 @@
 package content
 
 import (
-	"github.com/techpartners-asia/amadeus-hotel-integration/media"
-	"github.com/techpartners-asia/amadeus-hotel-integration/money"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/media"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/money"
 )
 
 // Policies are a property's standing rules.

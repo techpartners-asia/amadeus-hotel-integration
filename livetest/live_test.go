@@ -22,13 +22,13 @@ import (
 	"testing"
 	"time"
 
-	sdk "github.com/techpartners-asia/amadeus-hotel-integration"
-	"github.com/techpartners-asia/amadeus-hotel-integration/codes"
-	"github.com/techpartners-asia/amadeus-hotel-integration/content"
-	"github.com/techpartners-asia/amadeus-hotel-integration/datetime"
-	"github.com/techpartners-asia/amadeus-hotel-integration/geo"
-	"github.com/techpartners-asia/amadeus-hotel-integration/inventory"
-	"github.com/techpartners-asia/amadeus-hotel-integration/offers"
+	sdk "github.com/techpartners-asia/amadeus-hotel-integration/v2"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/codes"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/content"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/datetime"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/geo"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/inventory"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/offers"
 )
 
 // newClient builds a client from the environment, skipping the test when no

@@ -5,9 +5,9 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/techpartners-asia/amadeus-hotel-integration/apierr"
-	"github.com/techpartners-asia/amadeus-hotel-integration/codes"
-	"github.com/techpartners-asia/amadeus-hotel-integration/datetime"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/apierr"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/codes"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/datetime"
 )
 
 // Limits Amadeus enforces on a search. Checking them here turns a round trip

@@ -28,8 +28,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/techpartners-asia/amadeus-hotel-integration/apierr"
-	"github.com/techpartners-asia/amadeus-hotel-integration/internal/amadeus"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/apierr"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/internal/amadeus"
 )
 
 func main() {

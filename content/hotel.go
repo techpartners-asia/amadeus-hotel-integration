@@ -14,10 +14,10 @@
 package content
 
 import (
-	"github.com/techpartners-asia/amadeus-hotel-integration/codes"
-	"github.com/techpartners-asia/amadeus-hotel-integration/datetime"
-	"github.com/techpartners-asia/amadeus-hotel-integration/geo"
-	"github.com/techpartners-asia/amadeus-hotel-integration/media"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/codes"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/datetime"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/geo"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/media"
 )
 
 // Hotel is everything Amadeus publishes about a property.

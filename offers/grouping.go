@@ -3,7 +3,7 @@ package offers
 import (
 	"sort"
 
-	"github.com/techpartners-asia/amadeus-hotel-integration/money"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/money"
 )
 
 // Grouping offers by room is domain logic, not presentation. Amadeus returns a

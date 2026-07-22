@@ -12,7 +12,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/techpartners-asia/amadeus-hotel-integration/apierr"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/apierr"
 )
 
 // stubServer stands in for Amadeus. It answers the token endpoint itself and

@@ -58,13 +58,13 @@ package sdk
 import (
 	"context"
 
-	"github.com/techpartners-asia/amadeus-hotel-integration/apierr"
-	"github.com/techpartners-asia/amadeus-hotel-integration/booking"
-	"github.com/techpartners-asia/amadeus-hotel-integration/codes"
-	"github.com/techpartners-asia/amadeus-hotel-integration/content"
-	"github.com/techpartners-asia/amadeus-hotel-integration/internal/amadeus"
-	"github.com/techpartners-asia/amadeus-hotel-integration/inventory"
-	"github.com/techpartners-asia/amadeus-hotel-integration/offers"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/apierr"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/booking"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/codes"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/content"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/internal/amadeus"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/inventory"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/offers"
 )
 
 // Client is the entry point to the SDK. It holds one authenticated connection

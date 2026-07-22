@@ -11,7 +11,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/techpartners-asia/amadeus-hotel-integration/apierr"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/apierr"
 )
 
 // tokenPath is the OAuth2 client-credentials endpoint, relative to the host root.

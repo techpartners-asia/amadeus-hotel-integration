@@ -9,10 +9,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/techpartners-asia/amadeus-hotel-integration/apierr"
-	"github.com/techpartners-asia/amadeus-hotel-integration/booking"
-	"github.com/techpartners-asia/amadeus-hotel-integration/datetime"
-	"github.com/techpartners-asia/amadeus-hotel-integration/internal/amadeustest"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/apierr"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/booking"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/datetime"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/internal/amadeustest"
 )
 
 const ordersPath = "/v2/booking/hotel-orders"

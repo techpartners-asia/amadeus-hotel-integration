@@ -9,7 +9,7 @@ package bookingres
 import (
 	"time"
 
-	"github.com/techpartners-asia/amadeus-hotel-integration/internal/amadeus/dto"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/internal/amadeus/dto"
 )
 
 type (

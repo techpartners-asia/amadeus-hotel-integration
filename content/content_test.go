@@ -7,10 +7,10 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/techpartners-asia/amadeus-hotel-integration/apierr"
-	"github.com/techpartners-asia/amadeus-hotel-integration/codes"
-	"github.com/techpartners-asia/amadeus-hotel-integration/content"
-	"github.com/techpartners-asia/amadeus-hotel-integration/internal/amadeustest"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/apierr"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/codes"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/content"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/internal/amadeustest"
 )
 
 const contentPath = "/v3/reference-data/locations/by-hotel"

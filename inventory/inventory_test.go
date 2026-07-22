@@ -6,11 +6,11 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/techpartners-asia/amadeus-hotel-integration/apierr"
-	"github.com/techpartners-asia/amadeus-hotel-integration/codes"
-	"github.com/techpartners-asia/amadeus-hotel-integration/geo"
-	"github.com/techpartners-asia/amadeus-hotel-integration/internal/amadeustest"
-	"github.com/techpartners-asia/amadeus-hotel-integration/inventory"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/apierr"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/codes"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/geo"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/internal/amadeustest"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/inventory"
 )
 
 const (

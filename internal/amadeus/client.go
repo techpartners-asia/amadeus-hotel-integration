@@ -18,7 +18,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/techpartners-asia/amadeus-hotel-integration/apierr"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/apierr"
 )
 
 // maxResponseBytes caps how much of a response the SDK will read. A hotel

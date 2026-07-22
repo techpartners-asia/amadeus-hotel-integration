@@ -12,7 +12,7 @@
 package inventory
 
 import (
-	"github.com/techpartners-asia/amadeus-hotel-integration/geo"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/geo"
 )
 
 // HotelID is an Amadeus 8-character property code, e.g. "MCLONGHM": two

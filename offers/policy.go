@@ -3,8 +3,8 @@ package offers
 import (
 	"time"
 
-	"github.com/techpartners-asia/amadeus-hotel-integration/media"
-	"github.com/techpartners-asia/amadeus-hotel-integration/money"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/media"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/money"
 )
 
 // Policies are the terms attached to an offer: what it costs to cancel, when

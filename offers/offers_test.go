@@ -6,11 +6,11 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/techpartners-asia/amadeus-hotel-integration/apierr"
-	"github.com/techpartners-asia/amadeus-hotel-integration/codes"
-	"github.com/techpartners-asia/amadeus-hotel-integration/datetime"
-	"github.com/techpartners-asia/amadeus-hotel-integration/internal/amadeustest"
-	"github.com/techpartners-asia/amadeus-hotel-integration/offers"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/apierr"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/codes"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/datetime"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/internal/amadeustest"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/offers"
 )
 
 const searchPath = "/v3/shopping/hotel-offers"

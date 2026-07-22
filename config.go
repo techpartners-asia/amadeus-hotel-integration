@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/techpartners-asia/amadeus-hotel-integration/apierr"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/apierr"
 )
 
 // Environment selects which Amadeus deployment the SDK talks to.

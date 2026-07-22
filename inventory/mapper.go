@@ -3,8 +3,8 @@ package inventory
 import (
 	"strconv"
 
-	"github.com/techpartners-asia/amadeus-hotel-integration/geo"
-	"github.com/techpartners-asia/amadeus-hotel-integration/internal/amadeus/dto"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/geo"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/internal/amadeus/dto"
 )
 
 // mapHotels translates a page of wire records into domain hotels.

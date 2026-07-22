@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/techpartners-asia/amadeus-hotel-integration/apierr"
-	"github.com/techpartners-asia/amadeus-hotel-integration/internal/amadeus"
-	"github.com/techpartners-asia/amadeus-hotel-integration/internal/amadeus/dto/offersdto"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/apierr"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/internal/amadeus"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/internal/amadeus/dto/offersdto"
 )
 
 // basePath is the Hotel Search (v3.5) endpoint root.

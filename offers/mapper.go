@@ -1,11 +1,11 @@
 package offers
 
 import (
-	"github.com/techpartners-asia/amadeus-hotel-integration/codes"
-	"github.com/techpartners-asia/amadeus-hotel-integration/geo"
-	"github.com/techpartners-asia/amadeus-hotel-integration/internal/amadeus/dto"
-	"github.com/techpartners-asia/amadeus-hotel-integration/internal/amadeus/dto/offersdto"
-	"github.com/techpartners-asia/amadeus-hotel-integration/money"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/codes"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/geo"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/internal/amadeus/dto"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/internal/amadeus/dto/offersdto"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/money"
 )
 
 // The mapper is the anti-corruption layer for this context: the only code that

@@ -53,7 +53,7 @@ No third-party dependencies. The SDK uses only the standard library.
 ## Installation
 
 ```bash
-go get github.com/techpartners-asia/amadeus-hotel-integration
+go get github.com/techpartners-asia/amadeus-hotel-integration/v2
 ```
 
 ---
@@ -116,11 +116,11 @@ import (
     "os"
     "time"
 
-    sdk "github.com/techpartners-asia/amadeus-hotel-integration"
-    "github.com/techpartners-asia/amadeus-hotel-integration/codes"
-    "github.com/techpartners-asia/amadeus-hotel-integration/datetime"
-    "github.com/techpartners-asia/amadeus-hotel-integration/inventory"
-    "github.com/techpartners-asia/amadeus-hotel-integration/offers"
+    sdk "github.com/techpartners-asia/amadeus-hotel-integration/v2"
+    "github.com/techpartners-asia/amadeus-hotel-integration/v2/codes"
+    "github.com/techpartners-asia/amadeus-hotel-integration/v2/datetime"
+    "github.com/techpartners-asia/amadeus-hotel-integration/v2/inventory"
+    "github.com/techpartners-asia/amadeus-hotel-integration/v2/offers"
 )
 
 func main() {
@@ -662,7 +662,28 @@ func (stubOffers) Search(context.Context, offers.SearchQuery) ([]offers.HotelOff
 
 ## Migrating from the previous version
 
-The public API changed completely. Everything below is a straight substitution.
+v2 is a breaking release: the public API changed completely. Everything below is
+a straight substitution.
+
+### The import path gains a `/v2`
+
+Go requires this for any major version above v1, so it is the first change to
+make:
+
+```go
+// before
+import sdk "github.com/techpartners-asia/amadeus-hotel-integration"
+
+// after
+import sdk "github.com/techpartners-asia/amadeus-hotel-integration/v2"
+```
+
+The repository is unchanged; only the module path carries the suffix. v1.2.0
+keeps working untouched, so you can upgrade when it suits you:
+
+```bash
+go get github.com/techpartners-asia/amadeus-hotel-integration/v2@v2.0.0
+```
 
 ### Construction
 

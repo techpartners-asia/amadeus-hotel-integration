@@ -16,10 +16,10 @@ package booking
 import (
 	"time"
 
-	"github.com/techpartners-asia/amadeus-hotel-integration/codes"
-	"github.com/techpartners-asia/amadeus-hotel-integration/datetime"
-	"github.com/techpartners-asia/amadeus-hotel-integration/media"
-	"github.com/techpartners-asia/amadeus-hotel-integration/money"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/codes"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/datetime"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/media"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/money"
 )
 
 // OrderID identifies a hotel order, and is the handle to everything afterwards.

@@ -19,7 +19,7 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/techpartners-asia/amadeus-hotel-integration/internal/amadeus"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/internal/amadeus"
 )
 
 // Server is a stand-in for Amadeus that answers the token endpoint itself and
