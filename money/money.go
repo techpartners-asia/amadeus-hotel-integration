@@ -134,6 +134,28 @@ func (m Money) combinedCurrency(other Money) (Currency, error) {
 	}
 }
 
+// Split divides m into n equal parts, returning one part and the remainder that
+// would not divide evenly. part*n + remainder == m exactly.
+//
+// Use it to show a nightly rate from a stay total. The remainder is returned
+// rather than rounded away, because deciding which night absorbs the odd cent
+// is a presentation choice, not one the SDK should make silently.
+func (m Money) Split(n int) (part Money, remainder Money, ok bool) {
+	partAmount, remainderAmount, ok := m.amount.DivMod(n)
+	if !ok {
+		return Money{}, Money{}, false
+	}
+	return Money{amount: partAmount, currency: m.currency},
+		Money{amount: remainderAmount, currency: m.currency},
+		true
+}
+
+// Mul returns m multiplied by the integer n, for totalling a per-night rate
+// across a stay or a per-room rate across rooms.
+func (m Money) Mul(n int) Money {
+	return Money{amount: m.amount.Mul(n), currency: m.currency}
+}
+
 // Sum adds every Money in values, and is the common case of totalling the price
 // components of an offer. It returns a zero Money for an empty slice.
 func Sum(values ...Money) (Money, error) {

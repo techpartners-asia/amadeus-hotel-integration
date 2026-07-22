@@ -1,0 +1,250 @@
+{
+  "data": {
+    "type": "hotel-offers",
+    "hotel": {
+      "type": "hotel",
+      "hotelId": "HLPAR266",
+      "chainCode": "HL",
+      "brandCode": "HI",
+      "dupeId": "700034421",
+      "name": "HILTON PARIS OPERA",
+      "rating": "4",
+      "cityCode": "PAR",
+      "latitude": 48.87626,
+      "longitude": 2.32603,
+      "termsAndConditions": "https://example.invalid/terms",
+      "contact": {
+        "phone": "33-1-40088844",
+        "fax": "33-1-40088845",
+        "email": "reservations@example.invalid"
+      },
+      "address": {
+        "lines": [
+          "108 RUE SAINT LAZARE"
+        ],
+        "postalCode": "75008",
+        "cityName": "PARIS",
+        "stateCode": "IDF",
+        "countryCode": "FR"
+      },
+      "amenities": [
+        "SWIMMING_POOL",
+        "RESTAURANT",
+        "WIFI"
+      ]
+    },
+    "available": true,
+    "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers?hotelIds=HLPAR266",
+    "offers": [
+      {
+        "id": "OFFER_DELUXE_FLEX",
+        "type": "hotel-offer",
+        "checkInDate": "2026-08-10",
+        "checkOutDate": "2026-08-13",
+        "rateCode": "PRO",
+        "rateName": "Flexible Rate",
+        "boardType": "BREAKFAST",
+        "category": "PUBLIC",
+        "isLoyaltyRate": "true",
+        "roomQuantity": 1,
+        "rateFamilyEstimated": {
+          "code": "PRO",
+          "type": "P"
+        },
+        "description": {
+          "text": "Deluxe room, flexible cancellation",
+          "lang": "EN"
+        },
+        "commission": {
+          "amount": "18.75",
+          "percentage": "10",
+          "description": {
+            "text": "Standard agency commission",
+            "lang": "EN"
+          }
+        },
+        "guests": {
+          "adults": 2,
+          "childAges": [
+            7,
+            12
+          ]
+        },
+        "room": {
+          "type": "DLX",
+          "typeEstimated": {
+            "category": "DELUXE_ROOM",
+            "beds": 1,
+            "bedType": "KING"
+          },
+          "description": {
+            "text": "Deluxe King Room with city view",
+            "lang": "EN"
+          }
+        },
+        "price": {
+          "currency": "EUR",
+          "base": "540.00",
+          "total": "600.00",
+          "sellingTotal": "612.00",
+          "taxes": [
+            {
+              "amount": "48.00",
+              "code": "VAT",
+              "currency": "EUR",
+              "percentage": "10",
+              "included": true,
+              "collectionPoint": "AT_BOOKING_TIME",
+              "pricingFrequency": "PER_STAY",
+              "pricingMode": "PER_ROOM"
+            },
+            {
+              "amount": "12.00",
+              "code": "TOURISM",
+              "currency": "EUR",
+              "description": "City tourist tax",
+              "included": false,
+              "collectionPoint": "AT_HOTEL_PROPERTY",
+              "applicableDate": {
+                "start": "2026-08-10",
+                "end": "2026-08-13"
+              }
+            }
+          ],
+          "markups": [
+            {
+              "amount": "12.00"
+            }
+          ],
+          "commissions": [
+            {
+              "amount": {
+                "amount": "18.75",
+                "currency": "EUR",
+                "decimalPlaces": 2,
+                "elementaryPriceType": "COMMISSION"
+              },
+              "percentage": 10
+            }
+          ],
+          "variations": {
+            "average": {
+              "base": "180.00",
+              "currency": "EUR",
+              "total": "200.00"
+            },
+            "changes": [
+              {
+                "startDate": "2026-08-10",
+                "endDate": "2026-08-12",
+                "base": "170.00",
+                "currency": "EUR",
+                "total": "190.00"
+              },
+              {
+                "startDate": "2026-08-12",
+                "endDate": "2026-08-13",
+                "base": "200.00",
+                "currency": "EUR",
+                "total": "220.00"
+              }
+            ]
+          }
+        },
+        "policies": {
+          "paymentType": "guarantee",
+          "cancellation": {
+            "type": "FULL_STAY",
+            "policyType": "CANCELLATION",
+            "deadline": "2026-08-08T18:00:00",
+            "description": {
+              "text": "Free cancellation until 8 August",
+              "lang": "EN"
+            }
+          },
+          "cancellations": [
+            {
+              "type": "FULL_STAY",
+              "policyType": "CANCELLATION",
+              "deadline": "2026-08-08T18:00:00",
+              "description": {
+                "text": "Free cancellation until 8 August",
+                "lang": "EN"
+              }
+            },
+            {
+              "type": "FULL_STAY",
+              "policyType": "NO_SHOW",
+              "amount": "200.00",
+              "numberOfNights": 1
+            }
+          ],
+          "refundable": {
+            "cancellationRefund": "REFUNDABLE_UP_TO_DEADLINE"
+          },
+          "guarantee": {
+            "acceptedPayments": {
+              "creditCards": [
+                "VI",
+                "CA",
+                "AX"
+              ],
+              "methods": [
+                "CREDIT_CARD"
+              ],
+              "creditCardPolicies": [
+                {
+                  "vendorCode": "VI",
+                  "inputParameters": [
+                    {
+                      "label": "cardHolderName",
+                      "isOptional": "false"
+                    },
+                    {
+                      "label": "cardSecurityCode",
+                      "isOptional": "true"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "checkInOut": {
+            "checkIn": "15:00",
+            "checkOut": "12:00",
+            "checkInDescription": {
+              "text": "Check-in from 3pm",
+              "lang": "EN"
+            }
+          },
+          "lengthOfStay": {
+            "minimumLengthOfStay": 1,
+            "maximumLengthOfStay": 28
+          }
+        },
+        "services": [
+          {
+            "code": "BREAKFAST",
+            "description": "Continental breakfast",
+            "isChargeable": false,
+            "pricingMethod": "PER_PERSON_PER_NIGHT",
+            "quantity": 2
+          },
+          {
+            "code": "PARKING",
+            "description": "Valet parking",
+            "isChargeable": true,
+            "pricingMethod": "PER_ROOM_PER_NIGHT",
+            "quantity": 1,
+            "price": {
+              "currency": "EUR",
+              "base": "35.00",
+              "total": "42.00"
+            }
+          }
+        ],
+        "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers/OFFER_DELUXE_FLEX"
+      }
+    ]
+  }
+}

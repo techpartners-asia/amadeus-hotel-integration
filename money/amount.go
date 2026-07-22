@@ -172,6 +172,39 @@ func (a Amount) Sub(other Amount) Amount {
 	return a.Add(Amount{units: -other.units, scale: other.scale})
 }
 
+// DivMod splits a into n equal parts, returning the part and whatever could not
+// be divided evenly. part*n + remainder == a exactly.
+//
+// There is no plain Div, because dividing money requires deciding who gets the
+// leftover cent and the domain has no basis to decide that silently. Returning
+// the remainder makes the choice the caller's, and visible.
+//
+// It reports ok=false for n <= 0.
+func (a Amount) DivMod(n int) (part Amount, remainder Amount, ok bool) {
+	if n <= 0 {
+		return Amount{}, Amount{}, false
+	}
+
+	units := int64(n)
+	return Amount{units: a.units / units, scale: a.scale},
+		Amount{units: a.units % units, scale: a.scale},
+		true
+}
+
+// Mul returns a multiplied by the integer n. Saturates rather than wrapping,
+// for the reason given on Add.
+func (a Amount) Mul(n int) Amount {
+	if n == 0 || a.units == 0 {
+		return Amount{scale: a.scale}
+	}
+
+	product := a.units * int64(n)
+	if product/int64(n) != a.units {
+		return saturated((a.units > 0) == (n > 0))
+	}
+	return Amount{units: product, scale: a.scale}
+}
+
 // Compare returns -1, 0 or +1 as a is less than, equal to or greater than
 // other.
 func (a Amount) Compare(other Amount) int {
