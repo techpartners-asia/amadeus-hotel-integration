@@ -1,0 +1,8 @@
+# Compiled binaries. `go build ./internal/capture/` drops one named "capture"
+# in the repository root if you forget -o; it is 8 MB and must not be committed.
+/capture
+*.exe
+*.test
+
+# macOS
+.DS_Store
