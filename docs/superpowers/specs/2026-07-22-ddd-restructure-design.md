@@ -1,7 +1,7 @@
 # DDD Restructure — Amadeus Hotel SDK
 
 **Date:** 2026-07-22
-**Status:** Approved, in implementation
+**Status:** Implemented
 
 ## Problem
 
@@ -89,7 +89,7 @@ Translation rules applied uniformly:
 | Wire | Domain |
 |---|---|
 | `"120.50"` + `"EUR"` | `money.Money` (decimal, not float) |
-| `"2026-07-22"` | `civil.Date` (date-only type, no spurious timezone) |
+| `"2026-07-22"` | `datetime.Date` (date-only type, no spurious timezone) |
 | `"2026-07-22T14:00:00"` | `time.Time` |
 | `string` enum + doc comment | typed constant in `codes/` |
 | `latitude`/`longitude` pair | `geo.Coordinates` |
@@ -160,3 +160,75 @@ does not supply them.
 - Retry/backoff policy (worth doing; a separate change).
 - Pagination helpers/iterators (the `meta.links.next` plumbing exists but is unused).
 - Any second supplier behind the same domain interface.
+
+---
+
+## Implementation notes
+
+Where the built thing differs from the design above, and why.
+
+### Wire DTOs are split per context, not one `dto` package
+
+The design put every wire structure in `internal/amadeus/dto`. That does not
+work: Amadeus reuses `Guest`, `Payment`, `Address` and `RoomAssociation` across
+schemas with **different shapes**, and booking uses different shapes again for
+requests and responses (a request `Guest` carries a caller-assigned `tid`, a
+response `Guest` an Amadeus-assigned `id`).
+
+The first attempt renamed the collisions. That silently mangled struct *field*
+names as well as type names, producing `BookingGuestReference.BookingGuestReference`
+and a `RoomInformation.MediaResponse` field. Renaming was the wrong tool.
+
+Final layout:
+
+```
+internal/amadeus/dto/            shared: media, amenity, markup, dimensions
+internal/amadeus/dto/offersdto/  Hotel Search
+internal/amadeus/dto/contentdto/ Hotel Content
+internal/amadeus/dto/bookingreq/ Hotel Booking requests
+internal/amadeus/dto/bookingres/ Hotel Booking responses
+```
+
+Every struct stays faithful to its own schema; nothing is renamed to accommodate
+another.
+
+### Domain types follow the wire, not the plan
+
+Two domain types were drafted from the design's assumptions and then corrected
+against what Amadeus actually sends:
+
+- **`content.PetPolicy`** was drafted with an `Allowed bool` and a maximum
+  weight. The schema has neither: it sends a code, prose and a pricing method.
+  The domain now exposes what arrives.
+- **`booking.Price`** had a `PayableAtProperty` mirroring the offers one. The
+  booking tax block carries no `collectionPoint`, so the method could only ever
+  have returned zero — which reads as "nothing due on arrival" rather than "not
+  known". It was removed rather than shipped; `TaxesTotal` remains.
+
+The general rule this settled: do not add a method the wire cannot answer.
+
+### `money` gained division
+
+`Price.PerNight` needs to divide a stay total. `money.Money.Split` and
+`Amount.DivMod` return the undivided remainder rather than rounding, because
+deciding which night absorbs the odd cent is a presentation choice the SDK has
+no basis to make silently. There is deliberately no plain `Div`.
+
+### `offers.Service` collided with the domain's `Service`
+
+Amadeus calls a chargeable add-on a "service", which collided with the service
+interface. The domain type is `offers.Extra` - the standard hospitality term,
+and unambiguous.
+
+### Fixtures are hand-built, pending a capture run
+
+`internal/capture` is written and compiles, but has not been run: the fixtures
+in each `testdata/` are hand-built from the schemas and the previous DTOs.
+Running the capture tool against live credentials will replace them with real
+payloads, and any test that then fails is a field the hand-built fixture got
+wrong.
+
+### Not done
+
+- Retry/backoff beyond the single 401-refresh retry.
+- Pagination helpers. `meta.links.next` is decoded but unused.
