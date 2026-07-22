@@ -1,4 +1,4 @@
-package searchcriteria
+package codes
 
 // RateCode is a special-rate code sent in the `rateCodes` query parameter on
 // Hotel Search.
@@ -47,7 +47,7 @@ var rateCodeCatalog = []entry[RateCode]{
 // This is NOT the complete set of codes Amadeus accepts: corporate codes are
 // negotiated per account and cannot be enumerated. Treat it as a starting list
 // for a filter UI, not as a whitelist.
-func AllRateCodes() []RateCode { return codes(rateCodeCatalog) }
+func AllRateCodes() []RateCode { return allOf(rateCodeCatalog) }
 
 // Label returns a human-readable name for c, or "" when c is not one of the
 // documented codes. An empty label does not mean c is invalid: a valid

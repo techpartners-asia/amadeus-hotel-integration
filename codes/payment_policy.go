@@ -1,4 +1,4 @@
-package searchcriteria
+package codes
 
 // PaymentPolicy filters hotel offers by payment type, via the `paymentPolicy`
 // query parameter on Hotel Search. Defaults to PaymentPolicyNone when omitted.
@@ -19,7 +19,7 @@ var paymentPolicyCatalog = []entry[PaymentPolicy]{
 }
 
 // AllPaymentPolicies returns every payment policy Amadeus accepts.
-func AllPaymentPolicies() []PaymentPolicy { return codes(paymentPolicyCatalog) }
+func AllPaymentPolicies() []PaymentPolicy { return allOf(paymentPolicyCatalog) }
 
 // Label returns a human-readable name for p, or "" when p is not a known code.
 func (p PaymentPolicy) Label() string { return labelOf(paymentPolicyCatalog, p) }

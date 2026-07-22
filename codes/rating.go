@@ -1,4 +1,4 @@
-package searchcriteria
+package codes
 
 // Rating is a hotel star rating accepted by the Hotel List API in the `ratings`
 // query parameter. Amadeus matches both the property's official rating and its
@@ -25,7 +25,7 @@ var ratingCatalog = []entry[Rating]{
 const MaxRatings = 4
 
 // AllRatings returns every star rating, ascending.
-func AllRatings() []Rating { return codes(ratingCatalog) }
+func AllRatings() []Rating { return allOf(ratingCatalog) }
 
 // Label returns a human-readable name for r, or "" when r is not 1-5.
 func (r Rating) Label() string { return labelOf(ratingCatalog, r) }

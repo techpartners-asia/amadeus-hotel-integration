@@ -1,4 +1,4 @@
-package searchcriteria
+package codes
 
 // HotelSource selects which inventory the Hotel List API searches, via the
 // `hotelSource` query parameter. Defaults to HotelSourceAll when omitted.
@@ -20,7 +20,7 @@ var hotelSourceCatalog = []entry[HotelSource]{
 }
 
 // AllHotelSources returns every hotel source Amadeus accepts.
-func AllHotelSources() []HotelSource { return codes(hotelSourceCatalog) }
+func AllHotelSources() []HotelSource { return allOf(hotelSourceCatalog) }
 
 // Label returns a human-readable name for h, or "" when h is not a known code.
 func (h HotelSource) Label() string { return labelOf(hotelSourceCatalog, h) }

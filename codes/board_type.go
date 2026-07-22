@@ -1,4 +1,4 @@
-package searchcriteria
+package codes
 
 // BoardType filters hotel offers by the meals included in the rate, via the
 // `boardType` query parameter on Hotel Search.
@@ -28,7 +28,7 @@ var boardTypeCatalog = []entry[BoardType]{
 // HALF_BOARD, FULL_BOARD and ALL_INCLUSIVE are only honoured against
 // aggregator inventory, so a filter UI built from this list may return no
 // offers on GDS/Distribution properties.
-func AllBoardTypes() []BoardType { return codes(boardTypeCatalog) }
+func AllBoardTypes() []BoardType { return allOf(boardTypeCatalog) }
 
 // Label returns a human-readable name for b, or "" when b is not a known code.
 func (b BoardType) Label() string { return labelOf(boardTypeCatalog, b) }

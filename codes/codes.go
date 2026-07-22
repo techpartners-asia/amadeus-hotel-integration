@@ -1,15 +1,19 @@
-// Package searchcriteria holds the sets of values Amadeus accepts in hotel
-// search filters: amenities, star ratings, board types and so on.
+// Package codes holds the sets of values Amadeus accepts in hotel search
+// filters: amenities, star ratings, board types and so on.
 //
-// The request DTOs used to declare these as plain strings, which left callers
-// copying codes out of doc comments. Each set here is a named string type with
-// its constants, an All* function for enumerating it (rendering a filter UI,
-// say) and Label/IsValid methods, so a wrong code fails to compile instead of
-// coming back as an Amadeus 400.
+// These are value objects in the domain sense. Each set is a named string type
+// with its constants, an All* function for enumerating it (rendering a filter
+// UI, say) and Label/IsValid methods, so a wrong code fails to compile instead
+// of coming back as an Amadeus 400. The wire DTOs used to declare these as
+// plain strings, which left callers copying codes out of doc comments.
 //
 // The codes are what the live API accepts, which is not always what Amadeus
 // documents; see the note on Amenity.
-package searchcriteria
+//
+// Distance units are not here: they are geo.Unit, because a radius is a
+// geographic quantity rather than a search filter, and each context enforces
+// its own restriction on which units it accepts.
+package codes
 
 import "strings"
 
@@ -20,8 +24,8 @@ type entry[T ~string] struct {
 	Label string
 }
 
-// codes returns the catalog's codes in declaration order.
-func codes[T ~string](catalog []entry[T]) []T {
+// allOf returns the catalog's codes in declaration order.
+func allOf[T ~string](catalog []entry[T]) []T {
 	out := make([]T, len(catalog))
 	for i, e := range catalog {
 		out[i] = e.Code
@@ -49,10 +53,10 @@ func isValid[T ~string](catalog []entry[T], code T) bool {
 	return false
 }
 
-// Ptr returns a pointer to v. HotelListByCityCodeRequest takes its optional
-// scalars as pointers to tell "unset" apart from the zero value, and a constant
-// is not addressable, so searchcriteria.Ptr(searchcriteria.RadiusUnitKM) saves
-// callers a temporary variable.
+// Ptr returns a pointer to v. Optional scalars are modelled as pointers where
+// "unset" must be told apart from the zero value, and a constant is not
+// addressable, so codes.Ptr(codes.BoardTypeBreakfast) saves callers a temporary
+// variable.
 func Ptr[T any](v T) *T { return &v }
 
 // Join renders typed codes as the comma-separated list Amadeus expects in a

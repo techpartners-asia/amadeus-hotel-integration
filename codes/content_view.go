@@ -1,4 +1,4 @@
-package searchcriteria
+package codes
 
 // ContentView sets how much detail the Hotel Content API returns, via the
 // `view` query parameter.
@@ -19,7 +19,7 @@ var contentViewCatalog = []entry[ContentView]{
 }
 
 // AllContentViews returns every view Amadeus accepts.
-func AllContentViews() []ContentView { return codes(contentViewCatalog) }
+func AllContentViews() []ContentView { return allOf(contentViewCatalog) }
 
 // Label returns a human-readable name for v, or "" when v is not a known code.
 func (v ContentView) Label() string { return labelOf(contentViewCatalog, v) }

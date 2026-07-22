@@ -1,4 +1,4 @@
-package searchcriteria
+package codes
 
 // Amenity is an amenity filter code accepted by the Hotel List API (by-city and
 // by-geocode) in the `amenities` query parameter.
@@ -99,7 +99,7 @@ var amenityCatalog = []entry[Amenity]{
 }
 
 // AllAmenities returns every amenity code Amadeus accepts, in a stable order.
-func AllAmenities() []Amenity { return codes(amenityCatalog) }
+func AllAmenities() []Amenity { return allOf(amenityCatalog) }
 
 // Label returns a human-readable name for a, or "" when a is not a known code.
 func (a Amenity) Label() string { return labelOf(amenityCatalog, a) }
