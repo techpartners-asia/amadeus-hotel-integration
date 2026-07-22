@@ -18,14 +18,17 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"flag"
 	"fmt"
 	"net/url"
 	"os"
 	"path/filepath"
+	"slices"
 	"strings"
 	"time"
 
+	"github.com/techpartners-asia/amadeus-hotel-integration/apierr"
 	"github.com/techpartners-asia/amadeus-hotel-integration/internal/amadeus"
 )
 
@@ -66,7 +69,7 @@ func run(ctx context.Context, client *amadeus.Client, cityCode, outDir string) e
 	hotels, err := capture(ctx, client, outDir, "inventory", "hotels-by-city", amadeus.Request{
 		Path:  "/v1/reference-data/locations/hotels/by-city",
 		Query: url.Values{"cityCode": {cityCode}, "radius": {"5"}, "radiusUnit": {"KM"}},
-	})
+	}, trimHotels(maxFixtureHotels))
 	if err != nil {
 		return fmt.Errorf("hotel list: %w", err)
 	}
@@ -88,22 +91,23 @@ func run(ctx context.Context, client *amadeus.Client, cityCode, outDir string) e
 		return fmt.Errorf("hotel content: %w", err)
 	}
 
-	// Offers. bestRateOnly=false is what makes the fixture useful: with the
-	// default, every hotel collapses to one offer and the grouping tests have
-	// nothing to group.
+	// Offers need properties that actually have inventory, which most of the
+	// sandbox does not. Search the bookable chain specifically rather than
+	// reusing the nearest hotels above - those are mostly test stubs with no
+	// rooms, and pricing them returns nothing.
+	bookable, err := bookableHotels(ctx, client, cityCode)
+	if err != nil {
+		return fmt.Errorf("finding bookable hotels: %w", err)
+	}
+	fmt.Printf("found %d properties on the bookable chain %q\n", len(bookable), bookableChain)
+
+	// bestRateOnly=false is what makes the fixture useful: with the default,
+	// every hotel collapses to one offer and the grouping tests have nothing
+	// to group.
 	checkIn := time.Now().AddDate(0, 1, 0).Format("2006-01-02")
 	checkOut := time.Now().AddDate(0, 1, 3).Format("2006-01-02")
 
-	search, err := capture(ctx, client, outDir, "offers", "search", amadeus.Request{
-		Path: "/v3/shopping/hotel-offers",
-		Query: url.Values{
-			"hotelIds":     {strings.Join(ids, ",")},
-			"checkInDate":  {checkIn},
-			"checkOutDate": {checkOut},
-			"adults":       {"2"},
-			"bestRateOnly": {"false"},
-		},
-	})
+	search, err := captureOffers(ctx, client, outDir, bookable, checkIn, checkOut)
 	if err != nil {
 		return fmt.Errorf("hotel offers: %w", err)
 	}
@@ -125,16 +129,174 @@ func run(ctx context.Context, client *amadeus.Client, cityCode, outDir string) e
 	return nil
 }
 
+// bookableChain is a chain whose properties carry bookable inventory in the
+// Amadeus sandbox.
+//
+// Most sandbox properties are stubs with no rooms at all, so a search over the
+// nearest hotels to a city centre returns no offers however far you widen it.
+// This is sandbox-specific: against production, any chain will price.
+const bookableChain = "RT"
+
+// bookableHotels finds properties likely to have inventory, by filtering the
+// hotel list to the chain the sandbox actually prices.
+func bookableHotels(ctx context.Context, client *amadeus.Client, cityCode string) ([]string, error) {
+	body, err := amadeus.DoRaw(ctx, client, amadeus.Request{
+		Path: "/v1/reference-data/locations/hotels/by-city",
+		Query: url.Values{
+			"cityCode":   {cityCode},
+			"chainCodes": {bookableChain},
+		},
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	ids, err := hotelIDs(body, 20)
+	if err != nil {
+		return nil, err
+	}
+	if len(ids) == 0 {
+		return nil, fmt.Errorf("no %s properties in %s", bookableChain, cityCode)
+	}
+	return ids, nil
+}
+
+// captureOffers searches for offers, narrowing the hotel set until it finds one
+// Amadeus will price.
+//
+// Hotel Search fails the *entire* request with a 400 when any single property in
+// hotelIds has no availability ("NO ROOMS AVAILABLE AT REQUESTED PROPERTY"),
+// naming the offending codes. It does not simply omit them. So the strategy is
+// to drop whatever it complains about and retry, and failing that fall back to
+// one hotel at a time.
+//
+// This is worth knowing beyond this tool: an application searching twenty
+// hotels where two are sold out gets nothing back, not eighteen results.
+func captureOffers(ctx context.Context, client *amadeus.Client, outDir string, ids []string, checkIn, checkOut string) ([]byte, error) {
+	search := func(set []string) ([]byte, error) {
+		return capture(ctx, client, outDir, "offers", "search", amadeus.Request{
+			Path: "/v3/shopping/hotel-offers",
+			Query: url.Values{
+				"hotelIds":     {strings.Join(set, ",")},
+				"checkInDate":  {checkIn},
+				"checkOutDate": {checkOut},
+				"adults":       {"2"},
+				"bestRateOnly": {"false"},
+			},
+		})
+	}
+
+	remaining := slices.Clone(ids)
+	for attempt := 0; attempt < 4 && len(remaining) > 0; attempt++ {
+		body, err := search(remaining)
+		if err == nil {
+			return body, nil
+		}
+
+		unavailable := unavailableHotels(err)
+		if len(unavailable) == 0 {
+			break
+		}
+		fmt.Printf("  %d of %d properties have no availability; retrying without them\n",
+			len(unavailable), len(remaining))
+		remaining = slices.DeleteFunc(remaining, func(id string) bool {
+			return slices.Contains(unavailable, id)
+		})
+	}
+
+	// Amadeus stopped naming the culprits, or removing them was not enough.
+	// Fall back to one property at a time, which cannot be poisoned by another.
+	fmt.Println("  falling back to one property at a time")
+	for _, id := range ids {
+		if body, err := search([]string{id}); err == nil {
+			fmt.Printf("  captured offers for %s\n", id)
+			return body, nil
+		}
+	}
+
+	return nil, fmt.Errorf("no property in the captured set has availability for %s to %s; "+
+		"try -city with somewhere busier, or different dates", checkIn, checkOut)
+}
+
+// unavailableHotels pulls the property codes out of a NO ROOMS AVAILABLE error.
+// Amadeus reports them in the error's source parameter, as
+// "hotelIds=HNPARKGU,HNPARNUJ".
+func unavailableHotels(err error) []string {
+	var apiErr *apierr.APIError
+	if !errors.As(err, &apiErr) {
+		return nil
+	}
+
+	var ids []string
+	for _, detail := range apiErr.Details {
+		parameter := detail.Source.Parameter
+		_, list, found := strings.Cut(parameter, "hotelIds=")
+		if !found {
+			continue
+		}
+		for _, id := range strings.Split(list, ",") {
+			if id = strings.TrimSpace(id); id != "" {
+				ids = append(ids, id)
+			}
+		}
+	}
+	return ids
+}
+
+// maxFixtureHotels caps how many properties the inventory fixture keeps.
+//
+// A city search returns everything: Paris alone came back with 3124 properties
+// and 1.7 MB of JSON. That is a fine API response and a terrible test fixture -
+// it bloats the repository and slows every test run - so the list is trimmed
+// while the shape of each record is preserved exactly.
+const maxFixtureHotels = 25
+
+// transform optionally rewrites a captured body before it is written.
+type transform func([]byte) ([]byte, error)
+
+// trimHotels returns a transform that keeps at most limit entries of the data
+// array, leaving every retained record untouched.
+func trimHotels(limit int) transform {
+	return func(body []byte) ([]byte, error) {
+		var envelope map[string]any
+		if err := json.Unmarshal(body, &envelope); err != nil {
+			return body, nil
+		}
+
+		data, ok := envelope["data"].([]any)
+		if !ok || len(data) <= limit {
+			return body, nil
+		}
+
+		fmt.Printf("  trimming %d records to %d for a usable fixture\n", len(data), limit)
+		envelope["data"] = data[:limit]
+		if meta, ok := envelope["meta"].(map[string]any); ok {
+			meta["count"] = limit
+		}
+		return json.Marshal(envelope)
+	}
+}
+
 // capture performs one request and writes its indented body to
 // <outDir>/<context>/testdata/<name>.json.
-func capture(ctx context.Context, client *amadeus.Client, outDir, contextDir, name string, req amadeus.Request) ([]byte, error) {
+//
+// It returns the untrimmed body, so callers still see every property the search
+// found even when only a subset is written to disk.
+func capture(ctx context.Context, client *amadeus.Client, outDir, contextDir, name string, req amadeus.Request, transforms ...transform) ([]byte, error) {
 	body, err := amadeus.DoRaw(ctx, client, req)
 	if err != nil {
 		return nil, err
 	}
 
+	toWrite := body
+	for _, apply := range transforms {
+		if toWrite, err = apply(toWrite); err != nil {
+			return nil, err
+		}
+	}
+
 	var indented any
-	if err := json.Unmarshal(body, &indented); err != nil {
+	if err := json.Unmarshal(toWrite, &indented); err != nil {
 		return nil, fmt.Errorf("response was not JSON: %w", err)
 	}
 	pretty, err := json.MarshalIndent(indented, "", "  ")

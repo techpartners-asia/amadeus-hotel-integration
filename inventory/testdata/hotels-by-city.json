@@ -1,64 +1,28 @@
 {
-  "meta": {
-    "count": 4,
-    "links": {
-      "self": "https://test.travel.api.amadeus.com/v1/reference-data/locations/hotels/by-city?cityCode=PAR&radius=5&radiusUnit=KM"
-    }
-  },
   "data": [
     {
-      "chainCode": "MC",
-      "brandCode": "AK",
-      "masterChainCode": "EM",
-      "iataCode": "PAR",
-      "dupeId": 700027723,
-      "name": "AC HOTEL BY MARRIOTT PARIS PORTE MAILLOT",
-      "hotelId": "MCPARC12",
-      "geoCode": {
-        "latitude": 48.87825,
-        "longitude": 2.28454
-      },
       "address": {
-        "lines": ["6 RUE GUSTAVE CHARPENTIER"],
-        "postalCode": "75017",
-        "cityName": "PARIS",
-        "countryCode": "FR"
+        "cityName": "Paris",
+        "countryCode": "FR",
+        "lines": [
+          "NICE, FRANCE"
+        ],
+        "postalCode": "28027"
       },
+      "chainCode": "HN",
       "distance": {
-        "value": 3.79,
-        "unit": "KM"
+        "unit": "KM",
+        "value": 0.12
       },
-      "lastUpdate": "2023-08-08T00:00:00",
-      "retailing": {
-        "sponsorship": {
-          "isSponsored": false
-        }
-      }
-    },
-    {
-      "chainCode": "HL",
-      "brandCode": "HI",
-      "masterChainCode": "HL",
-      "iataCode": "PAR",
-      "dupeId": 700034421,
-      "name": "HILTON PARIS OPERA",
-      "hotelId": "HLPAR266",
+      "dupeId": 900088511,
       "geoCode": {
-        "latitude": 48.87626,
-        "longitude": 2.32603
+        "latitude": 48.85315,
+        "longitude": 2.34513
       },
-      "address": {
-        "lines": ["108 RUE SAINT LAZARE"],
-        "postalCode": "75008",
-        "cityName": "PARIS",
-        "stateCode": "IDF",
-        "countryCode": "FR"
-      },
-      "distance": {
-        "value": 1.12,
-        "unit": "KM"
-      },
-      "lastUpdate": "2024-02-14T00:00:00",
+      "hotelId": "HNPARKGU",
+      "iataCode": "PAR",
+      "lastUpdate": "2026-05-29T23:01:33",
+      "name": "HN TEST PROPERTY1 FOR E2E TESTING",
       "retailing": {
         "sponsorship": {
           "isSponsored": true
@@ -66,31 +30,592 @@
       }
     },
     {
-      "chainCode": "RT",
-      "iataCode": "PAR",
-      "dupeId": 501160523,
-      "name": "HOTEL DES GRANDS BOULEVARDS",
-      "hotelId": "RTPAR001",
-      "geoCode": {
-        "latitude": 48.87089,
-        "longitude": 2.34285
-      },
       "address": {
         "cityName": "PARIS",
-        "countryCode": "FR"
+        "countryCode": "FR",
+        "lines": [
+          "15, QUAI SAINT-MICHEL"
+        ],
+        "postalCode": "75005"
       },
+      "chainCode": "BK",
       "distance": {
-        "value": 0.94,
-        "unit": "KM"
+        "unit": "KM",
+        "value": 0.12
       },
-      "lastUpdate": "2022-11-03T00:00:00"
+      "dupeId": 900080354,
+      "geoCode": {
+        "latitude": 48.8533,
+        "longitude": 2.34574
+      },
+      "hotelId": "BKPARAOV",
+      "iataCode": "PAR",
+      "lastUpdate": "2026-07-16T13:52:47",
+      "name": "LES RIVES DE NOTRE-DAME"
     },
     {
-      "chainCode": "XX",
+      "address": {
+        "cityName": "Paris",
+        "countryCode": "FR",
+        "lines": [
+          "ADDRESS LINE ONE",
+          "ADDRESS LINE TWO"
+        ],
+        "postalCode": "560083"
+      },
+      "chainCode": "HN",
+      "distance": {
+        "unit": "KM",
+        "value": 0.12
+      },
+      "dupeId": 900088512,
+      "geoCode": {
+        "latitude": 48.85315,
+        "longitude": 2.34513
+      },
+      "hotelId": "HNPARNUJ",
       "iataCode": "PAR",
-      "name": "UNLOCATED TEST PROPERTY",
-      "hotelId": "XXPAR999",
-      "lastUpdate": "2021-01-01T00:00:00"
+      "lastUpdate": "2026-05-29T23:20:10",
+      "name": "HN TEST PROPERTY2 FOR E2E TESTING"
+    },
+    {
+      "address": {
+        "cityName": "PARIS",
+        "countryCode": "FR",
+        "lines": [
+          "28 RUE DE LA HUCHETTE"
+        ],
+        "postalCode": "75005"
+      },
+      "chainCode": "BK",
+      "distance": {
+        "unit": "KM",
+        "value": 0.12
+      },
+      "dupeId": 502301576,
+      "geoCode": {
+        "latitude": 48.85315,
+        "longitude": 2.34513
+      },
+      "hotelId": "BKPARDDZ",
+      "iataCode": "PAR",
+      "lastUpdate": "2025-06-03T10:06:37",
+      "name": "HOTEL DU MONT BLANC"
+    },
+    {
+      "address": {
+        "cityName": "PARIS",
+        "countryCode": "FR",
+        "lines": [
+          "15 QUAI SAINT MICHEL"
+        ],
+        "postalCode": "75005"
+      },
+      "chainCode": "YX",
+      "distance": {
+        "unit": "KM",
+        "value": 0.12
+      },
+      "dupeId": 700054607,
+      "geoCode": {
+        "latitude": 48.85327,
+        "longitude": 2.34574
+      },
+      "hotelId": "YXPARRND",
+      "iataCode": "PAR",
+      "lastUpdate": "2025-06-03T10:19:00",
+      "name": "HOTEL LES RIVES DE NOTRE DAME"
+    },
+    {
+      "address": {
+        "cityName": "PARIS",
+        "countryCode": "FR",
+        "lines": [
+          "1 RUE DE LA HARPE"
+        ],
+        "postalCode": "75005"
+      },
+      "chainCode": "BK",
+      "distance": {
+        "unit": "KM",
+        "value": 0.12
+      },
+      "dupeId": 900080739,
+      "geoCode": {
+        "latitude": 48.8531,
+        "longitude": 2.34468
+      },
+      "hotelId": "BKPARBHT",
+      "iataCode": "PAR",
+      "lastUpdate": "2026-07-16T06:02:59",
+      "name": "HOTEL ALBE SAINT MICHEL"
+    },
+    {
+      "address": {
+        "cityName": "PARIS",
+        "countryCode": "FR",
+        "lines": [
+          "22 RUE DE L'HIRONDELLE"
+        ],
+        "postalCode": "75006"
+      },
+      "chainCode": "BK",
+      "distance": {
+        "unit": "KM",
+        "value": 0.13
+      },
+      "dupeId": 900081507,
+      "geoCode": {
+        "latitude": 48.85348,
+        "longitude": 2.34344
+      },
+      "hotelId": "BKPARCVR",
+      "iataCode": "PAR",
+      "lastUpdate": "2026-07-16T05:45:30",
+      "name": "HOTEL LE CLOS DE NOTRE DAME"
+    },
+    {
+      "address": {
+        "cityName": "PARIS",
+        "countryCode": "FR",
+        "lines": [
+          "QUAI ST MICHEL"
+        ],
+        "postalCode": "75005"
+      },
+      "chainCode": "BK",
+      "distance": {
+        "unit": "KM",
+        "value": 0.14
+      },
+      "dupeId": 900080882,
+      "geoCode": {
+        "latitude": 48.85356,
+        "longitude": 2.34316
+      },
+      "hotelId": "BKPARBOU",
+      "iataCode": "PAR",
+      "lastUpdate": "2026-07-15T23:37:15",
+      "name": "APARTMENT SAINT MICHEL"
+    },
+    {
+      "address": {
+        "cityName": "PARIS",
+        "countryCode": "FR",
+        "lines": [
+          "9, RUE GIT-LE-COEUR"
+        ],
+        "postalCode": "75006"
+      },
+      "chainCode": "BK",
+      "distance": {
+        "unit": "KM",
+        "value": 0.14
+      },
+      "dupeId": 900081558,
+      "geoCode": {
+        "latitude": 48.85394,
+        "longitude": 2.34287
+      },
+      "hotelId": "BKPARCYA",
+      "iataCode": "PAR",
+      "lastUpdate": "2026-07-15T05:51:20",
+      "name": "RELAIS HOTEL DU VIEUX PARIS"
+    },
+    {
+      "address": {
+        "cityName": "PARIS",
+        "countryCode": "FR",
+        "lines": [
+          "22 RUE DE L'HIRONDELLE"
+        ]
+      },
+      "chainCode": "RT",
+      "distance": {
+        "unit": "KM",
+        "value": 0.15
+      },
+      "dupeId": 502333223,
+      "geoCode": {
+        "latitude": 48.85364,
+        "longitude": 2.34294
+      },
+      "hotelId": "RTPARVEE",
+      "iataCode": "PAR",
+      "lastUpdate": "2025-06-03T10:17:27",
+      "masterChainCode": "RT",
+      "name": "PROP FOR DXM NRT"
+    },
+    {
+      "address": {
+        "cityName": "PARIS",
+        "countryCode": "FR",
+        "lines": [
+          "11 RUE GIT-LE-COEUR"
+        ],
+        "postalCode": "75006"
+      },
+      "chainCode": "BK",
+      "distance": {
+        "unit": "KM",
+        "value": 0.16
+      },
+      "dupeId": 502306834,
+      "geoCode": {
+        "latitude": 48.8538,
+        "longitude": 2.34276
+      },
+      "hotelId": "BKPARDOJ",
+      "iataCode": "PAR",
+      "lastUpdate": "2025-10-09T09:01:16",
+      "name": "LOVE NEST IN SAINT-MICHEL"
+    },
+    {
+      "address": {
+        "cityName": "PARIS",
+        "countryCode": "FR",
+        "lines": [
+          "1, QUAI SAINT MICHEL"
+        ],
+        "postalCode": "75005"
+      },
+      "chainCode": "BK",
+      "distance": {
+        "unit": "KM",
+        "value": 0.17
+      },
+      "dupeId": 900080253,
+      "geoCode": {
+        "latitude": 48.85311,
+        "longitude": 2.34648
+      },
+      "hotelId": "BKPARAJR",
+      "iataCode": "PAR",
+      "lastUpdate": "2026-07-16T07:55:45",
+      "name": "HOTEL LE NOTRE DAME SAINT MICHEL"
+    },
+    {
+      "address": {
+        "cityName": "PARIS",
+        "countryCode": "FR",
+        "lines": [
+          "12 RUE DE LA HARPE"
+        ],
+        "postalCode": "75005"
+      },
+      "chainCode": "BK",
+      "distance": {
+        "unit": "KM",
+        "value": 0.17
+      },
+      "dupeId": 502304708,
+      "geoCode": {
+        "latitude": 48.8527,
+        "longitude": 2.34452
+      },
+      "hotelId": "BKPARAPC",
+      "iataCode": "PAR",
+      "lastUpdate": "2025-10-09T09:01:17",
+      "name": "LATIN QUARTER - NOTRE DAME APARTMENT"
+    },
+    {
+      "address": {
+        "cityName": "PARIS",
+        "countryCode": "FR",
+        "lines": [
+          "38,40, RUE SAINT SEVERIN"
+        ],
+        "postalCode": "75005"
+      },
+      "chainCode": "BK",
+      "distance": {
+        "unit": "KM",
+        "value": 0.17
+      },
+      "dupeId": 900081541,
+      "geoCode": {
+        "latitude": 48.8527,
+        "longitude": 2.34428
+      },
+      "hotelId": "BKPARCXG",
+      "iataCode": "PAR",
+      "lastUpdate": "2026-07-15T05:00:14",
+      "name": "EUROPE SAINT SEVERIN-PARIS NOTRE DAME"
+    },
+    {
+      "address": {
+        "cityName": "PARIS",
+        "countryCode": "FR",
+        "lines": [
+          "14 RUE GIT LE COEUR"
+        ],
+        "postalCode": "75006"
+      },
+      "brandCode": "OI",
+      "chainCode": "BK",
+      "distance": {
+        "unit": "KM",
+        "value": 0.18
+      },
+      "dupeId": 700092051,
+      "geoCode": {
+        "latitude": 48.85356,
+        "longitude": 2.34254
+      },
+      "hotelId": "BKPARCPP",
+      "iataCode": "PAR",
+      "lastUpdate": "2026-07-16T01:20:03",
+      "name": "HOTEL RESIDENCE DES ARTS"
+    },
+    {
+      "address": {
+        "cityName": "Paris",
+        "countryCode": "FR",
+        "lines": [
+          "14 RUE GIT LE COEUR"
+        ],
+        "postalCode": "75006"
+      },
+      "chainCode": "OI",
+      "distance": {
+        "unit": "KM",
+        "value": 0.19
+      },
+      "dupeId": 700092051,
+      "geoCode": {
+        "latitude": 48.85351,
+        "longitude": 2.34245
+      },
+      "hotelId": "OIPARRDA",
+      "iataCode": "PAR",
+      "lastUpdate": "2025-06-03T10:20:08",
+      "masterChainCode": "LK",
+      "name": "HOTEL RESIDENCE DES ARTS"
+    },
+    {
+      "address": {
+        "cityName": "PARIS",
+        "countryCode": "FR",
+        "lines": [
+          "3 BOULEVARD SAINT MICHEL"
+        ],
+        "postalCode": "75005"
+      },
+      "chainCode": "BW",
+      "distance": {
+        "unit": "KM",
+        "value": 0.18
+      },
+      "dupeId": 700054608,
+      "geoCode": {
+        "latitude": 48.85269,
+        "longitude": 2.34384
+      },
+      "hotelId": "BWPAR599",
+      "iataCode": "PAR",
+      "lastUpdate": "2025-06-03T10:16:27",
+      "masterChainCode": "EW",
+      "name": "BW PREMIER ROYAL SAINT MICHEL"
+    },
+    {
+      "address": {
+        "cityName": "PARIS",
+        "countryCode": "FR",
+        "lines": [
+          "17, RUE GIT LE COEUR"
+        ],
+        "postalCode": "75006"
+      },
+      "chainCode": "BK",
+      "distance": {
+        "unit": "KM",
+        "value": 0.19
+      },
+      "dupeId": 900080195,
+      "geoCode": {
+        "latitude": 48.85352,
+        "longitude": 2.34249
+      },
+      "hotelId": "BKPARAGX",
+      "iataCode": "PAR",
+      "lastUpdate": "2026-07-16T04:04:31",
+      "name": "VILLA D'ESTREES"
+    },
+    {
+      "address": {
+        "cityName": "PARIS",
+        "countryCode": "FR",
+        "lines": [
+          "RUE SAINT-SEVERIN"
+        ],
+        "postalCode": "75005"
+      },
+      "chainCode": "BK",
+      "distance": {
+        "unit": "KM",
+        "value": 0.19
+      },
+      "dupeId": 502304274,
+      "geoCode": {
+        "latitude": 48.85254,
+        "longitude": 2.34446
+      },
+      "hotelId": "BKPARAXN",
+      "iataCode": "PAR",
+      "lastUpdate": "2025-10-09T09:01:19",
+      "name": "LUXURY AND SPACIOUS APPARTMENT IN SAINT"
+    },
+    {
+      "address": {
+        "cityName": "Paris",
+        "countryCode": "FR",
+        "lines": [
+          "17 RUE GIT LE COEUR"
+        ],
+        "postalCode": "75006"
+      },
+      "chainCode": "OI",
+      "distance": {
+        "unit": "KM",
+        "value": 0.2
+      },
+      "dupeId": 700006438,
+      "geoCode": {
+        "latitude": 48.85337,
+        "longitude": 2.34233
+      },
+      "hotelId": "OIPARVDE",
+      "iataCode": "PAR",
+      "lastUpdate": "2025-06-03T10:20:08",
+      "masterChainCode": "LK",
+      "name": "HOTEL VILLA D ESTREES"
+    },
+    {
+      "address": {
+        "cityName": "PARIS",
+        "countryCode": "FR",
+        "lines": [
+          "18, RUE DE LA HARPE"
+        ],
+        "postalCode": "75005"
+      },
+      "chainCode": "BK",
+      "distance": {
+        "unit": "KM",
+        "value": 0.22
+      },
+      "dupeId": 900081786,
+      "geoCode": {
+        "latitude": 48.85227,
+        "longitude": 2.34439
+      },
+      "hotelId": "BKPARDIZ",
+      "iataCode": "PAR",
+      "lastUpdate": "2026-07-15T20:04:08",
+      "name": "HOTEL DU LEVANT"
+    },
+    {
+      "address": {
+        "cityName": "PARIS",
+        "countryCode": "FR",
+        "lines": [
+          "6-8 RUE DE SAVOIE"
+        ],
+        "postalCode": "75006"
+      },
+      "chainCode": "BK",
+      "distance": {
+        "unit": "KM",
+        "value": 0.22
+      },
+      "dupeId": 502307118,
+      "geoCode": {
+        "latitude": 48.85435,
+        "longitude": 2.34173
+      },
+      "hotelId": "BKPARARO",
+      "iataCode": "PAR",
+      "lastUpdate": "2025-10-02T09:00:31",
+      "name": "LOFT SAINT-MICHEL"
+    },
+    {
+      "address": {
+        "cityName": "PARIS",
+        "countryCode": "FR",
+        "lines": [
+          "31 RUE SAINT-ANDRE-DES-ARTS"
+        ],
+        "postalCode": "75006"
+      },
+      "chainCode": "BK",
+      "distance": {
+        "unit": "KM",
+        "value": 0.23
+      },
+      "dupeId": 900081930,
+      "geoCode": {
+        "latitude": 48.85329,
+        "longitude": 2.34199
+      },
+      "hotelId": "BKPARDPR",
+      "iataCode": "PAR",
+      "lastUpdate": "2026-07-14T10:31:07",
+      "name": "HOTEL EUGENIE"
+    },
+    {
+      "address": {
+        "cityName": "PARIS",
+        "countryCode": "FR",
+        "lines": [
+          "ADDRESS WILL BE PROVIDED AT BOOKING TIME"
+        ],
+        "postalCode": "75006"
+      },
+      "chainCode": "BK",
+      "distance": {
+        "unit": "KM",
+        "value": 0.24
+      },
+      "dupeId": 900081956,
+      "geoCode": {
+        "latitude": 48.85341,
+        "longitude": 2.34172
+      },
+      "hotelId": "BKPARDRA",
+      "iataCode": "PAR",
+      "lastUpdate": "2026-07-15T16:53:16",
+      "name": "NEW RENOVATED SAINT GERMAIN 2BD"
+    },
+    {
+      "address": {
+        "cityName": "PARIS",
+        "countryCode": "FR",
+        "lines": [
+          "4 RUE DANTON"
+        ],
+        "postalCode": "75006"
+      },
+      "brandCode": "HI",
+      "chainCode": "BK",
+      "distance": {
+        "unit": "KM",
+        "value": 0.25
+      },
+      "dupeId": 700132326,
+      "geoCode": {
+        "latitude": 48.85272,
+        "longitude": 2.34225
+      },
+      "hotelId": "BKPARBSE",
+      "iataCode": "PAR",
+      "lastUpdate": "2026-07-16T13:33:02",
+      "name": "HOLIDAY INN PARIS NOTRE DAME"
     }
-  ]
+  ],
+  "meta": {
+    "count": 25,
+    "links": {
+      "self": "https://test.travel.api.amadeus.com/v1/reference-data/locations/hotels/by-city?cityCode=PAR\u0026radius=5\u0026radiusUnit=KM"
+    }
+  }
 }

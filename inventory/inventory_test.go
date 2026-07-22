@@ -19,7 +19,10 @@ const (
 	pathByHotels  = "/v1/reference-data/locations/hotels/by-hotels"
 )
 
-// newService returns a service backed by the by-city fixture.
+// These run against hotels-by-city.json, captured from the live Amadeus sandbox
+// by internal/capture. They assert on invariants rather than fixture positions,
+// so a re-capture with different properties does not fail them spuriously.
+
 func newService(t *testing.T) (inventory.Service, *amadeustest.Server) {
 	t.Helper()
 	server := amadeustest.New(t)
@@ -29,111 +32,146 @@ func newService(t *testing.T) (inventory.Service, *amadeustest.Server) {
 	return inventory.NewService(server.Client()), server
 }
 
-func TestByCityMapsEveryField(t *testing.T) {
+func hotels(t *testing.T) []inventory.Hotel {
+	t.Helper()
 	service, _ := newService(t)
 
-	hotels, err := service.ByCity(context.Background(), inventory.CityQuery{CityCode: "PAR"})
+	found, err := service.ByCity(context.Background(), inventory.CityQuery{CityCode: "PAR"})
 	if err != nil {
 		t.Fatalf("ByCity: %v", err)
 	}
-	if len(hotels) != 4 {
-		t.Fatalf("got %d hotels, want 4", len(hotels))
+	if len(found) == 0 {
+		t.Fatal("the fixture contains no hotels")
 	}
+	return found
+}
 
-	got := hotels[0]
-	if got.ID != "MCPARC12" {
-		t.Errorf("ID = %q", got.ID)
+// find returns the first hotel satisfying match, skipping when the captured
+// data has no such case.
+func find(t *testing.T, what string, match func(inventory.Hotel) bool) inventory.Hotel {
+	t.Helper()
+	for _, hotel := range hotels(t) {
+		if match(hotel) {
+			return hotel
+		}
 	}
-	if got.Name != "AC HOTEL BY MARRIOTT PARIS PORTE MAILLOT" {
-		t.Errorf("Name = %q", got.Name)
-	}
-	if got.ChainCode != "MC" || got.BrandCode != "AK" || got.MasterChainCode != "EM" {
-		t.Errorf("chain codes = %q/%q/%q", got.ChainCode, got.BrandCode, got.MasterChainCode)
-	}
-	if got.IATACode != "PAR" {
-		t.Errorf("IATACode = %q", got.IATACode)
-	}
-	// dupeId arrives as a JSON number here and as a string from Hotel Search;
-	// the domain normalises both to a string.
-	if got.DupeID != "700027723" {
-		t.Errorf("DupeID = %q, want the number rendered as a string", got.DupeID)
-	}
-	if got.LastUpdate != "2023-08-08T00:00:00" {
-		t.Errorf("LastUpdate = %q", got.LastUpdate)
-	}
-	if got.Position == nil || got.Position.Latitude != 48.87825 || got.Position.Longitude != 2.28454 {
-		t.Errorf("Position = %+v", got.Position)
-	}
-	if got.Address == nil || got.Address.PostalCode != "75017" || got.Address.CityName != "PARIS" {
-		t.Errorf("Address = %+v", got.Address)
-	}
-	if got.Address != nil && len(got.Address.Lines) != 1 {
-		t.Errorf("Address.Lines = %v", got.Address.Lines)
-	}
-	if got.DistanceFromSearch == nil || got.DistanceFromSearch.Value != 3.79 ||
-		got.DistanceFromSearch.Unit != geo.Kilometers {
-		t.Errorf("DistanceFromSearch = %+v", got.DistanceFromSearch)
-	}
-	if got.Sponsored {
-		t.Error("Sponsored = true, want false")
+	t.Skipf("no hotel in the captured fixture has %s", what)
+	return inventory.Hotel{}
+}
+
+func TestEveryHotelIsUsablyMapped(t *testing.T) {
+	for _, hotel := range hotels(t) {
+		if hotel.ID == "" {
+			t.Errorf("hotel has no ID: %+v", hotel)
+			continue
+		}
+		if !hotel.ID.IsValid() {
+			t.Errorf("%q is not a well-formed property code", hotel.ID)
+		}
+		if hotel.Name == "" {
+			t.Errorf("%s has no name", hotel.ID)
+		}
+		if hotel.ChainCode == "" {
+			t.Errorf("%s has no chain code", hotel.ID)
+		}
 	}
 }
 
-func TestSponsoredPlacementIsSurfaced(t *testing.T) {
-	// Paid placement changes what result order means, so it must not be dropped.
-	service, _ := newService(t)
+func TestNumericDupeIDBecomesAString(t *testing.T) {
+	// Hotel List sends dupeId as a JSON number while Hotel Search sends the
+	// same concept as a string. The domain normalises both.
+	hotel := find(t, "a dupe ID", func(h inventory.Hotel) bool { return h.DupeID != "" })
 
-	hotels, err := service.ByCity(context.Background(), inventory.CityQuery{CityCode: "PAR"})
-	if err != nil {
-		t.Fatalf("ByCity: %v", err)
+	for _, r := range hotel.DupeID {
+		if r < '0' || r > '9' {
+			t.Errorf("%s: DupeID %q is not the number rendered as digits", hotel.ID, hotel.DupeID)
+			break
+		}
 	}
-	if !hotels[1].Sponsored {
-		t.Errorf("%s should be marked sponsored", hotels[1].ID)
+}
+
+func TestCoordinatesAreMapped(t *testing.T) {
+	hotel := find(t, "coordinates", func(h inventory.Hotel) bool { return h.Position != nil })
+
+	if err := hotel.Position.Validate(); err != nil {
+		t.Errorf("%s has invalid coordinates: %v", hotel.ID, err)
+	}
+	if hotel.Position.Latitude == 0 && hotel.Position.Longitude == 0 {
+		t.Errorf("%s mapped to 0,0", hotel.ID)
 	}
 }
 
 func TestAbsentCoordinatesStayNilRatherThanBecomingNullIsland(t *testing.T) {
-	// 0,0 is a real point in the Gulf of Guinea. Mapping an unlocatable
-	// property to it would put it in the Atlantic and it would pass a
-	// non-zero check.
-	service, _ := newService(t)
+	// 0,0 is a real point in the Gulf of Guinea. An unlocatable property
+	// defaulted to it would sit in the Atlantic and pass a non-zero check.
+	server := amadeustest.New(t)
+	server.JSON(http.MethodGet, pathByCity, http.StatusOK,
+		`{"data":[{"hotelId":"XXPAR999","chainCode":"XX","name":"UNLOCATED","iataCode":"PAR"}]}`)
+	service := inventory.NewService(server.Client())
 
-	hotels, err := service.ByCity(context.Background(), inventory.CityQuery{CityCode: "PAR"})
+	found, err := service.ByCity(context.Background(), inventory.CityQuery{CityCode: "PAR"})
 	if err != nil {
 		t.Fatalf("ByCity: %v", err)
 	}
 
-	unlocated := hotels[3]
-	if unlocated.Position != nil {
-		t.Errorf("Position = %+v, want nil for a property with no geoCode", unlocated.Position)
+	hotel := found[0]
+	if hotel.Position != nil {
+		t.Errorf("Position = %+v, want nil for a property with no geoCode", hotel.Position)
 	}
-	if unlocated.Address != nil {
-		t.Errorf("Address = %+v, want nil when Amadeus sent none", unlocated.Address)
+	if hotel.Address != nil {
+		t.Errorf("Address = %+v, want nil when Amadeus sent none", hotel.Address)
 	}
-	if unlocated.DistanceFromSearch != nil {
-		t.Errorf("DistanceFromSearch = %+v, want nil", unlocated.DistanceFromSearch)
+	if hotel.DistanceFromSearch != nil {
+		t.Errorf("DistanceFromSearch = %+v, want nil", hotel.DistanceFromSearch)
 	}
-	if unlocated.DupeID != "" {
-		t.Errorf("DupeID = %q, want empty when absent", unlocated.DupeID)
+	if hotel.DupeID != "" {
+		t.Errorf("DupeID = %q, want empty when absent", hotel.DupeID)
+	}
+}
+
+func TestSponsoredPlacementIsSurfaced(t *testing.T) {
+	// Paid placement changes what result order means, so it must not be lost.
+	sponsored := find(t, "sponsored placement", func(h inventory.Hotel) bool { return h.Sponsored })
+	if !sponsored.Sponsored {
+		t.Errorf("%s should be marked sponsored", sponsored.ID)
+	}
+
+	// And it must not be set on properties that did not pay for it.
+	plain := 0
+	for _, hotel := range hotels(t) {
+		if !hotel.Sponsored {
+			plain++
+		}
+	}
+	if plain == 0 {
+		t.Error("every hotel is marked sponsored, which is implausible")
+	}
+}
+
+func TestDistanceFromSearchIsMapped(t *testing.T) {
+	hotel := find(t, "a distance", func(h inventory.Hotel) bool { return h.DistanceFromSearch != nil })
+
+	if hotel.DistanceFromSearch.Value <= 0 {
+		t.Errorf("%s: distance %g", hotel.ID, hotel.DistanceFromSearch.Value)
+	}
+	if !hotel.DistanceFromSearch.Unit.IsValid() {
+		t.Errorf("%s: unit %q is not a known distance unit", hotel.ID, hotel.DistanceFromSearch.Unit)
+	}
+	if hotel.DistanceFromSearch.Meters() <= 0 {
+		t.Errorf("%s: Meters() = %g", hotel.ID, hotel.DistanceFromSearch.Meters())
 	}
 }
 
 func TestPartialAddressIsPreserved(t *testing.T) {
-	service, _ := newService(t)
-	hotels, _ := service.ByCity(context.Background(), inventory.CityQuery{CityCode: "PAR"})
+	// Amadeus omits address parts rather than sending empty ones. A property
+	// with a city but no postal code must keep the city.
+	hotel := find(t, "an address", func(h inventory.Hotel) bool { return h.Address != nil })
 
-	sparse := hotels[2].Address
-	if sparse == nil {
-		t.Fatal("address should be present even when only partly filled")
+	if hotel.Address.IsEmpty() {
+		t.Errorf("%s: a mapped address should not be empty", hotel.ID)
 	}
-	if sparse.CityName != "PARIS" || sparse.CountryCode != "FR" {
-		t.Errorf("address = %+v", sparse)
-	}
-	if len(sparse.Lines) != 0 || sparse.PostalCode != "" {
-		t.Errorf("absent address parts should stay empty, got %+v", sparse)
-	}
-	if sparse.IsEmpty() {
-		t.Error("an address with a city should not report IsEmpty")
+	if hotel.Address.CityName == "" && hotel.Address.CountryCode == "" && len(hotel.Address.Lines) == 0 {
+		t.Errorf("%s: address carries nothing usable: %+v", hotel.ID, hotel.Address)
 	}
 }
 
@@ -277,8 +315,7 @@ func TestValidationRejectsBadQueriesWithoutCallingAmadeus(t *testing.T) {
 
 	before := len(server.Requests())
 	for _, c := range cases {
-		err := c.call()
-		if !errors.Is(err, apierr.ErrValidation) {
+		if err := c.call(); !errors.Is(err, apierr.ErrValidation) {
 			t.Errorf("%s: err = %v, want ErrValidation", c.name, err)
 		}
 	}
@@ -337,22 +374,26 @@ func TestEmptyResultIsNotAnError(t *testing.T) {
 	server.JSON(http.MethodGet, pathByCity, http.StatusOK, `{"meta":{"count":0},"data":[]}`)
 	service := inventory.NewService(server.Client())
 
-	hotels, err := service.ByCity(context.Background(), inventory.CityQuery{CityCode: "PAR"})
+	found, err := service.ByCity(context.Background(), inventory.CityQuery{CityCode: "PAR"})
 	if err != nil {
 		t.Fatalf("empty result returned an error: %v", err)
 	}
-	if len(hotels) != 0 {
-		t.Errorf("got %d hotels, want 0", len(hotels))
+	if len(found) != 0 {
+		t.Errorf("got %d hotels, want 0", len(found))
 	}
 }
 
 func TestIDsHelperFeedsTheOtherContexts(t *testing.T) {
-	service, _ := newService(t)
-	hotels, _ := service.ByCity(context.Background(), inventory.CityQuery{CityCode: "PAR"})
+	found := hotels(t)
+	ids := inventory.IDs(found)
 
-	ids := inventory.IDs(hotels)
-	if len(ids) != 4 || ids[0] != "MCPARC12" {
-		t.Errorf("IDs = %v", ids)
+	if len(ids) != len(found) {
+		t.Fatalf("IDs returned %d for %d hotels", len(ids), len(found))
+	}
+	for i, id := range ids {
+		if id != string(found[i].ID) {
+			t.Errorf("IDs[%d] = %q, want %q", i, id, found[i].ID)
+		}
 	}
 }
 

@@ -155,7 +155,7 @@ func MediaAssets(wire []dto.MediaResponse) []media.Asset {
 func MediaAsset(m dto.MediaResponse) media.Asset {
 	asset := media.Asset{
 		ID:          m.Id,
-		Kind:        mediaKind(m.Type, m.MediaType),
+		Kind:        mediaKind(m),
 		Name:        m.Name,
 		Title:       m.Title,
 		Caption:     m.Caption,
@@ -180,11 +180,15 @@ func MediaAsset(m dto.MediaResponse) media.Asset {
 	return asset
 }
 
-// mediaKind normalises the two fields Amadeus uses to say what an asset is.
-// The dedicated "type" field is authoritative; "mediaType" is the fallback,
-// since some sources populate only one of them.
-func mediaKind(assetType, mediaType string) media.Kind {
-	for _, candidate := range []string{assetType, mediaType} {
+// mediaKind normalises the fields Amadeus uses to say what an asset is.
+//
+// The declared type is preferred, but in practice it is usually absent: the
+// Hotel Content API leaves "type" and "mediaType" unset on every entry and
+// expects you to infer the kind from whether the entry actually carries an
+// image. An entry with renditions or a URL is one; an entry with only text is
+// a prose block that happens to travel in the same array.
+func mediaKind(m dto.MediaResponse) media.Kind {
+	for _, candidate := range []string{m.Type, m.MediaType} {
 		switch strings.ToUpper(strings.TrimSpace(candidate)) {
 		case "IMAGE":
 			return media.KindImage
@@ -193,6 +197,10 @@ func mediaKind(assetType, mediaType string) media.Kind {
 		case "FILE":
 			return media.KindFile
 		}
+	}
+
+	if m.Href != "" || len(m.MediaScales) > 0 {
+		return media.KindImage
 	}
 	return ""
 }

@@ -40,13 +40,24 @@ type Hotel struct {
 	Rating codes.Rating
 	// Status is the property's operational state, e.g. whether it is open.
 	Status string
-	// Description is the property's own prose description.
+	// Description is the property's long prose description.
+	//
+	// Amadeus does not send this as a field of its own. It arrives as an entry
+	// in the media array carrying text but no image, tagged with what the text
+	// describes. The mapper pulls the long description out; everything else is
+	// in Descriptions.
 	Description *media.Text
+	// Descriptions holds every prose block the property published, with Type
+	// set to Amadeus's tag: HOTEL_LONG_DESCRIPTION, HOTEL_SHORT_DESCRIPTION,
+	// LONG_LOCATION_DESCRIPTION, MARKETING, AREAS_SERVED and others.
+	// DescriptionOf looks one up.
+	Descriptions []media.Text
 
 	// Amenities are the property-level amenities, with their descriptions and
 	// any charges.
 	Amenities []Amenity
-	// Media are the property's photographs and other assets. Use
+	// Media are the property's photographs. Prose-only entries are filtered
+	// out into Descriptions, so everything here carries an actual image. Use
 	// media.Asset.Best to pick a rendition rather than downloading originals.
 	Media []media.Asset
 
@@ -119,15 +130,30 @@ func (h Hotel) Position() (geo.Coordinates, bool) {
 	return *h.Location.Position, true
 }
 
-// PrimaryPhoto returns the first image asset, which is the one to lead with in
-// a listing. It reports false when the property published no photographs.
+// PrimaryPhoto returns the first asset that actually carries an image, which is
+// the one to lead with in a listing. It reports false when the property
+// published no photographs.
+//
+// The IsVisual check is load-bearing: Amadeus ships prose in the same array as
+// photographs, and returning a text block here would give you an empty src.
 func (h Hotel) PrimaryPhoto() (media.Asset, bool) {
 	for _, asset := range h.Media {
-		if asset.Kind == media.KindImage || asset.Kind == "" {
+		if asset.IsVisual() {
 			return asset, true
 		}
 	}
 	return media.Asset{}, false
+}
+
+// DescriptionOf returns the prose block Amadeus tagged with the given type,
+// e.g. "HOTEL_SHORT_DESCRIPTION" or "LONG_LOCATION_DESCRIPTION".
+func (h Hotel) DescriptionOf(descriptionType string) (media.Text, bool) {
+	for _, text := range h.Descriptions {
+		if text.Type == descriptionType {
+			return text, true
+		}
+	}
+	return media.Text{}, false
 }
 
 // HasAmenity reports whether the property publishes the given amenity code.

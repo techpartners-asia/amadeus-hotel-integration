@@ -1,286 +1,1101 @@
 {
   "data": {
+    "awards": [
+      {
+        "providerName": "Local Star Rating",
+        "rating": "1",
+        "ratingSystem": "STAR"
+      }
+    ],
     "basic": {
-      "hotelId": "HLPAR266",
-      "chainCode": "HL",
-      "brandCode": "HI",
-      "chainName": "Hilton",
-      "brandName": "Hilton Hotels & Resorts",
-      "dupeId": "700034421",
-      "name": "Hilton Paris Opera",
-      "rating": "4",
-      "status": "OPEN",
-      "defaultSpokenLanguage": "FR",
-      "categoryCode": "HOTEL",
-      "category": ["UPSCALE", "BUSINESS"],
-      "segment": ["LEISURE", "CORPORATE"],
-      "description": {
-        "text": "A historic property near Gare Saint-Lazare.",
-        "lang": "EN",
-        "type": "PROPERTY_DESCRIPTION"
-      },
-      "amenities": [
+      "area": [
         {
-          "code": "SWIMMING_POOL",
-          "description": "Indoor swimming pool",
-          "amenityType": "RECREATION",
-          "isChargeable": false
-        },
-        {
-          "code": "PARKING",
-          "description": "Valet parking",
-          "amenityType": "TRANSPORT",
-          "isChargeable": true,
-          "pricingMethod": "PER_ROOM_PER_NIGHT",
-          "quantity": 40,
-          "amenityProvider": { "name": "ATPCO" }
+          "hotelAreaType": "DOWNTOWN"
         }
       ],
+      "brandCode": "HN",
+      "brandName": "House Of Travel",
+      "category": [
+        "ALL_INCLUSIVE_RESORT"
+      ],
+      "chainCode": "HN",
+      "chainName": "House Of Travel",
+      "contact": [
+        {
+          "address": {
+            "cityName": "Paris",
+            "countryCode": "FR",
+            "lines": [
+              "NICE, France"
+            ],
+            "postalCode": "28027"
+          },
+          "email": {
+            "address": "testnewwest@gmai.com",
+            "category": "PROPERTY"
+          },
+          "locationType": "HOTELDIRECT",
+          "phone": {
+            "category": "CONTACT",
+            "deviceType": "VOICE",
+            "number": "+091 08351 895623148"
+          }
+        },
+        {
+          "address": {
+            "cityName": "Paris",
+            "countryCode": "FR",
+            "lines": [
+              "NICE, France"
+            ],
+            "postalCode": "28027"
+          },
+          "locationType": "HOTELDIRECT"
+        },
+        {
+          "address": {
+            "cityName": "Paris",
+            "countryCode": "FR",
+            "lines": [
+              "NICE, France"
+            ],
+            "postalCode": "28027"
+          },
+          "locationType": "HOTELDIRECT"
+        },
+        {
+          "address": {
+            "cityName": "Paris",
+            "countryCode": "FR",
+            "lines": [
+              "NICE, France"
+            ],
+            "postalCode": "28027"
+          },
+          "locationType": "HOTELDIRECT"
+        },
+        {
+          "address": {
+            "cityName": "Paris",
+            "countryCode": "FR",
+            "countryName": "FRANCE",
+            "lines": [
+              "NICE, France"
+            ],
+            "postalCode": "28027"
+          },
+          "locationType": "HOTELDIRECT"
+        }
+      ],
+      "contextProvider": "1A",
+      "hotelId": "HNPARKGU",
+      "location": {
+        "geoCode": {
+          "latitude": 48.85315,
+          "longitude": 2.34513
+        }
+      },
       "media": [
         {
-          "id": "IMG_EXTERIOR",
-          "type": "Image",
-          "category": "EXTERIOR",
-          "href": "https://example.invalid/exterior-original.jpg",
-          "alt": "Hotel facade seen from the street",
+          "description": {
+            "lang": "en",
+            "text": "Long Location Description (up to 4000 characters, spaces included) test\u003c/br\u003e\u003c/br\u003e"
+          },
+          "tags": [
+            "LONG_LOCATION_DESCRIPTION"
+          ]
+        },
+        {
+          "description": {
+            "lang": "en",
+            "text": "Short Location Description (up to 250 characters, spaces included) test"
+          },
+          "tags": [
+            "SHORT_LOCATION_DESCRIPTION"
+          ]
+        },
+        {
+          "description": {
+            "lang": "en",
+            "text": "Property Long Description (up to 4000 characters, spaces included) test"
+          },
+          "tags": [
+            "HOTEL_LONG_DESCRIPTION"
+          ]
+        },
+        {
+          "caption": "Basics",
+          "category": "BASICS",
+          "description": {
+            "lang": "en"
+          },
+          "id": "B26F60D697B64A89A6B76FE15945BD1D",
+          "mediaMetaData": {
+            "etag": "2023-12-05T08:12:59.000Z",
+            "subType": "image/jpeg"
+          },
           "mediaScales": [
             {
-              "href": "https://example.invalid/exterior-320.jpg",
-              "dimensions": { "width": 320, "height": 213, "unit": "PIXELS" }
+              "dimensions": {
+                "height": 750,
+                "width": 1000
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/B26F60D697B64A89A6B76FE15945BD1D/B26F60D697B64A89A6B76FE15945BD1D.JPEG"
             },
             {
-              "href": "https://example.invalid/exterior-1024.jpg",
-              "dimensions": { "width": 1024, "height": 683, "unit": "PIXELS" }
+              "dimensions": {
+                "height": 70,
+                "width": 70
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/B26F60D697B64A89A6B76FE15945BD1D/A.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 75,
+                "width": 100
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/B26F60D697B64A89A6B76FE15945BD1D/B.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 113,
+                "width": 150
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/B26F60D697B64A89A6B76FE15945BD1D/C.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 150,
+                "width": 200
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/B26F60D697B64A89A6B76FE15945BD1D/D.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 188,
+                "width": 250
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/B26F60D697B64A89A6B76FE15945BD1D/E.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 225,
+                "width": 300
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/B26F60D697B64A89A6B76FE15945BD1D/F.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 300,
+                "width": 300
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/B26F60D697B64A89A6B76FE15945BD1D/G.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 263,
+                "width": 350
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/B26F60D697B64A89A6B76FE15945BD1D/H.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 288,
+                "width": 384
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/B26F60D697B64A89A6B76FE15945BD1D/I.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 360,
+                "width": 480
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/B26F60D697B64A89A6B76FE15945BD1D/J.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 150,
+                "width": 150
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/B26F60D697B64A89A6B76FE15945BD1D/K.JPEG"
+            }
+          ],
+          "tags": [
+            "HOTEL_LONG_DESCRIPTION"
+          ]
+        },
+        {
+          "caption": "Basics",
+          "category": "BASICS",
+          "description": {
+            "lang": "en"
+          },
+          "id": "DB6A63BBEB9A4E59B74321107F96FB67",
+          "mediaMetaData": {
+            "etag": "2023-12-05T08:12:59.000Z",
+            "subType": "image/jpeg"
+          },
+          "mediaScales": [
+            {
+              "dimensions": {
+                "height": 2333,
+                "width": 3500
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/DB6A63BBEB9A4E59B74321107F96FB67/DB6A63BBEB9A4E59B74321107F96FB67.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 70,
+                "width": 70
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/DB6A63BBEB9A4E59B74321107F96FB67/A.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 67,
+                "width": 100
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/DB6A63BBEB9A4E59B74321107F96FB67/B.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 100,
+                "width": 150
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/DB6A63BBEB9A4E59B74321107F96FB67/C.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 133,
+                "width": 200
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/DB6A63BBEB9A4E59B74321107F96FB67/D.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 167,
+                "width": 250
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/DB6A63BBEB9A4E59B74321107F96FB67/E.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 200,
+                "width": 300
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/DB6A63BBEB9A4E59B74321107F96FB67/F.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 300,
+                "width": 300
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/DB6A63BBEB9A4E59B74321107F96FB67/G.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 233,
+                "width": 350
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/DB6A63BBEB9A4E59B74321107F96FB67/H.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 256,
+                "width": 384
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/DB6A63BBEB9A4E59B74321107F96FB67/I.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 320,
+                "width": 480
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/DB6A63BBEB9A4E59B74321107F96FB67/J.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 150,
+                "width": 150
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/DB6A63BBEB9A4E59B74321107F96FB67/K.JPEG"
+            }
+          ],
+          "tags": [
+            "HOTEL_LONG_DESCRIPTION"
+          ]
+        },
+        {
+          "description": {
+            "lang": "en",
+            "text": "Property Short Description (up to 400 characters, spaces included) test"
+          },
+          "tags": [
+            "HOTEL_SHORT_DESCRIPTION"
+          ]
+        },
+        {
+          "description": {
+            "lang": "en",
+            "text": "Additional Information test"
+          },
+          "tags": [
+            "MARKETING"
+          ]
+        },
+        {
+          "description": {
+            "lang": "en",
+            "text": "Area Served test"
+          },
+          "tags": [
+            "AREAS_SERVED"
+          ]
+        },
+        {
+          "caption": "Ball Room",
+          "category": "BALLROOM",
+          "description": {
+            "lang": "en"
+          },
+          "id": "E8470F3383E74B2B9DD8B8B77AE5B58E",
+          "mediaMetaData": {
+            "etag": "2023-12-05T08:12:59.000Z",
+            "subType": "image/jpeg"
+          },
+          "mediaScales": [
+            {
+              "dimensions": {
+                "height": 667,
+                "width": 1000
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/E8470F3383E74B2B9DD8B8B77AE5B58E/E8470F3383E74B2B9DD8B8B77AE5B58E.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 70,
+                "width": 70
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/E8470F3383E74B2B9DD8B8B77AE5B58E/A.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 67,
+                "width": 100
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/E8470F3383E74B2B9DD8B8B77AE5B58E/B.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 100,
+                "width": 150
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/E8470F3383E74B2B9DD8B8B77AE5B58E/C.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 133,
+                "width": 200
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/E8470F3383E74B2B9DD8B8B77AE5B58E/D.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 167,
+                "width": 250
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/E8470F3383E74B2B9DD8B8B77AE5B58E/E.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 200,
+                "width": 300
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/E8470F3383E74B2B9DD8B8B77AE5B58E/F.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 300,
+                "width": 300
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/E8470F3383E74B2B9DD8B8B77AE5B58E/G.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 233,
+                "width": 350
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/E8470F3383E74B2B9DD8B8B77AE5B58E/H.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 256,
+                "width": 384
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/E8470F3383E74B2B9DD8B8B77AE5B58E/I.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 320,
+                "width": 480
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/E8470F3383E74B2B9DD8B8B77AE5B58E/J.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 150,
+                "width": 150
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/E8470F3383E74B2B9DD8B8B77AE5B58E/K.JPEG"
+            }
+          ],
+          "tags": [
+            "SERVICES"
+          ]
+        },
+        {
+          "caption": "Ball Room",
+          "category": "BALLROOM",
+          "description": {
+            "lang": "en"
+          },
+          "id": "B26F60D697B64A89A6B76FE15945BD1D",
+          "mediaMetaData": {
+            "etag": "2023-12-05T08:12:59.000Z",
+            "subType": "image/jpeg"
+          },
+          "mediaScales": [
+            {
+              "dimensions": {
+                "height": 750,
+                "width": 1000
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/B26F60D697B64A89A6B76FE15945BD1D/B26F60D697B64A89A6B76FE15945BD1D.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 70,
+                "width": 70
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/B26F60D697B64A89A6B76FE15945BD1D/A.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 75,
+                "width": 100
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/B26F60D697B64A89A6B76FE15945BD1D/B.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 113,
+                "width": 150
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/B26F60D697B64A89A6B76FE15945BD1D/C.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 150,
+                "width": 200
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/B26F60D697B64A89A6B76FE15945BD1D/D.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 188,
+                "width": 250
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/B26F60D697B64A89A6B76FE15945BD1D/E.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 225,
+                "width": 300
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/B26F60D697B64A89A6B76FE15945BD1D/F.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 300,
+                "width": 300
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/B26F60D697B64A89A6B76FE15945BD1D/G.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 263,
+                "width": 350
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/B26F60D697B64A89A6B76FE15945BD1D/H.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 288,
+                "width": 384
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/B26F60D697B64A89A6B76FE15945BD1D/I.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 360,
+                "width": 480
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/B26F60D697B64A89A6B76FE15945BD1D/J.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 150,
+                "width": 150
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/B26F60D697B64A89A6B76FE15945BD1D/K.JPEG"
+            }
+          ],
+          "tags": [
+            "SERVICES"
+          ]
+        },
+        {
+          "caption": "Ball Room",
+          "category": "BALLROOM",
+          "description": {
+            "lang": "en"
+          },
+          "id": "DB6A63BBEB9A4E59B74321107F96FB67",
+          "mediaMetaData": {
+            "etag": "2023-12-05T08:12:59.000Z",
+            "subType": "image/jpeg"
+          },
+          "mediaScales": [
+            {
+              "dimensions": {
+                "height": 2333,
+                "width": 3500
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/DB6A63BBEB9A4E59B74321107F96FB67/DB6A63BBEB9A4E59B74321107F96FB67.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 70,
+                "width": 70
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/DB6A63BBEB9A4E59B74321107F96FB67/A.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 67,
+                "width": 100
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/DB6A63BBEB9A4E59B74321107F96FB67/B.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 100,
+                "width": 150
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/DB6A63BBEB9A4E59B74321107F96FB67/C.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 133,
+                "width": 200
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/DB6A63BBEB9A4E59B74321107F96FB67/D.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 167,
+                "width": 250
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/DB6A63BBEB9A4E59B74321107F96FB67/E.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 200,
+                "width": 300
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/DB6A63BBEB9A4E59B74321107F96FB67/F.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 300,
+                "width": 300
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/DB6A63BBEB9A4E59B74321107F96FB67/G.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 233,
+                "width": 350
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/DB6A63BBEB9A4E59B74321107F96FB67/H.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 256,
+                "width": 384
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/DB6A63BBEB9A4E59B74321107F96FB67/I.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 320,
+                "width": 480
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/DB6A63BBEB9A4E59B74321107F96FB67/J.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 150,
+                "width": 150
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/DB6A63BBEB9A4E59B74321107F96FB67/K.JPEG"
+            }
+          ],
+          "tags": [
+            "SERVICES"
+          ]
+        },
+        {
+          "caption": "Ball Room",
+          "category": "BALLROOM",
+          "description": {
+            "lang": "en"
+          },
+          "id": "ECFAB8AAE10144F48853438B70A5DC83",
+          "mediaMetaData": {
+            "etag": "2023-12-05T08:12:59.000Z",
+            "subType": "image/jpeg"
+          },
+          "mediaScales": [
+            {
+              "dimensions": {
+                "height": 471,
+                "width": 800
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/ECFAB8AAE10144F48853438B70A5DC83/ECFAB8AAE10144F48853438B70A5DC83.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 70,
+                "width": 70
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/ECFAB8AAE10144F48853438B70A5DC83/A.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 59,
+                "width": 100
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/ECFAB8AAE10144F48853438B70A5DC83/B.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 88,
+                "width": 150
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/ECFAB8AAE10144F48853438B70A5DC83/C.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 118,
+                "width": 200
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/ECFAB8AAE10144F48853438B70A5DC83/D.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 147,
+                "width": 250
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/ECFAB8AAE10144F48853438B70A5DC83/E.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 177,
+                "width": 300
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/ECFAB8AAE10144F48853438B70A5DC83/F.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 300,
+                "width": 300
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/ECFAB8AAE10144F48853438B70A5DC83/G.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 206,
+                "width": 350
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/ECFAB8AAE10144F48853438B70A5DC83/H.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 226,
+                "width": 384
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/ECFAB8AAE10144F48853438B70A5DC83/I.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 283,
+                "width": 480
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/ECFAB8AAE10144F48853438B70A5DC83/J.JPEG"
+            },
+            {
+              "dimensions": {
+                "height": 150,
+                "width": 150
+              },
+              "href": "https://d1moe8jtgovopm.cloudfront.net/ECFAB8AAE10144F48853438B70A5DC83/K.JPEG"
+            }
+          ],
+          "tags": [
+            "SERVICES"
+          ]
+        },
+        {
+          "description": {
+            "lang": "en",
+            "text": "Typical Description test"
+          },
+          "tags": [
+            "TYPICAL_DESCRIPTION"
+          ]
+        }
+      ],
+      "name": "Test Property",
+      "rating": "1",
+      "segment": [
+        "BUDGET"
+      ],
+      "status": "UNLOCKED"
+    },
+    "facilities": {
+      "amenities": [
+        {
+          "amenityType": "MealPlanType",
+          "code": "AMERICAN"
+        },
+        {
+          "amenityType": "RoomFacilities",
+          "code": "SEPARATE_TUB_AND_SHOWER"
+        },
+        {
+          "amenityType": "RoomFacilities",
+          "code": "FIREPLACE"
+        },
+        {
+          "amenityType": "RoomFacilities",
+          "code": "HAIR_DRYER"
+        },
+        {
+          "amenityType": "RoomFacilities",
+          "code": "WIDESCREEN_TV"
+        },
+        {
+          "amenityType": "RoomFacilities",
+          "code": "TROUSER_PRESS"
+        },
+        {
+          "amenityType": "RoomFacilities",
+          "code": "BATHROOM_AMENITIES"
+        },
+        {
+          "amenityType": "RoomFacilities",
+          "code": "BALCONY_OR_LANAI_OR_TERRACE"
+        },
+        {
+          "amenityType": "RoomFacilities",
+          "code": "TELEVISION"
+        },
+        {
+          "amenityType": "RoomFacilities",
+          "code": "AIR_CONDITIONING"
+        },
+        {
+          "amenityType": "SafetyFacilities",
+          "code": "FIRE_SAFETYFACILITIES"
+        },
+        {
+          "amenityType": "RoomFacilities",
+          "code": "BLACKOUT_CURTAIN"
+        },
+        {
+          "amenityType": "HotelAmenities",
+          "code": "PARKING"
+        }
+      ],
+      "restaurantInfo": {
+        "restaurants": [
+          {
+            "category": "BAR_OR_LOUNGE",
+            "cuisineTypes": [
+              "FRENCH"
+            ],
+            "hasBreakfast": true,
+            "hasBrunch": true,
+            "hasDinner": true,
+            "hasLunch": true,
+            "media": [
+              {
+                "description": {
+                  "lang": "en",
+                  "text": "\u003cb\u003eOpening Hours: \u003c/b\u003e00:12\u003c/br\u003e\u003c/br\u003e\u003cb\u003eClosing Hours: \u003c/b\u003e13:01\u003c/br\u003e\u003c/br\u003e"
+                }
+              }
+            ],
+            "name": "test restaurant"
+          },
+          {
+            "category": "FAST_FOOD",
+            "maxSeatingCapacity": 20,
+            "media": [
+              {
+                "description": {
+                  "lang": "en",
+                  "text": "\u003cb\u003eOpening Hours: \u003c/b\u003e13:01\u003c/br\u003e\u003c/br\u003e\u003cb\u003eClosing Hours: \u003c/b\u003e14:01\u003c/br\u003e\u003c/br\u003e"
+                }
+              }
+            ],
+            "name": "Test bar"
+          }
+        ]
+      }
+    },
+    "hotel": {
+      "currencyCode": [
+        "EUR"
+      ],
+      "spokenLanguages": [
+        "en",
+        "de",
+        "es",
+        "zh",
+        "fr",
+        "ja",
+        "it",
+        "pt"
+      ]
+    },
+    "pointOfInterest": [
+      {
+        "location": {
+          "subtype": "CITY"
+        },
+        "locationDistance": {
+          "distances": [
+            {
+              "unit": "KILOMETERS"
             }
           ]
         }
-      ],
-      "location": {
-        "name": "Paris",
-        "subType": "CITY",
-        "iataCode": "PAR",
-        "geoCode": { "latitude": 48.87626, "longitude": 2.32603 }
       },
-      "area": [{ "hotelAreaType": "CITY", "name": "8th Arrondissement" }],
-      "contact": [
+      {
+        "location": {
+          "subtype": "BUSINESS_LOCATION"
+        },
+        "locationDistance": {
+          "distances": [
+            {
+              "unit": "KILOMETERS"
+            }
+          ]
+        }
+      },
+      {
+        "location": {
+          "subtype": "NEAREST_MAJOR_CITY"
+        },
+        "locationDistance": {
+          "distances": [
+            {
+              "unit": "KILOMETERS"
+            }
+          ]
+        }
+      },
+      {
+        "location": {
+          "subtype": "SUBWAY_STATION"
+        },
+        "locationDistance": {
+          "distances": [
+            {
+              "unit": "KILOMETERS"
+            }
+          ]
+        }
+      },
+      {
+        "location": {
+          "subtype": "RAIL_STATION"
+        },
+        "locationDistance": {
+          "distances": [
+            {
+              "unit": "KILOMETERS"
+            }
+          ]
+        }
+      },
+      {
+        "location": {
+          "name": "AAA - Anaa Airport",
+          "subtype": "AIRPORT"
+        },
+        "locationDistance": {
+          "distances": [
+            {
+              "unit": "KILOMETERS",
+              "value": 12
+            }
+          ]
+        }
+      },
+      {
+        "categoryCode": "MEDICAL_FACILITY",
+        "location": {
+          "name": "New X-query"
+        },
+        "locationDistance": {
+          "distances": [
+            {
+              "unit": "KILOMETERS",
+              "value": 12
+            }
+          ]
+        }
+      }
+    ],
+    "policies": {
+      "checkInOutPolicies": [
         {
-          "purpose": ["RESERVATIONS"],
-          "locationType": "PHYSICAL",
-          "addresseeName": { "prefix": "", "firstName": "Reservations", "lastName": "Desk" },
-          "phone": {
-            "category": "PHONE",
-            "deviceType": "VOICE",
-            "countryCallingCode": "33",
-            "areaCode": "1",
-            "number": "40088844"
-          },
-          "email": { "category": "RESERVATIONS", "email": "reservations@example.invalid" },
-          "address": {
-            "lines": ["108 rue Saint Lazare"],
-            "postalCode": "75008",
-            "cityName": "Paris",
-            "countryCode": "FR",
-            "countryName": "France",
-            "stateCode": "IDF"
-          },
-          "website": { "url": "https://example.invalid/hilton-paris-opera" }
+          "checkIn": "00:12:00",
+          "checkOut": "13:01:00"
         }
       ],
-      "hotelBusinessIdentifications": {
-        "identifiers": [{ "id": "FR12345678901", "name": "VAT" }]
-      },
-      "altitude": { "unit": "METERS", "value": 35 },
-      "season": { "openCalendar": [] }
-    },
-    "hotel": {
-      "taxId": "FR12345678901",
-      "currencyCode": ["EUR"],
-      "spokenLanguages": ["FR", "EN", "ES"],
-      "climate": "Temperate oceanic",
-      "timeZone": {
-        "id": "Europe/Paris",
-        "name": "Central European Time",
-        "offSet": "+01:00",
-        "dstOffsetInSeconds": 3600
-      },
-      "building": {
-        "architectureCode": "HISTORIC",
-        "builtDate": "1889",
-        "renovationDate": "2015",
-        "numberOfFloors": 7,
-        "numberOfRooms": 268
-      },
-      "certifications": [
-        { "name": "Green Key", "providerName": "FEE", "rating": "GOLD", "dateGranted": "2024-03-01" }
-      ],
-      "relativeLocation": [
+      "paymentPolicies": [
         {
-          "destination": { "name": "Opera Garnier", "subType": "POINT_OF_INTEREST" },
-          "distances": [
-            { "unit": "MILE", "value": 0.4, "distanceType": "WALKING" },
-            { "unit": "KM", "value": 0.5, "distanceType": "DIRECT" }
-          ]
+          "guarantee": {
+            "acceptedPayments": {
+              "methods": [
+                "CREDIT_CARD"
+              ]
+            }
+          },
+          "paymentType": "DEPOSIT"
+        },
+        {
+          "guarantee": {
+            "acceptedPayments": {
+              "methods": [
+                "CREDIT_CARD"
+              ]
+            }
+          },
+          "paymentType": "GUARANTEE"
+        },
+        {
+          "guarantee": {
+            "acceptedPayments": {
+              "methods": [
+                "TRAVEL_AGENCY_IATA_NUMBER"
+              ]
+            }
+          },
+          "paymentType": "GUARANTEE"
+        },
+        {
+          "guarantee": {
+            "acceptedPayments": {
+              "methods": [
+                "TRAVEL_AGENCY_IATA_NUMBER"
+              ]
+            }
+          },
+          "paymentType": "GUARANTEE"
+        },
+        {
+          "guarantee": {
+            "acceptedPayments": {
+              "creditCards": [
+                "CA",
+                "VI"
+              ],
+              "methods": [
+                "CREDIT_CARD"
+              ]
+            }
+          },
+          "paymentType": "GUARANTEE"
         }
       ]
     },
     "rooms": [
       {
-        "name": { "text": "Deluxe King Room", "lang": "EN" },
-        "description": { "text": "Deluxe room with a king bed and city view.", "lang": "EN" },
-        "hotelRoomClassification": "ROOM",
-        "hotelRoomCategory": "DELUXE",
-        "beds": 1,
-        "bedType": "KING",
-        "quantity": 60,
-        "bedRoomsPerRoom": 1,
-        "bathroomsPerRoom": 1,
-        "viewCode": "CITY",
-        "architectureCode": "HISTORIC",
-        "hotelRoomLocation": "HIGH_FLOOR",
-        "sortOrder": 1,
-        "isNonSmoking": true,
-        "standardPersonCapacity": 2,
-        "maxPersonCapacity": { "adults": 2, "children": 1, "total": 3 },
-        "maxSleepFurnishings": { "cribs": 1, "extraBeds": 1 },
-        "dimensions": { "area": 28, "areaUnit": "SQUARE_METERS" },
-        "policyDescriptions": ["No smoking"],
-        "providerContentReference": { "id": "RT-DLX-01" },
-        "amenities": [{ "code": "MINIBAR", "description": "Stocked minibar", "isChargeable": true }],
-        "media": [{ "id": "IMG_ROOM", "type": "Image", "href": "https://example.invalid/room.jpg" }]
-      }
-    ],
-    "facilities": {
-      "amenities": [{ "code": "FITNESS_CENTER", "description": "24-hour gym" }],
-      "meetingRoomInfo": {
-        "quantity": 6,
-        "largestRoomSeatOccupancy": 220,
-        "largestRoomSpace": { "area": 310, "areaUnit": "SQUARE_METERS" },
-        "meetingRooms": [{ "name": "Salon Opera", "description": "Ballroom with natural light" }]
+        "providerContentReference": {
+          "id": "ALL"
+        }
       },
-      "restaurantInfo": {
-        "quantity": 2,
-        "restaurants": [
+      {
+        "amenities": [
           {
-            "name": "Le Brasserie",
-            "description": "French brasserie serving breakfast and dinner.",
-            "cuisineTypes": ["FRENCH", "EUROPEAN"],
-            "hasBreakfast": true,
-            "hasDinner": true
+            "code": "AIR_CONDITIONING"
           },
           {
-            "name": "Sky Bar",
-            "cuisineTypes": ["FRENCH", "TAPAS"]
+            "code": "BLACKOUT_CURTAIN"
+          },
+          {
+            "code": "TELEVISION"
+          },
+          {
+            "code": "BALCONY_OR_LANAI_OR_TERRACE"
+          },
+          {
+            "code": "TROUSER_PRESS"
+          },
+          {
+            "code": "WIDESCREEN_TV"
+          },
+          {
+            "code": "FIREPLACE"
+          },
+          {
+            "code": "BATHROOM_AMENITIES"
+          },
+          {
+            "code": "HAIR_DRYER"
+          },
+          {
+            "code": "SEPARATE_TUB_AND_SHOWER"
           }
-        ]
-      }
-    },
-    "policies": {
-      "checkInOutPolicies": [
-        {
-          "checkIn": "15:00",
-          "checkOut": "12:00",
-          "checkInDescription": { "text": "Check-in from 3pm", "lang": "EN" }
-        }
-      ],
-      "paymentPolicies": [
-        {
-          "paymentType": "GUARANTEE",
-          "guarantee": {
-            "description": { "text": "A card is required to hold the room.", "lang": "EN" },
-            "acceptedPayments": {
-              "creditCards": ["VI", "CA", "AX"],
-              "methods": ["CREDIT_CARD"]
-            }
-          },
-          "additionalDetails": [{ "text": "Card charged on arrival.", "lang": "EN" }]
-        }
-      ],
-      "cancellationPolicies": [
-        {
-          "amount": "150.00",
-          "numberOfNights": 1,
-          "deadline": "24H",
-          "policyType": "CANCELLATION",
-          "description": { "text": "One night charged inside 24 hours.", "lang": "EN" }
-        }
-      ],
-      "petsPolicies": [
-        { "code": "PETS_ALLOWED", "description": "Dogs under 10kg welcome", "pricingMethod": "PER_STAY" }
-      ],
-      "taxPolicies": [
-        {
-          "code": "CITY_TAX",
-          "currency": "EUR",
-          "amount": "4.40",
-          "included": false,
-          "description": "Paris tourist tax, payable at the property",
-          "pricingFrequency": "PER_NIGHT",
-          "pricingMode": "PER_PERSON"
+        ],
+        "bedType": "DOUBLE",
+        "beds": 4,
+        "hotelRoomClassification": "SUPERIOR",
+        "maxPersonCapacity": {
+          "total": 3
         },
-        {
-          "code": "VAT",
-          "currency": "EUR",
-          "percentage": "10",
-          "included": true,
-          "description": "Value added tax"
-        }
-      ],
-      "commissionPolicies": [
-        { "percentage": "10", "description": { "text": "Standard agency commission", "lang": "EN" } }
-      ],
-      "guestPolicies": [
-        {
-          "minGuestAge": 18,
-          "maxChildAgeforBedSharing": 12,
-          "childStayFreeCutoffAge": 12,
-          "childStayFree": true
-        }
-      ],
-      "loyaltyPolicies": [
-        {
-          "eligibility": "Hilton Honors members",
-          "benefitsAccruals": [
-            { "loyaltyAwardType": "POINTS", "code": "HH", "codeDescription": "10 points per euro" }
-          ],
-          "discount": { "percentage": "5" }
-        }
-      ],
-      "stayRequirements": [{ "text": "Minimum two nights over public holidays.", "lang": "EN" }]
-    },
-    "awards": [
-      {
-        "name": "AAA Diamond",
-        "providerName": "AAA",
-        "rating": "4",
-        "ratingSystem": "DIAMOND",
-        "description": "Four Diamond award",
-        "dateGranted": "2025-01-15"
-      }
-    ],
-    "promotions": [
-      {
-        "name": "Stay 3 Pay 2",
-        "description": "Third night free on flexible rates.",
-        "category": "AAA",
-        "code": "S3P2",
-        "termsAndConditions": { "text": "Subject to availability.", "language": "EN" }
-      }
-    ],
-    "pointOfInterest": [
-      {
-        "categoryCode": "SIGHTSEEING",
-        "description": "Nineteenth-century opera house.",
-        "location": {
-          "name": "Palais Garnier",
-          "subType": "POINT_OF_INTEREST",
-          "geoCode": { "latitude": 48.8719, "longitude": 2.3316 }
+        "media": [
+          {
+            "description": {
+              "lang": "en",
+              "text": "Room Description (up to 2000 characters, spaces included) test"
+            },
+            "tags": [
+              "DEFAULT_ROOM_NAME"
+            ]
+          }
+        ],
+        "name": {
+          "text": "Test rom"
         },
-        "officialWebsite": { "url": "https://example.invalid/opera" },
-        "locationDistance": {
-          "destination": { "name": "Palais Garnier" },
-          "distances": [{ "unit": "KM", "value": 0.6, "distanceType": "WALKING" }]
-        },
-        "basic": { "name": "Palais Garnier" }
+        "providerContentReference": {
+          "id": "Test rom"
+        }
       }
     ]
   }

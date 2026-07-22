@@ -220,13 +220,48 @@ Amadeus calls a chargeable add-on a "service", which collided with the service
 interface. The domain type is `offers.Extra` - the standard hospitality term,
 and unambiguous.
 
-### Fixtures are hand-built, pending a capture run
+### Fixtures are captured from the live sandbox
 
-`internal/capture` is written and compiles, but has not been run: the fixtures
-in each `testdata/` are hand-built from the schemas and the previous DTOs.
-Running the capture tool against live credentials will replace them with real
-payloads, and any test that then fails is a field the hand-built fixture got
-wrong.
+`internal/capture` has been run; every `testdata/*.json` outside booking is a
+real Amadeus response. The live suite passes end-to-end.
+
+Running it against real data was worth it: three mapper bugs survived the
+hand-built fixtures, because a fixture written from the same misunderstanding
+as the mapper agrees with it.
+
+1. **The property description was dropped entirely.** Amadeus leaves
+   `basic.description` null and ships prose as entries in the *media* array
+   carrying text and a tag but no image. The mapper read the empty field and
+   put all seven prose blocks into `Media`. Now `splitMedia` separates them,
+   `Hotel.Description` picks the long description, and `Hotel.Descriptions`
+   keeps the rest keyed by tag.
+
+2. **`PrimaryPhoto()` returned a text block.** Amadeus never populates `type`
+   on a media entry, so the kind inference always yielded `""`, which the
+   "image or unset" check accepted. It returned a description with no URL - an
+   `<img>` with an empty `src`. Kind is now inferred from whether the entry
+   actually carries imagery, and `media.Asset.IsVisual` makes the check
+   available to callers.
+
+3. **`Room.Dimensions` was never nil.** The wire sends dimensions as an
+   embedded struct, and the mapper took its address unconditionally, so
+   `if room.Dimensions != nil` was always true and told callers nothing.
+
+Two API behaviours the capture also documented:
+
+- **Hotel Search fails the whole request when any one property is sold out**,
+  returning a 400 naming the offending codes rather than omitting them. An
+  application searching twenty hotels where two have no rooms gets nothing, not
+  eighteen results. `captureOffers` narrows its set on this error, and
+  `TestNoAvailabilityFailsTheWholeSearch` pins the behaviour.
+- **Live rate codes are not in the documented list.** The sandbox returns
+  `1KD`, `EAM`, `D20`. `RateCode.IsValid` checks shape rather than membership,
+  which is what lets these round-trip.
+
+The context tests were rewritten to assert on invariants rather than fixture
+positions, so a re-capture with different hotels does not fail them spuriously.
+Cases the sandbox does not exercise skip explicitly rather than passing
+vacuously.
 
 ### Not done
 

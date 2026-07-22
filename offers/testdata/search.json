@@ -1,272 +1,5577 @@
 {
   "data": [
     {
-      "type": "hotel-offers",
-      "hotel": {
-        "type": "hotel",
-        "hotelId": "HLPAR266",
-        "chainCode": "HL",
-        "brandCode": "HI",
-        "dupeId": "700034421",
-        "name": "HILTON PARIS OPERA",
-        "rating": "4",
-        "cityCode": "PAR",
-        "latitude": 48.87626,
-        "longitude": 2.32603,
-        "termsAndConditions": "https://example.invalid/terms",
-        "contact": {
-          "phone": "33-1-40088844",
-          "fax": "33-1-40088845",
-          "email": "reservations@example.invalid"
-        },
-        "address": {
-          "lines": ["108 RUE SAINT LAZARE"],
-          "postalCode": "75008",
-          "cityName": "PARIS",
-          "stateCode": "IDF",
-          "countryCode": "FR"
-        },
-        "amenities": ["SWIMMING_POOL", "RESTAURANT", "WIFI"]
-      },
       "available": true,
-      "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers?hotelIds=HLPAR266",
+      "hotel": {
+        "chainCode": "RT",
+        "cityCode": "PAR",
+        "dupeId": "700055804",
+        "hotelId": "RTPAR672",
+        "latitude": 48.83132,
+        "longitude": 2.28236,
+        "name": "Aparthotel Adagio Paris XV",
+        "type": "hotel"
+      },
       "offers": [
         {
-          "id": "OFFER_DELUXE_FLEX",
-          "type": "hotel-offer",
-          "checkInDate": "2026-08-10",
-          "checkOutDate": "2026-08-13",
-          "rateCode": "PRO",
-          "rateName": "Flexible Rate",
-          "boardType": "BREAKFAST",
-          "category": "PUBLIC",
-          "isLoyaltyRate": "true",
-          "roomQuantity": 1,
-          "rateFamilyEstimated": { "code": "PRO", "type": "P" },
-          "description": { "text": "Deluxe room, flexible cancellation", "lang": "EN" },
-          "commission": {
-            "amount": "18.75",
-            "percentage": "10",
-            "description": { "text": "Standard agency commission", "lang": "EN" }
+          "boardType": "ROOM_ONLY",
+          "checkInDate": "2026-08-22",
+          "checkOutDate": "2026-08-25",
+          "guests": {
+            "adults": 2
           },
-          "guests": { "adults": 2, "childAges": [7, 12] },
-          "room": {
-            "type": "DLX",
-            "typeEstimated": { "category": "DELUXE_ROOM", "beds": 1, "bedType": "KING" },
-            "description": { "text": "Deluxe King Room with city view", "lang": "EN" }
+          "id": "REZ7BSRS3E",
+          "isLoyaltyRate": "false",
+          "policies": {
+            "cancellations": [
+              {
+                "deadline": "2026-08-21T18:01:00+02:00",
+                "description": {
+                  "text": "No cancellation charge applies prior to 18:00(local time) on the day of arrival. Beyond that time, the first night will be charged."
+                },
+                "numberOfNights": 1,
+                "policyType": "CANCELLATION"
+              }
+            ],
+            "guarantee": {
+              "acceptedPayments": {
+                "creditCardPolicies": [
+                  {
+                    "vendorCode": "AX"
+                  },
+                  {
+                    "vendorCode": "CA"
+                  },
+                  {
+                    "vendorCode": "DC"
+                  },
+                  {
+                    "vendorCode": "EC"
+                  },
+                  {
+                    "vendorCode": "IK"
+                  },
+                  {
+                    "vendorCode": "EE"
+                  }
+                ],
+                "creditCards": [
+                  "AX",
+                  "CA",
+                  "DC",
+                  "EC",
+                  "IK",
+                  "EE"
+                ],
+                "methods": [
+                  "CREDIT_CARD"
+                ]
+              }
+            },
+            "paymentType": "guarantee",
+            "refundable": {
+              "cancellationRefund": "REFUNDABLE_UP_TO_DEADLINE"
+            }
           },
           "price": {
             "currency": "EUR",
-            "base": "540.00",
-            "total": "600.00",
-            "sellingTotal": "612.00",
-            "taxes": [
-              {
-                "amount": "48.00",
-                "code": "VAT",
-                "currency": "EUR",
-                "percentage": "10",
-                "included": true,
-                "collectionPoint": "AT_BOOKING_TIME",
-                "pricingFrequency": "PER_STAY",
-                "pricingMode": "PER_ROOM"
-              },
-              {
-                "amount": "12.00",
-                "code": "TOURISM",
-                "currency": "EUR",
-                "description": "City tourist tax",
-                "included": false,
-                "collectionPoint": "AT_HOTEL_PROPERTY",
-                "applicableDate": { "start": "2026-08-10", "end": "2026-08-13" }
-              }
-            ],
-            "markups": [{ "amount": "12.00" }],
-            "commissions": [
-              {
-                "amount": {
-                  "amount": "18.75",
-                  "currency": "EUR",
-                  "decimalPlaces": 2,
-                  "elementaryPriceType": "COMMISSION"
-                },
-                "percentage": 10
-              }
-            ],
+            "total": "300.00",
             "variations": {
               "average": {
-                "base": "180.00",
-                "currency": "EUR",
-                "total": "200.00"
+                "total": "100.00"
               },
               "changes": [
                 {
-                  "startDate": "2026-08-10",
-                  "endDate": "2026-08-12",
-                  "base": "170.00",
-                  "currency": "EUR",
-                  "total": "190.00"
-                },
-                {
-                  "startDate": "2026-08-12",
-                  "endDate": "2026-08-13",
-                  "base": "200.00",
-                  "currency": "EUR",
-                  "total": "220.00"
+                  "base": "100.00",
+                  "endDate": "2026-08-25",
+                  "startDate": "2026-08-22",
+                  "total": "100.00"
                 }
               ]
             }
           },
-          "policies": {
-            "paymentType": "guarantee",
-            "cancellation": {
-              "type": "FULL_STAY",
-              "policyType": "CANCELLATION",
-              "deadline": "2026-08-08T18:00:00",
-              "description": { "text": "Free cancellation until 8 August", "lang": "EN" }
+          "rateCode": "1KD",
+          "rateFamilyEstimated": {
+            "code": "BAR",
+            "type": "P"
+          },
+          "room": {
+            "description": {
+              "lang": "EN",
+              "text": "FLEX - RO B2C-Room only\nApartment with 1 bedroom for 4 persons"
             },
+            "type": "P2T",
+            "typeEstimated": {
+              "bedType": "TWIN",
+              "beds": 2,
+              "category": "RESIDENTIAL_APARTMENT"
+            }
+          },
+          "roomInformation": {
+            "description": "FLEX - RO B2C-Room only\nApartment with 1 bedroom for 4 persons",
+            "type": "P2T",
+            "typeEstimated": {
+              "bedType": "TWIN",
+              "beds": 2,
+              "category": "RESIDENTIAL_APARTMENT"
+            }
+          },
+          "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers/REZ7BSRS3E"
+        }
+      ],
+      "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers?hotelIds=RTPAR672\u0026adults=2\u0026checkInDate=2026-08-22\u0026checkOutDate=2026-08-25",
+      "type": "hotel-offers"
+    },
+    {
+      "available": true,
+      "hotel": {
+        "chainCode": "RT",
+        "cityCode": "PAR",
+        "dupeId": "700054942",
+        "hotelId": "RTPAREIF",
+        "latitude": 48.85052,
+        "longitude": 2.29245,
+        "name": "Mercure Paris Eiffel Tower Grenelle Hotel",
+        "type": "hotel"
+      },
+      "offers": [
+        {
+          "boardType": "ROOM_ONLY",
+          "checkInDate": "2026-08-22",
+          "checkOutDate": "2026-08-25",
+          "guests": {
+            "adults": 2
+          },
+          "id": "OKNQSVKHSA",
+          "isLoyaltyRate": "false",
+          "policies": {
             "cancellations": [
               {
-                "type": "FULL_STAY",
-                "policyType": "CANCELLATION",
-                "deadline": "2026-08-08T18:00:00",
-                "description": { "text": "Free cancellation until 8 August", "lang": "EN" }
-              },
-              {
-                "type": "FULL_STAY",
-                "policyType": "NO_SHOW",
-                "amount": "200.00",
-                "numberOfNights": 1
+                "deadline": "2026-08-21T18:01:00+02:00",
+                "description": {
+                  "text": "No cancellation charge applies prior to 18:00(local time) on the day of arrival. Beyond that time, the first night will be charged."
+                },
+                "numberOfNights": 1,
+                "policyType": "CANCELLATION"
               }
             ],
-            "refundable": { "cancellationRefund": "REFUNDABLE_UP_TO_DEADLINE" },
             "guarantee": {
               "acceptedPayments": {
-                "creditCards": ["VI", "CA", "AX"],
-                "methods": ["CREDIT_CARD"],
                 "creditCardPolicies": [
                   {
-                    "vendorCode": "VI",
-                    "inputParameters": [
-                      { "label": "cardHolderName", "isOptional": "false" },
-                      { "label": "cardSecurityCode", "isOptional": "true" }
-                    ]
+                    "vendorCode": "AX"
+                  },
+                  {
+                    "vendorCode": "BF"
+                  },
+                  {
+                    "vendorCode": "CA"
+                  },
+                  {
+                    "vendorCode": "DC"
+                  },
+                  {
+                    "vendorCode": "EC"
+                  },
+                  {
+                    "vendorCode": "IK"
+                  },
+                  {
+                    "vendorCode": "JC"
+                  },
+                  {
+                    "vendorCode": "EE"
                   }
+                ],
+                "creditCards": [
+                  "AX",
+                  "BF",
+                  "CA",
+                  "DC",
+                  "EC",
+                  "IK",
+                  "JC",
+                  "EE"
+                ],
+                "methods": [
+                  "TRAVEL_AGENT_ID",
+                  "CREDIT_CARD"
                 ]
               }
             },
-            "checkInOut": {
-              "checkIn": "15:00",
-              "checkOut": "12:00",
-              "checkInDescription": { "text": "Check-in from 3pm", "lang": "EN" }
-            },
-            "lengthOfStay": { "minimumLengthOfStay": 1, "maximumLengthOfStay": 28 }
-          },
-          "services": [
-            {
-              "code": "BREAKFAST",
-              "description": "Continental breakfast",
-              "isChargeable": false,
-              "pricingMethod": "PER_PERSON_PER_NIGHT",
-              "quantity": 2
-            },
-            {
-              "code": "PARKING",
-              "description": "Valet parking",
-              "isChargeable": true,
-              "pricingMethod": "PER_ROOM_PER_NIGHT",
-              "quantity": 1,
-              "price": { "currency": "EUR", "base": "35.00", "total": "42.00" }
-            }
-          ],
-          "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers/OFFER_DELUXE_FLEX"
-        },
-        {
-          "id": "OFFER_DELUXE_SAVER",
-          "type": "hotel-offer",
-          "checkInDate": "2026-08-10",
-          "checkOutDate": "2026-08-13",
-          "rateCode": "PRO",
-          "rateName": "Advance Purchase",
-          "boardType": "ROOM_ONLY",
-          "isLoyaltyRate": "false",
-          "guests": { "adults": 2 },
-          "room": {
-            "type": "DLX",
-            "typeEstimated": { "category": "DELUXE_ROOM", "beds": 1, "bedType": "KING" },
-            "description": { "text": "Deluxe King Room with city view", "lang": "EN" }
-          },
-          "price": {
-            "currency": "EUR",
-            "base": "450.00",
-            "total": "495.00",
-            "variations": { "average": { "base": "150.00", "currency": "EUR", "total": "165.00" } }
-          },
-          "policies": {
-            "paymentType": "prepay",
-            "refundable": { "cancellationRefund": "NON_REFUNDABLE" },
-            "prepay": {
-              "amount": "495.00",
-              "deadline": "2026-07-25T00:00:00",
-              "description": { "text": "Full prepayment required", "lang": "EN" }
-            }
-          },
-          "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers/OFFER_DELUXE_SAVER"
-        },
-        {
-          "id": "OFFER_STANDARD",
-          "type": "hotel-offer",
-          "checkInDate": "2026-08-10",
-          "checkOutDate": "2026-08-13",
-          "rateCode": "PRO",
-          "boardType": "ROOM_ONLY",
-          "guests": { "adults": 2 },
-          "room": {
-            "type": "STD",
-            "typeEstimated": { "category": "STANDARD_ROOM", "beds": 2, "bedType": "TWIN" },
-            "description": { "text": "Standard Twin Room", "lang": "EN" }
-          },
-          "price": {
-            "currency": "EUR",
-            "base": "330.00",
-            "total": "360.00",
-            "variations": { "average": { "base": "110.00", "currency": "EUR", "total": "120.00" } }
-          },
-          "policies": {
             "paymentType": "guarantee",
-            "cancellation": { "type": "FULL_STAY", "deadline": "2026-08-09T18:00:00" }
+            "refundable": {
+              "cancellationRefund": "REFUNDABLE_UP_TO_DEADLINE"
+            }
           },
-          "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers/OFFER_STANDARD"
+          "price": {
+            "currency": "EUR",
+            "taxes": [
+              {
+                "amount": "518.34",
+                "applicableDate": {
+                  "end": "2026-08-24",
+                  "start": "2026-08-22"
+                },
+                "code": "COUNTRY_TAX",
+                "currency": "EUR",
+                "included": true,
+                "pricingFrequency": "PER_STAY",
+                "pricingMode": "PER_OCCUPANT"
+              }
+            ],
+            "total": "1418.19",
+            "variations": {
+              "average": {
+                "total": "472.73"
+              },
+              "changes": [
+                {
+                  "base": "122.50",
+                  "endDate": "2026-08-24",
+                  "startDate": "2026-08-22",
+                  "total": "122.50"
+                },
+                {
+                  "base": "136.50",
+                  "endDate": "2026-08-25",
+                  "startDate": "2026-08-24",
+                  "total": "136.50"
+                }
+              ]
+            }
+          },
+          "rateCode": "EAM",
+          "room": {
+            "description": {
+              "lang": "EN",
+              "text": "Mercure Breaks-Early / RO-Room only\nStandard Room 1 dble bed GB Test GB"
+            },
+            "type": "C1D",
+            "typeEstimated": {
+              "bedType": "DOUBLE",
+              "beds": 1,
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "roomInformation": {
+            "description": "Mercure Breaks-Early / RO-Room only\nStandard Room 1 dble bed GB Test GB",
+            "type": "C1D",
+            "typeEstimated": {
+              "bedType": "DOUBLE",
+              "beds": 1,
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers/OKNQSVKHSA"
         },
         {
-          "id": "OFFER_NO_PRICE",
-          "type": "hotel-offer",
-          "checkInDate": "2026-08-10",
-          "checkOutDate": "2026-08-13",
-          "guests": { "adults": 2 },
-          "room": {
-            "type": "STD",
-            "typeEstimated": { "category": "STANDARD_ROOM", "beds": 2, "bedType": "TWIN" },
-            "description": { "text": "Standard Twin Room", "lang": "EN" }
+          "boardType": "ROOM_ONLY",
+          "checkInDate": "2026-08-22",
+          "checkOutDate": "2026-08-25",
+          "guests": {
+            "adults": 2
           },
-          "price": { "currency": "EUR" },
-          "policies": { "paymentType": "guarantee" },
-          "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers/OFFER_NO_PRICE"
+          "id": "UZ2Y5772JS",
+          "isLoyaltyRate": "false",
+          "policies": {
+            "cancellations": [
+              {
+                "deadline": "2026-08-21T18:01:00+02:00",
+                "description": {
+                  "text": "No cancellation charge applies prior to 18:00(local time) on the day of arrival. Beyond that time, the first night will be charged."
+                },
+                "numberOfNights": 1,
+                "policyType": "CANCELLATION"
+              }
+            ],
+            "guarantee": {
+              "acceptedPayments": {
+                "creditCardPolicies": [
+                  {
+                    "vendorCode": "AX"
+                  },
+                  {
+                    "vendorCode": "BF"
+                  },
+                  {
+                    "vendorCode": "CA"
+                  },
+                  {
+                    "vendorCode": "DC"
+                  },
+                  {
+                    "vendorCode": "EC"
+                  },
+                  {
+                    "vendorCode": "IK"
+                  },
+                  {
+                    "vendorCode": "JC"
+                  },
+                  {
+                    "vendorCode": "EE"
+                  }
+                ],
+                "creditCards": [
+                  "AX",
+                  "BF",
+                  "CA",
+                  "DC",
+                  "EC",
+                  "IK",
+                  "JC",
+                  "EE"
+                ],
+                "methods": [
+                  "TRAVEL_AGENT_ID",
+                  "CREDIT_CARD"
+                ]
+              }
+            },
+            "paymentType": "guarantee",
+            "refundable": {
+              "cancellationRefund": "REFUNDABLE_UP_TO_DEADLINE"
+            }
+          },
+          "price": {
+            "currency": "EUR",
+            "taxes": [
+              {
+                "amount": "518.34",
+                "applicableDate": {
+                  "end": "2026-08-24",
+                  "start": "2026-08-22"
+                },
+                "code": "COUNTRY_TAX",
+                "currency": "EUR",
+                "included": true,
+                "pricingFrequency": "PER_STAY",
+                "pricingMode": "PER_OCCUPANT"
+              }
+            ],
+            "total": "1418.19",
+            "variations": {
+              "average": {
+                "total": "472.73"
+              },
+              "changes": [
+                {
+                  "base": "122.50",
+                  "endDate": "2026-08-24",
+                  "startDate": "2026-08-22",
+                  "total": "122.50"
+                },
+                {
+                  "base": "136.50",
+                  "endDate": "2026-08-25",
+                  "startDate": "2026-08-24",
+                  "total": "136.50"
+                }
+              ]
+            }
+          },
+          "rateCode": "EAM",
+          "room": {
+            "description": {
+              "lang": "EN",
+              "text": "Mercure Breaks-Early / RO-Room only\nStandard Room with 2 single beds GB TEST GB"
+            },
+            "type": "C2T",
+            "typeEstimated": {
+              "bedType": "SINGLE",
+              "beds": 2,
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "roomInformation": {
+            "description": "Mercure Breaks-Early / RO-Room only\nStandard Room with 2 single beds GB TEST GB",
+            "type": "C2T",
+            "typeEstimated": {
+              "bedType": "SINGLE",
+              "beds": 2,
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers/UZ2Y5772JS"
+        },
+        {
+          "boardType": "ROOM_ONLY",
+          "checkInDate": "2026-08-22",
+          "checkOutDate": "2026-08-25",
+          "guests": {
+            "adults": 2
+          },
+          "id": "VN4ED7327Y",
+          "isLoyaltyRate": "false",
+          "policies": {
+            "cancellations": [
+              {
+                "deadline": "2026-08-21T00:00:00+02:00",
+                "description": {
+                  "text": "The amount due is not refundable even if the booking is cancelled or modified."
+                },
+                "percentage": "100",
+                "policyType": "CANCELLATION"
+              }
+            ],
+            "deposit": {
+              "acceptedPayments": {
+                "creditCardPolicies": [
+                  {
+                    "vendorCode": "AX"
+                  },
+                  {
+                    "vendorCode": "BF"
+                  },
+                  {
+                    "vendorCode": "CA"
+                  },
+                  {
+                    "vendorCode": "DC"
+                  },
+                  {
+                    "vendorCode": "EC"
+                  },
+                  {
+                    "vendorCode": "IK"
+                  },
+                  {
+                    "vendorCode": "JC"
+                  },
+                  {
+                    "vendorCode": "EE"
+                  }
+                ],
+                "creditCards": [
+                  "AX",
+                  "BF",
+                  "CA",
+                  "DC",
+                  "EC",
+                  "IK",
+                  "JC",
+                  "EE"
+                ],
+                "methods": [
+                  "CREDIT_CARD"
+                ]
+              }
+            },
+            "paymentType": "deposit",
+            "refundable": {
+              "cancellationRefund": "REFUNDABLE_UP_TO_DEADLINE"
+            }
+          },
+          "price": {
+            "currency": "EUR",
+            "taxes": [
+              {
+                "amount": "518.34",
+                "applicableDate": {
+                  "end": "2026-08-24",
+                  "start": "2026-08-22"
+                },
+                "code": "COUNTRY_TAX",
+                "currency": "EUR",
+                "included": true,
+                "pricingFrequency": "PER_STAY",
+                "pricingMode": "PER_OCCUPANT"
+              }
+            ],
+            "total": "1461.69",
+            "variations": {
+              "average": {
+                "total": "487.23"
+              },
+              "changes": [
+                {
+                  "base": "135.00",
+                  "endDate": "2026-08-24",
+                  "startDate": "2026-08-22",
+                  "total": "135.00"
+                },
+                {
+                  "base": "155.00",
+                  "endDate": "2026-08-25",
+                  "startDate": "2026-08-24",
+                  "total": "155.00"
+                }
+              ]
+            }
+          },
+          "rateCode": "3KD",
+          "rateFamilyEstimated": {
+            "code": "PRO",
+            "type": "P"
+          },
+          "room": {
+            "description": {
+              "lang": "EN",
+              "text": "SAVER - 1-Room only\nStandard Room 1 dble bed GB Test GB"
+            },
+            "type": "C1D",
+            "typeEstimated": {
+              "bedType": "DOUBLE",
+              "beds": 1,
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "roomInformation": {
+            "description": "SAVER - 1-Room only\nStandard Room 1 dble bed GB Test GB",
+            "type": "C1D",
+            "typeEstimated": {
+              "bedType": "DOUBLE",
+              "beds": 1,
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers/VN4ED7327Y"
+        },
+        {
+          "boardType": "ROOM_ONLY",
+          "checkInDate": "2026-08-22",
+          "checkOutDate": "2026-08-25",
+          "guests": {
+            "adults": 2
+          },
+          "id": "UOJSTP5KI4",
+          "isLoyaltyRate": "false",
+          "policies": {
+            "cancellations": [
+              {
+                "deadline": "2026-08-21T00:00:00+02:00",
+                "description": {
+                  "text": "The amount due is not refundable even if the booking is cancelled or modified."
+                },
+                "percentage": "100",
+                "policyType": "CANCELLATION"
+              }
+            ],
+            "deposit": {
+              "acceptedPayments": {
+                "creditCardPolicies": [
+                  {
+                    "vendorCode": "AX"
+                  },
+                  {
+                    "vendorCode": "BF"
+                  },
+                  {
+                    "vendorCode": "CA"
+                  },
+                  {
+                    "vendorCode": "DC"
+                  },
+                  {
+                    "vendorCode": "EC"
+                  },
+                  {
+                    "vendorCode": "IK"
+                  },
+                  {
+                    "vendorCode": "JC"
+                  },
+                  {
+                    "vendorCode": "EE"
+                  }
+                ],
+                "creditCards": [
+                  "AX",
+                  "BF",
+                  "CA",
+                  "DC",
+                  "EC",
+                  "IK",
+                  "JC",
+                  "EE"
+                ],
+                "methods": [
+                  "CREDIT_CARD"
+                ]
+              }
+            },
+            "paymentType": "deposit",
+            "refundable": {
+              "cancellationRefund": "REFUNDABLE_UP_TO_DEADLINE"
+            }
+          },
+          "price": {
+            "currency": "EUR",
+            "taxes": [
+              {
+                "amount": "518.34",
+                "applicableDate": {
+                  "end": "2026-08-24",
+                  "start": "2026-08-22"
+                },
+                "code": "COUNTRY_TAX",
+                "currency": "EUR",
+                "included": true,
+                "pricingFrequency": "PER_STAY",
+                "pricingMode": "PER_OCCUPANT"
+              }
+            ],
+            "total": "1461.69",
+            "variations": {
+              "average": {
+                "total": "487.23"
+              },
+              "changes": [
+                {
+                  "base": "135.00",
+                  "endDate": "2026-08-24",
+                  "startDate": "2026-08-22",
+                  "total": "135.00"
+                },
+                {
+                  "base": "155.00",
+                  "endDate": "2026-08-25",
+                  "startDate": "2026-08-24",
+                  "total": "155.00"
+                }
+              ]
+            }
+          },
+          "rateCode": "3KD",
+          "rateFamilyEstimated": {
+            "code": "PRO",
+            "type": "P"
+          },
+          "room": {
+            "description": {
+              "lang": "EN",
+              "text": "SAVER - 1-Room only\nStandard Room with 2 single beds GB TEST GB"
+            },
+            "type": "C2T",
+            "typeEstimated": {
+              "bedType": "SINGLE",
+              "beds": 2,
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "roomInformation": {
+            "description": "SAVER - 1-Room only\nStandard Room with 2 single beds GB TEST GB",
+            "type": "C2T",
+            "typeEstimated": {
+              "bedType": "SINGLE",
+              "beds": 2,
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers/UOJSTP5KI4"
+        },
+        {
+          "boardType": "ROOM_ONLY",
+          "checkInDate": "2026-08-22",
+          "checkOutDate": "2026-08-25",
+          "guests": {
+            "adults": 2
+          },
+          "id": "7KQ08BQ8RG",
+          "isLoyaltyRate": "false",
+          "policies": {
+            "cancellations": [
+              {
+                "deadline": "2026-08-21T18:01:00+02:00",
+                "description": {
+                  "text": "No cancellation charge applies prior to 18:00(local time) on the day of arrival. Beyond that time, the first night will be charged."
+                },
+                "numberOfNights": 1,
+                "policyType": "CANCELLATION"
+              }
+            ],
+            "guarantee": {
+              "acceptedPayments": {
+                "creditCardPolicies": [
+                  {
+                    "vendorCode": "AX"
+                  },
+                  {
+                    "vendorCode": "BF"
+                  },
+                  {
+                    "vendorCode": "CA"
+                  },
+                  {
+                    "vendorCode": "DC"
+                  },
+                  {
+                    "vendorCode": "EC"
+                  },
+                  {
+                    "vendorCode": "IK"
+                  },
+                  {
+                    "vendorCode": "JC"
+                  },
+                  {
+                    "vendorCode": "EE"
+                  }
+                ],
+                "creditCards": [
+                  "AX",
+                  "BF",
+                  "CA",
+                  "DC",
+                  "EC",
+                  "IK",
+                  "JC",
+                  "EE"
+                ],
+                "methods": [
+                  "TRAVEL_AGENT_ID",
+                  "CREDIT_CARD"
+                ]
+              }
+            },
+            "paymentType": "guarantee",
+            "refundable": {
+              "cancellationRefund": "REFUNDABLE_UP_TO_DEADLINE"
+            }
+          },
+          "price": {
+            "currency": "EUR",
+            "taxes": [
+              {
+                "amount": "518.34",
+                "applicableDate": {
+                  "end": "2026-08-24",
+                  "start": "2026-08-22"
+                },
+                "code": "COUNTRY_TAX",
+                "currency": "EUR",
+                "included": true,
+                "pricingFrequency": "PER_STAY",
+                "pricingMode": "PER_OCCUPANT"
+              }
+            ],
+            "total": "1481.19",
+            "variations": {
+              "average": {
+                "total": "493.73"
+              },
+              "changes": [
+                {
+                  "base": "143.50",
+                  "endDate": "2026-08-24",
+                  "startDate": "2026-08-22",
+                  "total": "143.50"
+                },
+                {
+                  "base": "157.50",
+                  "endDate": "2026-08-25",
+                  "startDate": "2026-08-24",
+                  "total": "157.50"
+                }
+              ]
+            }
+          },
+          "rateCode": "EAM",
+          "room": {
+            "description": {
+              "lang": "EN",
+              "text": "Mercure Breaks-Early / RO-Room only\nSuperior Room with 1 double bed GB TEST GB"
+            },
+            "type": "A1D",
+            "typeEstimated": {
+              "bedType": "DOUBLE",
+              "beds": 1,
+              "category": "SUPERIOR_ROOM"
+            }
+          },
+          "roomInformation": {
+            "description": "Mercure Breaks-Early / RO-Room only\nSuperior Room with 1 double bed GB TEST GB",
+            "type": "A1D",
+            "typeEstimated": {
+              "bedType": "DOUBLE",
+              "beds": 1,
+              "category": "SUPERIOR_ROOM"
+            }
+          },
+          "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers/7KQ08BQ8RG"
+        },
+        {
+          "boardType": "BREAKFAST",
+          "checkInDate": "2026-08-22",
+          "checkOutDate": "2026-08-25",
+          "guests": {
+            "adults": 2
+          },
+          "id": "PYDVTRKRM1",
+          "isLoyaltyRate": "false",
+          "policies": {
+            "cancellations": [
+              {
+                "deadline": "2026-08-21T00:00:00+02:00",
+                "description": {
+                  "text": "The amount due is not refundable even if the booking is cancelled or modified."
+                },
+                "percentage": "100",
+                "policyType": "CANCELLATION"
+              }
+            ],
+            "deposit": {
+              "acceptedPayments": {
+                "creditCardPolicies": [
+                  {
+                    "vendorCode": "AX"
+                  },
+                  {
+                    "vendorCode": "BF"
+                  },
+                  {
+                    "vendorCode": "CA"
+                  },
+                  {
+                    "vendorCode": "DC"
+                  },
+                  {
+                    "vendorCode": "EC"
+                  },
+                  {
+                    "vendorCode": "IK"
+                  },
+                  {
+                    "vendorCode": "JC"
+                  },
+                  {
+                    "vendorCode": "EE"
+                  }
+                ],
+                "creditCards": [
+                  "AX",
+                  "BF",
+                  "CA",
+                  "DC",
+                  "EC",
+                  "IK",
+                  "JC",
+                  "EE"
+                ],
+                "methods": [
+                  "CREDIT_CARD"
+                ]
+              }
+            },
+            "paymentType": "deposit",
+            "refundable": {
+              "cancellationRefund": "REFUNDABLE_UP_TO_DEADLINE"
+            }
+          },
+          "price": {
+            "currency": "EUR",
+            "taxes": [
+              {
+                "amount": "518.34",
+                "applicableDate": {
+                  "end": "2026-08-24",
+                  "start": "2026-08-22"
+                },
+                "code": "COUNTRY_TAX",
+                "currency": "EUR",
+                "included": true,
+                "pricingFrequency": "PER_STAY",
+                "pricingMode": "PER_OCCUPANT"
+              }
+            ],
+            "total": "1503.69",
+            "variations": {
+              "average": {
+                "total": "501.23"
+              },
+              "changes": [
+                {
+                  "base": "149.00",
+                  "endDate": "2026-08-24",
+                  "startDate": "2026-08-22",
+                  "total": "149.00"
+                },
+                {
+                  "base": "169.00",
+                  "endDate": "2026-08-25",
+                  "startDate": "2026-08-24",
+                  "total": "169.00"
+                }
+              ]
+            }
+          },
+          "rateCode": "OF3",
+          "rateFamilyEstimated": {
+            "code": "PKG",
+            "type": "P"
+          },
+          "room": {
+            "description": {
+              "lang": "EN",
+              "text": "Mercure Breaks-City / BB-BB/Bed+Brkfast\nStandard Room 1 dble bed GB Test GB"
+            },
+            "type": "C1D",
+            "typeEstimated": {
+              "bedType": "DOUBLE",
+              "beds": 1,
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "roomInformation": {
+            "description": "Mercure Breaks-City / BB-BB/Bed+Brkfast\nStandard Room 1 dble bed GB Test GB",
+            "type": "C1D",
+            "typeEstimated": {
+              "bedType": "DOUBLE",
+              "beds": 1,
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers/PYDVTRKRM1"
+        },
+        {
+          "boardType": "BREAKFAST",
+          "checkInDate": "2026-08-22",
+          "checkOutDate": "2026-08-25",
+          "guests": {
+            "adults": 2
+          },
+          "id": "IXK3A8Z5GF",
+          "isLoyaltyRate": "false",
+          "policies": {
+            "cancellations": [
+              {
+                "deadline": "2026-08-21T00:00:00+02:00",
+                "description": {
+                  "text": "The amount due is not refundable even if the booking is cancelled or modified."
+                },
+                "percentage": "100",
+                "policyType": "CANCELLATION"
+              }
+            ],
+            "deposit": {
+              "acceptedPayments": {
+                "creditCardPolicies": [
+                  {
+                    "vendorCode": "AX"
+                  },
+                  {
+                    "vendorCode": "BF"
+                  },
+                  {
+                    "vendorCode": "CA"
+                  },
+                  {
+                    "vendorCode": "DC"
+                  },
+                  {
+                    "vendorCode": "EC"
+                  },
+                  {
+                    "vendorCode": "IK"
+                  },
+                  {
+                    "vendorCode": "JC"
+                  },
+                  {
+                    "vendorCode": "EE"
+                  }
+                ],
+                "creditCards": [
+                  "AX",
+                  "BF",
+                  "CA",
+                  "DC",
+                  "EC",
+                  "IK",
+                  "JC",
+                  "EE"
+                ],
+                "methods": [
+                  "CREDIT_CARD"
+                ]
+              }
+            },
+            "paymentType": "deposit",
+            "refundable": {
+              "cancellationRefund": "REFUNDABLE_UP_TO_DEADLINE"
+            }
+          },
+          "price": {
+            "currency": "EUR",
+            "taxes": [
+              {
+                "amount": "518.34",
+                "applicableDate": {
+                  "end": "2026-08-24",
+                  "start": "2026-08-22"
+                },
+                "code": "COUNTRY_TAX",
+                "currency": "EUR",
+                "included": true,
+                "pricingFrequency": "PER_STAY",
+                "pricingMode": "PER_OCCUPANT"
+              }
+            ],
+            "total": "1503.69",
+            "variations": {
+              "average": {
+                "total": "501.23"
+              },
+              "changes": [
+                {
+                  "base": "149.00",
+                  "endDate": "2026-08-24",
+                  "startDate": "2026-08-22",
+                  "total": "149.00"
+                },
+                {
+                  "base": "169.00",
+                  "endDate": "2026-08-25",
+                  "startDate": "2026-08-24",
+                  "total": "169.00"
+                }
+              ]
+            }
+          },
+          "rateCode": "OF3",
+          "rateFamilyEstimated": {
+            "code": "PKG",
+            "type": "P"
+          },
+          "room": {
+            "description": {
+              "lang": "EN",
+              "text": "Mercure Breaks-City / BB-BB/Bed+Brkfast\nStandard Room with 2 single beds GB TEST GB"
+            },
+            "type": "C2T",
+            "typeEstimated": {
+              "bedType": "SINGLE",
+              "beds": 2,
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "roomInformation": {
+            "description": "Mercure Breaks-City / BB-BB/Bed+Brkfast\nStandard Room with 2 single beds GB TEST GB",
+            "type": "C2T",
+            "typeEstimated": {
+              "bedType": "SINGLE",
+              "beds": 2,
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers/IXK3A8Z5GF"
+        },
+        {
+          "boardType": "ROOM_ONLY",
+          "checkInDate": "2026-08-22",
+          "checkOutDate": "2026-08-25",
+          "guests": {
+            "adults": 2
+          },
+          "id": "AMU4U23PQD",
+          "isLoyaltyRate": "false",
+          "policies": {
+            "cancellations": [
+              {
+                "deadline": "2026-08-21T00:00:00+02:00",
+                "description": {
+                  "text": "The amount due is not refundable even if the booking is cancelled or modified."
+                },
+                "percentage": "100",
+                "policyType": "CANCELLATION"
+              }
+            ],
+            "deposit": {
+              "acceptedPayments": {
+                "creditCardPolicies": [
+                  {
+                    "vendorCode": "AX"
+                  },
+                  {
+                    "vendorCode": "BF"
+                  },
+                  {
+                    "vendorCode": "CA"
+                  },
+                  {
+                    "vendorCode": "DC"
+                  },
+                  {
+                    "vendorCode": "EC"
+                  },
+                  {
+                    "vendorCode": "IK"
+                  },
+                  {
+                    "vendorCode": "JC"
+                  },
+                  {
+                    "vendorCode": "EE"
+                  }
+                ],
+                "creditCards": [
+                  "AX",
+                  "BF",
+                  "CA",
+                  "DC",
+                  "EC",
+                  "IK",
+                  "JC",
+                  "EE"
+                ],
+                "methods": [
+                  "CREDIT_CARD"
+                ]
+              }
+            },
+            "paymentType": "deposit",
+            "refundable": {
+              "cancellationRefund": "REFUNDABLE_UP_TO_DEADLINE"
+            }
+          },
+          "price": {
+            "currency": "EUR",
+            "taxes": [
+              {
+                "amount": "518.34",
+                "applicableDate": {
+                  "end": "2026-08-24",
+                  "start": "2026-08-22"
+                },
+                "code": "COUNTRY_TAX",
+                "currency": "EUR",
+                "included": true,
+                "pricingFrequency": "PER_STAY",
+                "pricingMode": "PER_OCCUPANT"
+              }
+            ],
+            "total": "1551.69",
+            "variations": {
+              "average": {
+                "total": "517.23"
+              },
+              "changes": [
+                {
+                  "base": "165.00",
+                  "endDate": "2026-08-24",
+                  "startDate": "2026-08-22",
+                  "total": "165.00"
+                },
+                {
+                  "base": "185.00",
+                  "endDate": "2026-08-25",
+                  "startDate": "2026-08-24",
+                  "total": "185.00"
+                }
+              ]
+            }
+          },
+          "rateCode": "3KD",
+          "rateFamilyEstimated": {
+            "code": "PRO",
+            "type": "P"
+          },
+          "room": {
+            "description": {
+              "lang": "EN",
+              "text": "SAVER - 1-Room only\nSuperior Room with 1 double bed GB TEST GB"
+            },
+            "type": "A1D",
+            "typeEstimated": {
+              "bedType": "DOUBLE",
+              "beds": 1,
+              "category": "SUPERIOR_ROOM"
+            }
+          },
+          "roomInformation": {
+            "description": "SAVER - 1-Room only\nSuperior Room with 1 double bed GB TEST GB",
+            "type": "A1D",
+            "typeEstimated": {
+              "bedType": "DOUBLE",
+              "beds": 1,
+              "category": "SUPERIOR_ROOM"
+            }
+          },
+          "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers/AMU4U23PQD"
+        },
+        {
+          "boardType": "ROOM_ONLY",
+          "checkInDate": "2026-08-22",
+          "checkOutDate": "2026-08-25",
+          "guests": {
+            "adults": 2
+          },
+          "id": "DHXZI4A64X",
+          "isLoyaltyRate": "false",
+          "policies": {
+            "cancellations": [
+              {
+                "deadline": "2026-08-21T18:01:00+02:00",
+                "description": {
+                  "text": "No cancellation charge applies prior to 18:00(local time) on the day of arrival. Beyond that time, the first night will be charged."
+                },
+                "numberOfNights": 1,
+                "policyType": "CANCELLATION"
+              }
+            ],
+            "guarantee": {
+              "acceptedPayments": {
+                "creditCardPolicies": [
+                  {
+                    "vendorCode": "AX"
+                  },
+                  {
+                    "vendorCode": "BF"
+                  },
+                  {
+                    "vendorCode": "CA"
+                  },
+                  {
+                    "vendorCode": "DC"
+                  },
+                  {
+                    "vendorCode": "EC"
+                  },
+                  {
+                    "vendorCode": "IK"
+                  },
+                  {
+                    "vendorCode": "JC"
+                  },
+                  {
+                    "vendorCode": "EE"
+                  }
+                ],
+                "creditCards": [
+                  "AX",
+                  "BF",
+                  "CA",
+                  "DC",
+                  "EC",
+                  "IK",
+                  "JC",
+                  "EE"
+                ],
+                "methods": [
+                  "TRAVEL_AGENT_ID",
+                  "CREDIT_CARD"
+                ]
+              }
+            },
+            "paymentType": "guarantee",
+            "refundable": {
+              "cancellationRefund": "REFUNDABLE_UP_TO_DEADLINE"
+            }
+          },
+          "price": {
+            "currency": "EUR",
+            "taxes": [
+              {
+                "amount": "518.34",
+                "applicableDate": {
+                  "end": "2026-08-24",
+                  "start": "2026-08-22"
+                },
+                "code": "COUNTRY_TAX",
+                "currency": "EUR",
+                "included": true,
+                "pricingFrequency": "PER_STAY",
+                "pricingMode": "PER_OCCUPANT"
+              }
+            ],
+            "total": "1581.69",
+            "variations": {
+              "average": {
+                "total": "527.23"
+              },
+              "changes": [
+                {
+                  "base": "175.00",
+                  "endDate": "2026-08-24",
+                  "startDate": "2026-08-22",
+                  "total": "175.00"
+                },
+                {
+                  "base": "195.00",
+                  "endDate": "2026-08-25",
+                  "startDate": "2026-08-24",
+                  "total": "195.00"
+                }
+              ]
+            }
+          },
+          "rateCode": "1KD",
+          "rateFamilyEstimated": {
+            "code": "BAR",
+            "type": "P"
+          },
+          "room": {
+            "description": {
+              "lang": "EN",
+              "text": "FLEX - RO B2C-Room only\nStandard Room 1 dble bed GB Test GB"
+            },
+            "type": "C1D",
+            "typeEstimated": {
+              "bedType": "DOUBLE",
+              "beds": 1,
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "roomInformation": {
+            "description": "FLEX - RO B2C-Room only\nStandard Room 1 dble bed GB Test GB",
+            "type": "C1D",
+            "typeEstimated": {
+              "bedType": "DOUBLE",
+              "beds": 1,
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers/DHXZI4A64X"
+        },
+        {
+          "boardType": "ROOM_ONLY",
+          "checkInDate": "2026-08-22",
+          "checkOutDate": "2026-08-25",
+          "guests": {
+            "adults": 2
+          },
+          "id": "ZFLE1RLH3A",
+          "isLoyaltyRate": "false",
+          "policies": {
+            "cancellations": [
+              {
+                "deadline": "2026-08-21T18:01:00+02:00",
+                "description": {
+                  "text": "No cancellation charge applies prior to 18:00(local time) on the day of arrival. Beyond that time, the first night will be charged."
+                },
+                "numberOfNights": 1,
+                "policyType": "CANCELLATION"
+              }
+            ],
+            "guarantee": {
+              "acceptedPayments": {
+                "creditCardPolicies": [
+                  {
+                    "vendorCode": "AX"
+                  },
+                  {
+                    "vendorCode": "BF"
+                  },
+                  {
+                    "vendorCode": "CA"
+                  },
+                  {
+                    "vendorCode": "DC"
+                  },
+                  {
+                    "vendorCode": "EC"
+                  },
+                  {
+                    "vendorCode": "IK"
+                  },
+                  {
+                    "vendorCode": "JC"
+                  },
+                  {
+                    "vendorCode": "EE"
+                  }
+                ],
+                "creditCards": [
+                  "AX",
+                  "BF",
+                  "CA",
+                  "DC",
+                  "EC",
+                  "IK",
+                  "JC",
+                  "EE"
+                ],
+                "methods": [
+                  "TRAVEL_AGENT_ID",
+                  "CREDIT_CARD"
+                ]
+              }
+            },
+            "paymentType": "guarantee",
+            "refundable": {
+              "cancellationRefund": "REFUNDABLE_UP_TO_DEADLINE"
+            }
+          },
+          "price": {
+            "currency": "EUR",
+            "taxes": [
+              {
+                "amount": "518.34",
+                "applicableDate": {
+                  "end": "2026-08-24",
+                  "start": "2026-08-22"
+                },
+                "code": "COUNTRY_TAX",
+                "currency": "EUR",
+                "included": true,
+                "pricingFrequency": "PER_STAY",
+                "pricingMode": "PER_OCCUPANT"
+              }
+            ],
+            "total": "1581.69",
+            "variations": {
+              "average": {
+                "total": "527.23"
+              },
+              "changes": [
+                {
+                  "base": "175.00",
+                  "endDate": "2026-08-24",
+                  "startDate": "2026-08-22",
+                  "total": "175.00"
+                },
+                {
+                  "base": "195.00",
+                  "endDate": "2026-08-25",
+                  "startDate": "2026-08-24",
+                  "total": "195.00"
+                }
+              ]
+            }
+          },
+          "rateCode": "1KD",
+          "rateFamilyEstimated": {
+            "code": "BAR",
+            "type": "P"
+          },
+          "room": {
+            "description": {
+              "lang": "EN",
+              "text": "FLEX - RO B2C-Room only\nStandard Room with 2 single beds GB TEST GB"
+            },
+            "type": "C2T",
+            "typeEstimated": {
+              "bedType": "SINGLE",
+              "beds": 2,
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "roomInformation": {
+            "description": "FLEX - RO B2C-Room only\nStandard Room with 2 single beds GB TEST GB",
+            "type": "C2T",
+            "typeEstimated": {
+              "bedType": "SINGLE",
+              "beds": 2,
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers/ZFLE1RLH3A"
+        },
+        {
+          "boardType": "ROOM_ONLY",
+          "checkInDate": "2026-08-22",
+          "checkOutDate": "2026-08-25",
+          "guests": {
+            "adults": 2
+          },
+          "id": "6KDGLTLU8X",
+          "isLoyaltyRate": "false",
+          "policies": {
+            "cancellations": [
+              {
+                "deadline": "2026-08-21T18:01:00+02:00",
+                "description": {
+                  "text": "No cancellation charge applies prior to 18:00(local time) on the day of arrival. Beyond that time, the first night will be charged."
+                },
+                "numberOfNights": 1,
+                "policyType": "CANCELLATION"
+              }
+            ],
+            "guarantee": {
+              "acceptedPayments": {
+                "creditCardPolicies": [
+                  {
+                    "vendorCode": "AX"
+                  },
+                  {
+                    "vendorCode": "BF"
+                  },
+                  {
+                    "vendorCode": "CA"
+                  },
+                  {
+                    "vendorCode": "DC"
+                  },
+                  {
+                    "vendorCode": "EC"
+                  },
+                  {
+                    "vendorCode": "IK"
+                  },
+                  {
+                    "vendorCode": "JC"
+                  },
+                  {
+                    "vendorCode": "EE"
+                  }
+                ],
+                "creditCards": [
+                  "AX",
+                  "BF",
+                  "CA",
+                  "DC",
+                  "EC",
+                  "IK",
+                  "JC",
+                  "EE"
+                ],
+                "methods": [
+                  "TRAVEL_AGENT_ID",
+                  "CREDIT_CARD"
+                ]
+              }
+            },
+            "paymentType": "guarantee",
+            "refundable": {
+              "cancellationRefund": "REFUNDABLE_UP_TO_DEADLINE"
+            }
+          },
+          "price": {
+            "currency": "EUR",
+            "taxes": [
+              {
+                "amount": "518.34",
+                "applicableDate": {
+                  "end": "2026-08-24",
+                  "start": "2026-08-22"
+                },
+                "code": "COUNTRY_TAX",
+                "currency": "EUR",
+                "included": true,
+                "pricingFrequency": "PER_STAY",
+                "pricingMode": "PER_OCCUPANT"
+              }
+            ],
+            "total": "1473.49",
+            "variations": {
+              "average": {
+                "total": "491.16"
+              },
+              "changes": [
+                {
+                  "base": "136.50",
+                  "endDate": "2026-08-24",
+                  "startDate": "2026-08-22",
+                  "total": "136.50"
+                },
+                {
+                  "base": "163.80",
+                  "endDate": "2026-08-25",
+                  "startDate": "2026-08-24",
+                  "total": "163.80"
+                }
+              ]
+            }
+          },
+          "rateCode": "1SL",
+          "room": {
+            "description": {
+              "lang": "EN",
+              "text": "Best Rate-Room only\nStandard Room 1 dble bed GB Test GB"
+            },
+            "type": "C1D",
+            "typeEstimated": {
+              "bedType": "DOUBLE",
+              "beds": 1,
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "roomInformation": {
+            "description": "Best Rate-Room only\nStandard Room 1 dble bed GB Test GB",
+            "type": "C1D",
+            "typeEstimated": {
+              "bedType": "DOUBLE",
+              "beds": 1,
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers/6KDGLTLU8X"
+        },
+        {
+          "boardType": "ROOM_ONLY",
+          "checkInDate": "2026-08-22",
+          "checkOutDate": "2026-08-25",
+          "guests": {
+            "adults": 2
+          },
+          "id": "K0FXUUXHZ8",
+          "isLoyaltyRate": "false",
+          "policies": {
+            "cancellations": [
+              {
+                "deadline": "2026-08-21T18:01:00+02:00",
+                "description": {
+                  "text": "No cancellation charge applies prior to 18:00(local time) on the day of arrival. Beyond that time, the first night will be charged."
+                },
+                "numberOfNights": 1,
+                "policyType": "CANCELLATION"
+              }
+            ],
+            "guarantee": {
+              "acceptedPayments": {
+                "creditCardPolicies": [
+                  {
+                    "vendorCode": "AX"
+                  },
+                  {
+                    "vendorCode": "BF"
+                  },
+                  {
+                    "vendorCode": "CA"
+                  },
+                  {
+                    "vendorCode": "DC"
+                  },
+                  {
+                    "vendorCode": "EC"
+                  },
+                  {
+                    "vendorCode": "IK"
+                  },
+                  {
+                    "vendorCode": "JC"
+                  },
+                  {
+                    "vendorCode": "EE"
+                  }
+                ],
+                "creditCards": [
+                  "AX",
+                  "BF",
+                  "CA",
+                  "DC",
+                  "EC",
+                  "IK",
+                  "JC",
+                  "EE"
+                ],
+                "methods": [
+                  "TRAVEL_AGENT_ID",
+                  "CREDIT_CARD"
+                ]
+              }
+            },
+            "paymentType": "guarantee",
+            "refundable": {
+              "cancellationRefund": "REFUNDABLE_UP_TO_DEADLINE"
+            }
+          },
+          "price": {
+            "currency": "EUR",
+            "taxes": [
+              {
+                "amount": "518.34",
+                "applicableDate": {
+                  "end": "2026-08-24",
+                  "start": "2026-08-22"
+                },
+                "code": "COUNTRY_TAX",
+                "currency": "EUR",
+                "included": true,
+                "pricingFrequency": "PER_STAY",
+                "pricingMode": "PER_OCCUPANT"
+              }
+            ],
+            "total": "1473.49",
+            "variations": {
+              "average": {
+                "total": "491.16"
+              },
+              "changes": [
+                {
+                  "base": "136.50",
+                  "endDate": "2026-08-24",
+                  "startDate": "2026-08-22",
+                  "total": "136.50"
+                },
+                {
+                  "base": "163.80",
+                  "endDate": "2026-08-25",
+                  "startDate": "2026-08-24",
+                  "total": "163.80"
+                }
+              ]
+            }
+          },
+          "rateCode": "1SL",
+          "room": {
+            "description": {
+              "lang": "EN",
+              "text": "Best Rate-Room only\nStandard Room with 2 single beds GB TEST GB"
+            },
+            "type": "C2T",
+            "typeEstimated": {
+              "bedType": "SINGLE",
+              "beds": 2,
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "roomInformation": {
+            "description": "Best Rate-Room only\nStandard Room with 2 single beds GB TEST GB",
+            "type": "C2T",
+            "typeEstimated": {
+              "bedType": "SINGLE",
+              "beds": 2,
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers/K0FXUUXHZ8"
+        },
+        {
+          "boardType": "ROOM_ONLY",
+          "checkInDate": "2026-08-22",
+          "checkOutDate": "2026-08-25",
+          "guests": {
+            "adults": 2
+          },
+          "id": "CDYGXJUVJ6",
+          "isLoyaltyRate": "false",
+          "policies": {
+            "cancellations": [
+              {
+                "deadline": "2026-08-21T18:01:00+02:00",
+                "description": {
+                  "text": "No cancellation charge applies prior to 18:00(local time) on the day of arrival. Beyond that time, the first night will be charged."
+                },
+                "numberOfNights": 1,
+                "policyType": "CANCELLATION"
+              }
+            ],
+            "guarantee": {
+              "acceptedPayments": {
+                "creditCardPolicies": [
+                  {
+                    "vendorCode": "AX"
+                  },
+                  {
+                    "vendorCode": "BF"
+                  },
+                  {
+                    "vendorCode": "CA"
+                  },
+                  {
+                    "vendorCode": "DC"
+                  },
+                  {
+                    "vendorCode": "EC"
+                  },
+                  {
+                    "vendorCode": "IK"
+                  },
+                  {
+                    "vendorCode": "JC"
+                  },
+                  {
+                    "vendorCode": "EE"
+                  }
+                ],
+                "creditCards": [
+                  "AX",
+                  "BF",
+                  "CA",
+                  "DC",
+                  "EC",
+                  "IK",
+                  "JC",
+                  "EE"
+                ],
+                "methods": [
+                  "TRAVEL_AGENT_ID",
+                  "CREDIT_CARD"
+                ]
+              }
+            },
+            "paymentType": "guarantee",
+            "refundable": {
+              "cancellationRefund": "REFUNDABLE_UP_TO_DEADLINE"
+            }
+          },
+          "price": {
+            "currency": "EUR",
+            "taxes": [
+              {
+                "amount": "518.34",
+                "applicableDate": {
+                  "end": "2026-08-24",
+                  "start": "2026-08-22"
+                },
+                "code": "COUNTRY_TAX",
+                "currency": "EUR",
+                "included": true,
+                "pricingFrequency": "PER_STAY",
+                "pricingMode": "PER_OCCUPANT"
+              }
+            ],
+            "total": "1483.59",
+            "variations": {
+              "average": {
+                "total": "494.53"
+              },
+              "changes": [
+                {
+                  "base": "143.50",
+                  "endDate": "2026-08-24",
+                  "startDate": "2026-08-22",
+                  "total": "143.50"
+                },
+                {
+                  "base": "159.90",
+                  "endDate": "2026-08-25",
+                  "startDate": "2026-08-24",
+                  "total": "159.90"
+                }
+              ]
+            }
+          },
+          "rateCode": "FGR",
+          "room": {
+            "description": {
+              "lang": "EN",
+              "text": "FGR Itzel-Room only\nStandard Room 1 dble bed GB Test GB"
+            },
+            "type": "C1D",
+            "typeEstimated": {
+              "bedType": "DOUBLE",
+              "beds": 1,
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "roomInformation": {
+            "description": "FGR Itzel-Room only\nStandard Room 1 dble bed GB Test GB",
+            "type": "C1D",
+            "typeEstimated": {
+              "bedType": "DOUBLE",
+              "beds": 1,
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers/CDYGXJUVJ6"
+        },
+        {
+          "boardType": "ROOM_ONLY",
+          "checkInDate": "2026-08-22",
+          "checkOutDate": "2026-08-25",
+          "guests": {
+            "adults": 2
+          },
+          "id": "2RH4O97MTZ",
+          "isLoyaltyRate": "false",
+          "policies": {
+            "cancellations": [
+              {
+                "deadline": "2026-08-21T18:01:00+02:00",
+                "description": {
+                  "text": "No cancellation charge applies prior to 18:00(local time) on the day of arrival. Beyond that time, the first night will be charged."
+                },
+                "numberOfNights": 1,
+                "policyType": "CANCELLATION"
+              }
+            ],
+            "guarantee": {
+              "acceptedPayments": {
+                "creditCardPolicies": [
+                  {
+                    "vendorCode": "AX"
+                  },
+                  {
+                    "vendorCode": "BF"
+                  },
+                  {
+                    "vendorCode": "CA"
+                  },
+                  {
+                    "vendorCode": "DC"
+                  },
+                  {
+                    "vendorCode": "EC"
+                  },
+                  {
+                    "vendorCode": "IK"
+                  },
+                  {
+                    "vendorCode": "JC"
+                  },
+                  {
+                    "vendorCode": "EE"
+                  }
+                ],
+                "creditCards": [
+                  "AX",
+                  "BF",
+                  "CA",
+                  "DC",
+                  "EC",
+                  "IK",
+                  "JC",
+                  "EE"
+                ],
+                "methods": [
+                  "TRAVEL_AGENT_ID",
+                  "CREDIT_CARD"
+                ]
+              }
+            },
+            "paymentType": "guarantee",
+            "refundable": {
+              "cancellationRefund": "REFUNDABLE_UP_TO_DEADLINE"
+            }
+          },
+          "price": {
+            "currency": "EUR",
+            "taxes": [
+              {
+                "amount": "518.34",
+                "applicableDate": {
+                  "end": "2026-08-24",
+                  "start": "2026-08-22"
+                },
+                "code": "COUNTRY_TAX",
+                "currency": "EUR",
+                "included": true,
+                "pricingFrequency": "PER_STAY",
+                "pricingMode": "PER_OCCUPANT"
+              }
+            ],
+            "total": "1483.59",
+            "variations": {
+              "average": {
+                "total": "494.53"
+              },
+              "changes": [
+                {
+                  "base": "143.50",
+                  "endDate": "2026-08-24",
+                  "startDate": "2026-08-22",
+                  "total": "143.50"
+                },
+                {
+                  "base": "159.90",
+                  "endDate": "2026-08-25",
+                  "startDate": "2026-08-24",
+                  "total": "159.90"
+                }
+              ]
+            }
+          },
+          "rateCode": "FGR",
+          "room": {
+            "description": {
+              "lang": "EN",
+              "text": "FGR Itzel-Room only\nStandard Room with 2 single beds GB TEST GB"
+            },
+            "type": "C2T",
+            "typeEstimated": {
+              "bedType": "SINGLE",
+              "beds": 2,
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "roomInformation": {
+            "description": "FGR Itzel-Room only\nStandard Room with 2 single beds GB TEST GB",
+            "type": "C2T",
+            "typeEstimated": {
+              "bedType": "SINGLE",
+              "beds": 2,
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers/2RH4O97MTZ"
+        },
+        {
+          "boardType": "BREAKFAST",
+          "checkInDate": "2026-08-22",
+          "checkOutDate": "2026-08-25",
+          "guests": {
+            "adults": 2
+          },
+          "id": "VOHOM6ZVBR",
+          "isLoyaltyRate": "false",
+          "policies": {
+            "cancellations": [
+              {
+                "deadline": "2026-08-21T00:00:00+02:00",
+                "description": {
+                  "text": "The amount due is not refundable even if the booking is cancelled or modified."
+                },
+                "percentage": "100",
+                "policyType": "CANCELLATION"
+              }
+            ],
+            "deposit": {
+              "acceptedPayments": {
+                "creditCardPolicies": [
+                  {
+                    "vendorCode": "AX"
+                  },
+                  {
+                    "vendorCode": "BF"
+                  },
+                  {
+                    "vendorCode": "CA"
+                  },
+                  {
+                    "vendorCode": "DC"
+                  },
+                  {
+                    "vendorCode": "EC"
+                  },
+                  {
+                    "vendorCode": "IK"
+                  },
+                  {
+                    "vendorCode": "JC"
+                  },
+                  {
+                    "vendorCode": "EE"
+                  }
+                ],
+                "creditCards": [
+                  "AX",
+                  "BF",
+                  "CA",
+                  "DC",
+                  "EC",
+                  "IK",
+                  "JC",
+                  "EE"
+                ],
+                "methods": [
+                  "CREDIT_CARD"
+                ]
+              }
+            },
+            "paymentType": "deposit",
+            "refundable": {
+              "cancellationRefund": "REFUNDABLE_UP_TO_DEADLINE"
+            }
+          },
+          "price": {
+            "currency": "EUR",
+            "taxes": [
+              {
+                "amount": "518.34",
+                "applicableDate": {
+                  "end": "2026-08-24",
+                  "start": "2026-08-22"
+                },
+                "code": "COUNTRY_TAX",
+                "currency": "EUR",
+                "included": true,
+                "pricingFrequency": "PER_STAY",
+                "pricingMode": "PER_OCCUPANT"
+              }
+            ],
+            "total": "1593.69",
+            "variations": {
+              "average": {
+                "total": "531.23"
+              },
+              "changes": [
+                {
+                  "base": "179.00",
+                  "endDate": "2026-08-24",
+                  "startDate": "2026-08-22",
+                  "total": "179.00"
+                },
+                {
+                  "base": "199.00",
+                  "endDate": "2026-08-25",
+                  "startDate": "2026-08-24",
+                  "total": "199.00"
+                }
+              ]
+            }
+          },
+          "rateCode": "OF3",
+          "rateFamilyEstimated": {
+            "code": "PKG",
+            "type": "P"
+          },
+          "room": {
+            "description": {
+              "lang": "EN",
+              "text": "Mercure Breaks-City / BB-BB/Bed+Brkfast\nSuperior Room with 1 double bed GB TEST GB"
+            },
+            "type": "A1D",
+            "typeEstimated": {
+              "bedType": "DOUBLE",
+              "beds": 1,
+              "category": "SUPERIOR_ROOM"
+            }
+          },
+          "roomInformation": {
+            "description": "Mercure Breaks-City / BB-BB/Bed+Brkfast\nSuperior Room with 1 double bed GB TEST GB",
+            "type": "A1D",
+            "typeEstimated": {
+              "bedType": "DOUBLE",
+              "beds": 1,
+              "category": "SUPERIOR_ROOM"
+            }
+          },
+          "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers/VOHOM6ZVBR"
+        },
+        {
+          "boardType": "ROOM_ONLY",
+          "checkInDate": "2026-08-22",
+          "checkOutDate": "2026-08-25",
+          "guests": {
+            "adults": 2
+          },
+          "id": "PMX6SCP20A",
+          "isLoyaltyRate": "false",
+          "policies": {
+            "cancellations": [
+              {
+                "deadline": "2026-08-21T18:01:00+02:00",
+                "description": {
+                  "text": "No cancellation charge applies prior to 18:00(local time) on the day of arrival. Beyond that time, the first night will be charged."
+                },
+                "numberOfNights": 1,
+                "policyType": "CANCELLATION"
+              }
+            ],
+            "guarantee": {
+              "acceptedPayments": {
+                "creditCardPolicies": [
+                  {
+                    "vendorCode": "AX"
+                  },
+                  {
+                    "vendorCode": "BF"
+                  },
+                  {
+                    "vendorCode": "CA"
+                  },
+                  {
+                    "vendorCode": "DC"
+                  },
+                  {
+                    "vendorCode": "EC"
+                  },
+                  {
+                    "vendorCode": "IK"
+                  },
+                  {
+                    "vendorCode": "JC"
+                  },
+                  {
+                    "vendorCode": "EE"
+                  }
+                ],
+                "creditCards": [
+                  "AX",
+                  "BF",
+                  "CA",
+                  "DC",
+                  "EC",
+                  "IK",
+                  "JC",
+                  "EE"
+                ],
+                "methods": [
+                  "TRAVEL_AGENT_ID",
+                  "CREDIT_CARD"
+                ]
+              }
+            },
+            "paymentType": "guarantee",
+            "refundable": {
+              "cancellationRefund": "REFUNDABLE_UP_TO_DEADLINE"
+            }
+          },
+          "price": {
+            "currency": "EUR",
+            "taxes": [
+              {
+                "amount": "518.34",
+                "applicableDate": {
+                  "end": "2026-08-24",
+                  "start": "2026-08-22"
+                },
+                "code": "COUNTRY_TAX",
+                "currency": "EUR",
+                "included": true,
+                "pricingFrequency": "PER_STAY",
+                "pricingMode": "PER_OCCUPANT"
+              }
+            ],
+            "total": "1671.69",
+            "variations": {
+              "average": {
+                "total": "557.23"
+              },
+              "changes": [
+                {
+                  "base": "205.00",
+                  "endDate": "2026-08-24",
+                  "startDate": "2026-08-22",
+                  "total": "205.00"
+                },
+                {
+                  "base": "225.00",
+                  "endDate": "2026-08-25",
+                  "startDate": "2026-08-24",
+                  "total": "225.00"
+                }
+              ]
+            }
+          },
+          "rateCode": "1KD",
+          "rateFamilyEstimated": {
+            "code": "BAR",
+            "type": "P"
+          },
+          "room": {
+            "description": {
+              "lang": "EN",
+              "text": "FLEX - RO B2C-Room only\nSuperior Room with 1 double bed GB TEST GB"
+            },
+            "type": "A1D",
+            "typeEstimated": {
+              "bedType": "DOUBLE",
+              "beds": 1,
+              "category": "SUPERIOR_ROOM"
+            }
+          },
+          "roomInformation": {
+            "description": "FLEX - RO B2C-Room only\nSuperior Room with 1 double bed GB TEST GB",
+            "type": "A1D",
+            "typeEstimated": {
+              "bedType": "DOUBLE",
+              "beds": 1,
+              "category": "SUPERIOR_ROOM"
+            }
+          },
+          "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers/PMX6SCP20A"
+        },
+        {
+          "boardType": "ROOM_ONLY",
+          "checkInDate": "2026-08-22",
+          "checkOutDate": "2026-08-25",
+          "guests": {
+            "adults": 2
+          },
+          "id": "GVRNFQWHBX",
+          "isLoyaltyRate": "false",
+          "policies": {
+            "cancellations": [
+              {
+                "deadline": "2026-08-21T18:01:00+02:00",
+                "description": {
+                  "text": "No cancellation charge applies prior to 18:00(local time) on the day of arrival. Beyond that time, the first night will be charged."
+                },
+                "numberOfNights": 1,
+                "policyType": "CANCELLATION"
+              }
+            ],
+            "guarantee": {
+              "acceptedPayments": {
+                "creditCardPolicies": [
+                  {
+                    "vendorCode": "AX"
+                  },
+                  {
+                    "vendorCode": "BF"
+                  },
+                  {
+                    "vendorCode": "CA"
+                  },
+                  {
+                    "vendorCode": "DC"
+                  },
+                  {
+                    "vendorCode": "EC"
+                  },
+                  {
+                    "vendorCode": "IK"
+                  },
+                  {
+                    "vendorCode": "JC"
+                  },
+                  {
+                    "vendorCode": "EE"
+                  }
+                ],
+                "creditCards": [
+                  "AX",
+                  "BF",
+                  "CA",
+                  "DC",
+                  "EC",
+                  "IK",
+                  "JC",
+                  "EE"
+                ],
+                "methods": [
+                  "TRAVEL_AGENT_ID",
+                  "CREDIT_CARD"
+                ]
+              }
+            },
+            "paymentType": "guarantee",
+            "refundable": {
+              "cancellationRefund": "REFUNDABLE_UP_TO_DEADLINE"
+            }
+          },
+          "price": {
+            "currency": "EUR",
+            "taxes": [
+              {
+                "amount": "518.34",
+                "applicableDate": {
+                  "end": "2026-08-24",
+                  "start": "2026-08-22"
+                },
+                "code": "COUNTRY_TAX",
+                "currency": "EUR",
+                "included": true,
+                "pricingFrequency": "PER_STAY",
+                "pricingMode": "PER_OCCUPANT"
+              }
+            ],
+            "total": "1545.49",
+            "variations": {
+              "average": {
+                "total": "515.16"
+              },
+              "changes": [
+                {
+                  "base": "159.90",
+                  "endDate": "2026-08-24",
+                  "startDate": "2026-08-22",
+                  "total": "159.90"
+                },
+                {
+                  "base": "189.00",
+                  "endDate": "2026-08-25",
+                  "startDate": "2026-08-24",
+                  "total": "189.00"
+                }
+              ]
+            }
+          },
+          "rateCode": "1SL",
+          "room": {
+            "description": {
+              "lang": "EN",
+              "text": "Best Rate-Room only\nSuperior Room with 1 double bed GB TEST GB"
+            },
+            "type": "A1D",
+            "typeEstimated": {
+              "bedType": "DOUBLE",
+              "beds": 1,
+              "category": "SUPERIOR_ROOM"
+            }
+          },
+          "roomInformation": {
+            "description": "Best Rate-Room only\nSuperior Room with 1 double bed GB TEST GB",
+            "type": "A1D",
+            "typeEstimated": {
+              "bedType": "DOUBLE",
+              "beds": 1,
+              "category": "SUPERIOR_ROOM"
+            }
+          },
+          "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers/GVRNFQWHBX"
+        },
+        {
+          "boardType": "ROOM_ONLY",
+          "checkInDate": "2026-08-22",
+          "checkOutDate": "2026-08-25",
+          "guests": {
+            "adults": 2
+          },
+          "id": "7968BOE86Y",
+          "isLoyaltyRate": "false",
+          "policies": {
+            "cancellations": [
+              {
+                "deadline": "2026-08-21T18:01:00+02:00",
+                "description": {
+                  "text": "No cancellation charge applies prior to 18:00(local time) on the day of arrival. Beyond that time, the first night will be charged."
+                },
+                "numberOfNights": 1,
+                "policyType": "CANCELLATION"
+              }
+            ],
+            "guarantee": {
+              "acceptedPayments": {
+                "creditCardPolicies": [
+                  {
+                    "vendorCode": "AX"
+                  },
+                  {
+                    "vendorCode": "BF"
+                  },
+                  {
+                    "vendorCode": "CA"
+                  },
+                  {
+                    "vendorCode": "DC"
+                  },
+                  {
+                    "vendorCode": "EC"
+                  },
+                  {
+                    "vendorCode": "IK"
+                  },
+                  {
+                    "vendorCode": "JC"
+                  },
+                  {
+                    "vendorCode": "EE"
+                  }
+                ],
+                "creditCards": [
+                  "AX",
+                  "BF",
+                  "CA",
+                  "DC",
+                  "EC",
+                  "IK",
+                  "JC",
+                  "EE"
+                ],
+                "methods": [
+                  "TRAVEL_AGENT_ID",
+                  "CREDIT_CARD"
+                ]
+              }
+            },
+            "paymentType": "guarantee",
+            "refundable": {
+              "cancellationRefund": "REFUNDABLE_UP_TO_DEADLINE"
+            }
+          },
+          "price": {
+            "currency": "EUR",
+            "taxes": [
+              {
+                "amount": "518.34",
+                "applicableDate": {
+                  "end": "2026-08-24",
+                  "start": "2026-08-22"
+                },
+                "code": "COUNTRY_TAX",
+                "currency": "EUR",
+                "included": true,
+                "pricingFrequency": "PER_STAY",
+                "pricingMode": "PER_OCCUPANT"
+              }
+            ],
+            "total": "1557.39",
+            "variations": {
+              "average": {
+                "total": "519.13"
+              },
+              "changes": [
+                {
+                  "base": "168.10",
+                  "endDate": "2026-08-24",
+                  "startDate": "2026-08-22",
+                  "total": "168.10"
+                },
+                {
+                  "base": "184.50",
+                  "endDate": "2026-08-25",
+                  "startDate": "2026-08-24",
+                  "total": "184.50"
+                }
+              ]
+            }
+          },
+          "rateCode": "FGR",
+          "room": {
+            "description": {
+              "lang": "EN",
+              "text": "FGR Itzel-Room only\nSuperior Room with 1 double bed GB TEST GB"
+            },
+            "type": "A1D",
+            "typeEstimated": {
+              "bedType": "DOUBLE",
+              "beds": 1,
+              "category": "SUPERIOR_ROOM"
+            }
+          },
+          "roomInformation": {
+            "description": "FGR Itzel-Room only\nSuperior Room with 1 double bed GB TEST GB",
+            "type": "A1D",
+            "typeEstimated": {
+              "bedType": "DOUBLE",
+              "beds": 1,
+              "category": "SUPERIOR_ROOM"
+            }
+          },
+          "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers/7968BOE86Y"
         }
-      ]
+      ],
+      "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers?hotelIds=RTPAREIF\u0026adults=2\u0026checkInDate=2026-08-22\u0026checkOutDate=2026-08-25",
+      "type": "hotel-offers"
     },
     {
-      "type": "hotel-offers",
+      "available": true,
       "hotel": {
-        "type": "hotel",
-        "hotelId": "XXPAR999",
-        "chainCode": "XX",
-        "name": "SOLD OUT PROPERTY",
-        "cityCode": "PAR"
+        "chainCode": "RT",
+        "cityCode": "PAR",
+        "dupeId": "700092120",
+        "hotelId": "RTPARMAI",
+        "latitude": 48.84333,
+        "longitude": 2.32019,
+        "name": "ibis Paris Tour Montparnasse 15th",
+        "type": "hotel"
       },
-      "available": false,
-      "offers": []
+      "offers": [
+        {
+          "boardType": "ROOM_ONLY",
+          "checkInDate": "2026-08-22",
+          "checkOutDate": "2026-08-25",
+          "guests": {
+            "adults": 2
+          },
+          "id": "GGSRW6Q45R",
+          "isLoyaltyRate": "false",
+          "policies": {
+            "guarantee": {
+              "acceptedPayments": {
+                "creditCardPolicies": [
+                  {
+                    "vendorCode": "AX"
+                  },
+                  {
+                    "vendorCode": "BF"
+                  },
+                  {
+                    "vendorCode": "CA"
+                  },
+                  {
+                    "vendorCode": "DC"
+                  },
+                  {
+                    "vendorCode": "EC"
+                  },
+                  {
+                    "vendorCode": "IK"
+                  },
+                  {
+                    "vendorCode": "JC"
+                  },
+                  {
+                    "vendorCode": "EE"
+                  }
+                ],
+                "creditCards": [
+                  "AX",
+                  "BF",
+                  "CA",
+                  "DC",
+                  "EC",
+                  "IK",
+                  "JC",
+                  "EE"
+                ],
+                "methods": [
+                  "CREDIT_CARD"
+                ]
+              }
+            },
+            "holdTime": {
+              "deadline": "2026-08-22T19:00:00"
+            },
+            "paymentType": "guarantee",
+            "refundable": {
+              "cancellationRefund": "REFUNDABLE"
+            }
+          },
+          "price": {
+            "currency": "EUR",
+            "taxes": [
+              {
+                "amount": "0.90",
+                "applicableDate": {
+                  "end": "2026-08-24",
+                  "start": "2026-08-22"
+                },
+                "code": "CITY_TAX",
+                "currency": "EUR",
+                "included": true,
+                "pricingFrequency": "PER_NIGHT",
+                "pricingMode": "PER_OCCUPANT"
+              }
+            ],
+            "total": "272.40",
+            "variations": {
+              "average": {
+                "total": "90.80"
+              },
+              "changes": [
+                {
+                  "base": "89.00",
+                  "endDate": "2026-08-25",
+                  "startDate": "2026-08-22"
+                }
+              ]
+            }
+          },
+          "rateCode": "D20",
+          "rateFamilyEstimated": {
+            "code": "PRO",
+            "type": "P"
+          },
+          "room": {
+            "description": {
+              "lang": "EN",
+              "text": "ADVANCE SAVER-Room only\nRoom for 1 or 2 persons"
+            },
+            "type": "ROH",
+            "typeEstimated": {
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "roomInformation": {
+            "description": "ADVANCE SAVER-Room only\nRoom for 1 or 2 persons",
+            "type": "ROH",
+            "typeEstimated": {
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers/GGSRW6Q45R"
+        },
+        {
+          "boardType": "BREAKFAST",
+          "checkInDate": "2026-08-22",
+          "checkOutDate": "2026-08-25",
+          "guests": {
+            "adults": 2
+          },
+          "id": "AJEMY9BG99",
+          "isLoyaltyRate": "false",
+          "policies": {
+            "guarantee": {
+              "acceptedPayments": {
+                "creditCardPolicies": [
+                  {
+                    "vendorCode": "AX"
+                  },
+                  {
+                    "vendorCode": "BF"
+                  },
+                  {
+                    "vendorCode": "CA"
+                  },
+                  {
+                    "vendorCode": "DC"
+                  },
+                  {
+                    "vendorCode": "EC"
+                  },
+                  {
+                    "vendorCode": "IK"
+                  },
+                  {
+                    "vendorCode": "JC"
+                  },
+                  {
+                    "vendorCode": "EE"
+                  }
+                ],
+                "creditCards": [
+                  "AX",
+                  "BF",
+                  "CA",
+                  "DC",
+                  "EC",
+                  "IK",
+                  "JC",
+                  "EE"
+                ],
+                "methods": [
+                  "CREDIT_CARD"
+                ]
+              }
+            },
+            "holdTime": {
+              "deadline": "2026-08-22T19:00:00"
+            },
+            "paymentType": "guarantee",
+            "refundable": {
+              "cancellationRefund": "REFUNDABLE"
+            }
+          },
+          "price": {
+            "currency": "EUR",
+            "taxes": [
+              {
+                "amount": "0.90",
+                "applicableDate": {
+                  "end": "2026-08-24",
+                  "start": "2026-08-22"
+                },
+                "code": "CITY_TAX",
+                "currency": "EUR",
+                "included": true,
+                "pricingFrequency": "PER_NIGHT",
+                "pricingMode": "PER_OCCUPANT"
+              }
+            ],
+            "total": "455.40",
+            "variations": {
+              "average": {
+                "total": "151.80"
+              },
+              "changes": [
+                {
+                  "base": "150.00",
+                  "endDate": "2026-08-25",
+                  "startDate": "2026-08-22"
+                }
+              ]
+            }
+          },
+          "rateCode": "PIB",
+          "rateFamilyEstimated": {
+            "code": "BAR",
+            "type": "P"
+          },
+          "room": {
+            "description": {
+              "lang": "EN",
+              "text": "FLEXIBLE RATE-BB/Bed+Brkfast\nRoom for 1 or 2 persons"
+            },
+            "type": "ROH",
+            "typeEstimated": {
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "roomInformation": {
+            "description": "FLEXIBLE RATE-BB/Bed+Brkfast\nRoom for 1 or 2 persons",
+            "type": "ROH",
+            "typeEstimated": {
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers/AJEMY9BG99"
+        },
+        {
+          "boardType": "BREAKFAST",
+          "checkInDate": "2026-08-22",
+          "checkOutDate": "2026-08-25",
+          "guests": {
+            "adults": 2
+          },
+          "id": "NR2NH35PZY",
+          "isLoyaltyRate": "false",
+          "policies": {
+            "guarantee": {
+              "acceptedPayments": {
+                "creditCardPolicies": [
+                  {
+                    "vendorCode": "AX"
+                  },
+                  {
+                    "vendorCode": "BF"
+                  },
+                  {
+                    "vendorCode": "CA"
+                  },
+                  {
+                    "vendorCode": "DC"
+                  },
+                  {
+                    "vendorCode": "EC"
+                  },
+                  {
+                    "vendorCode": "IK"
+                  },
+                  {
+                    "vendorCode": "JC"
+                  },
+                  {
+                    "vendorCode": "EE"
+                  }
+                ],
+                "creditCards": [
+                  "AX",
+                  "BF",
+                  "CA",
+                  "DC",
+                  "EC",
+                  "IK",
+                  "JC",
+                  "EE"
+                ],
+                "methods": [
+                  "CREDIT_CARD"
+                ]
+              }
+            },
+            "holdTime": {
+              "deadline": "2026-08-22T19:00:00"
+            },
+            "paymentType": "guarantee",
+            "refundable": {
+              "cancellationRefund": "REFUNDABLE"
+            }
+          },
+          "price": {
+            "currency": "EUR",
+            "taxes": [
+              {
+                "amount": "0.90",
+                "applicableDate": {
+                  "end": "2026-08-24",
+                  "start": "2026-08-22"
+                },
+                "code": "CITY_TAX",
+                "currency": "EUR",
+                "included": true,
+                "pricingFrequency": "PER_NIGHT",
+                "pricingMode": "PER_OCCUPANT"
+              }
+            ],
+            "total": "455.40",
+            "variations": {
+              "average": {
+                "total": "151.80"
+              },
+              "changes": [
+                {
+                  "base": "150.00",
+                  "endDate": "2026-08-25",
+                  "startDate": "2026-08-22"
+                }
+              ]
+            }
+          },
+          "rateCode": "RAC",
+          "rateFamilyEstimated": {
+            "code": "BAR",
+            "type": "P"
+          },
+          "room": {
+            "description": {
+              "lang": "EN",
+              "text": "FLEXIBLE RATE-BB/Bed+Brkfast\nRoom for 1 or 2 persons"
+            },
+            "type": "ROH",
+            "typeEstimated": {
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "roomInformation": {
+            "description": "FLEXIBLE RATE-BB/Bed+Brkfast\nRoom for 1 or 2 persons",
+            "type": "ROH",
+            "typeEstimated": {
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers/NR2NH35PZY"
+        },
+        {
+          "boardType": "ROOM_ONLY",
+          "checkInDate": "2026-08-22",
+          "checkOutDate": "2026-08-25",
+          "guests": {
+            "adults": 2
+          },
+          "id": "PN83RCX6TD",
+          "isLoyaltyRate": "false",
+          "policies": {
+            "guarantee": {
+              "acceptedPayments": {
+                "creditCardPolicies": [
+                  {
+                    "vendorCode": "AX"
+                  },
+                  {
+                    "vendorCode": "BF"
+                  },
+                  {
+                    "vendorCode": "CA"
+                  },
+                  {
+                    "vendorCode": "DC"
+                  },
+                  {
+                    "vendorCode": "EC"
+                  },
+                  {
+                    "vendorCode": "IK"
+                  },
+                  {
+                    "vendorCode": "JC"
+                  },
+                  {
+                    "vendorCode": "EE"
+                  }
+                ],
+                "creditCards": [
+                  "AX",
+                  "BF",
+                  "CA",
+                  "DC",
+                  "EC",
+                  "IK",
+                  "JC",
+                  "EE"
+                ],
+                "methods": [
+                  "CREDIT_CARD"
+                ]
+              }
+            },
+            "holdTime": {
+              "deadline": "2026-08-22T19:00:00"
+            },
+            "paymentType": "guarantee",
+            "refundable": {
+              "cancellationRefund": "REFUNDABLE"
+            }
+          },
+          "price": {
+            "currency": "EUR",
+            "taxes": [
+              {
+                "amount": "0.90",
+                "applicableDate": {
+                  "end": "2026-08-24",
+                  "start": "2026-08-22"
+                },
+                "code": "CITY_TAX",
+                "currency": "EUR",
+                "included": true,
+                "pricingFrequency": "PER_NIGHT",
+                "pricingMode": "PER_OCCUPANT"
+              }
+            ],
+            "total": "455.40",
+            "variations": {
+              "average": {
+                "total": "151.80"
+              },
+              "changes": [
+                {
+                  "base": "150.00",
+                  "endDate": "2026-08-25",
+                  "startDate": "2026-08-22"
+                }
+              ]
+            }
+          },
+          "rateCode": "RDI",
+          "rateFamilyEstimated": {
+            "code": "RAC",
+            "type": "P"
+          },
+          "room": {
+            "description": {
+              "lang": "EN",
+              "text": "Rack rate-Room only\nRoom for 1 or 2 persons"
+            },
+            "type": "ROH",
+            "typeEstimated": {
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "roomInformation": {
+            "description": "Rack rate-Room only\nRoom for 1 or 2 persons",
+            "type": "ROH",
+            "typeEstimated": {
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers/PN83RCX6TD"
+        },
+        {
+          "boardType": "BREAKFAST",
+          "checkInDate": "2026-08-22",
+          "checkOutDate": "2026-08-25",
+          "guests": {
+            "adults": 2
+          },
+          "id": "AFP07U1615",
+          "isLoyaltyRate": "false",
+          "policies": {
+            "guarantee": {
+              "acceptedPayments": {
+                "creditCardPolicies": [
+                  {
+                    "vendorCode": "AX"
+                  },
+                  {
+                    "vendorCode": "BF"
+                  },
+                  {
+                    "vendorCode": "CA"
+                  },
+                  {
+                    "vendorCode": "DC"
+                  },
+                  {
+                    "vendorCode": "EC"
+                  },
+                  {
+                    "vendorCode": "IK"
+                  },
+                  {
+                    "vendorCode": "JC"
+                  },
+                  {
+                    "vendorCode": "EE"
+                  }
+                ],
+                "creditCards": [
+                  "AX",
+                  "BF",
+                  "CA",
+                  "DC",
+                  "EC",
+                  "IK",
+                  "JC",
+                  "EE"
+                ],
+                "methods": [
+                  "CREDIT_CARD"
+                ]
+              }
+            },
+            "holdTime": {
+              "deadline": "2026-08-22T19:00:00"
+            },
+            "paymentType": "guarantee",
+            "refundable": {
+              "cancellationRefund": "REFUNDABLE"
+            }
+          },
+          "price": {
+            "currency": "EUR",
+            "taxes": [
+              {
+                "amount": "0.90",
+                "applicableDate": {
+                  "end": "2026-08-24",
+                  "start": "2026-08-22"
+                },
+                "code": "CITY_TAX",
+                "currency": "EUR",
+                "included": true,
+                "pricingFrequency": "PER_NIGHT",
+                "pricingMode": "PER_OCCUPANT"
+              }
+            ],
+            "total": "455.40",
+            "variations": {
+              "average": {
+                "total": "151.80"
+              },
+              "changes": [
+                {
+                  "base": "150.00",
+                  "endDate": "2026-08-25",
+                  "startDate": "2026-08-22"
+                }
+              ]
+            }
+          },
+          "rateCode": "RDP",
+          "rateFamilyEstimated": {
+            "code": "PKG",
+            "type": "P"
+          },
+          "room": {
+            "description": {
+              "lang": "EN",
+              "text": "Rack Rate-BB/Bed+Brkfast\nRoom for 1 or 2 persons"
+            },
+            "type": "ROH",
+            "typeEstimated": {
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "roomInformation": {
+            "description": "Rack Rate-BB/Bed+Brkfast\nRoom for 1 or 2 persons",
+            "type": "ROH",
+            "typeEstimated": {
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers/AFP07U1615"
+        }
+      ],
+      "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers?hotelIds=RTPARMAI\u0026adults=2\u0026checkInDate=2026-08-22\u0026checkOutDate=2026-08-25",
+      "type": "hotel-offers"
+    },
+    {
+      "available": true,
+      "hotel": {
+        "chainCode": "RT",
+        "cityCode": "PAR",
+        "dupeId": "700060225",
+        "hotelId": "RTPARMON",
+        "latitude": 48.87306,
+        "longitude": 2.34461,
+        "name": "Mercure Paris Opéra Faubourg Montmartre Hotel",
+        "type": "hotel"
+      },
+      "offers": [
+        {
+          "boardType": "ROOM_ONLY",
+          "checkInDate": "2026-08-22",
+          "checkOutDate": "2026-08-25",
+          "guests": {
+            "adults": 2
+          },
+          "id": "CFIB38VK8C",
+          "isLoyaltyRate": "false",
+          "policies": {
+            "cancellations": [
+              {
+                "deadline": "2026-08-21T18:01:00+02:00",
+                "description": {
+                  "text": "No cancellation charge applies prior to 18:00(local time) on the day of arrival. Beyond that time, the first night will be charged."
+                },
+                "numberOfNights": 1,
+                "policyType": "CANCELLATION"
+              }
+            ],
+            "guarantee": {
+              "acceptedPayments": {
+                "creditCardPolicies": [
+                  {
+                    "vendorCode": "AX"
+                  },
+                  {
+                    "vendorCode": "CA"
+                  },
+                  {
+                    "vendorCode": "DC"
+                  },
+                  {
+                    "vendorCode": "EC"
+                  },
+                  {
+                    "vendorCode": "IK"
+                  },
+                  {
+                    "vendorCode": "EE"
+                  }
+                ],
+                "creditCards": [
+                  "AX",
+                  "CA",
+                  "DC",
+                  "EC",
+                  "IK",
+                  "EE"
+                ],
+                "methods": [
+                  "TRAVEL_AGENT_ID",
+                  "CREDIT_CARD"
+                ]
+              }
+            },
+            "holdTime": {
+              "deadline": "2026-08-22T18:00:00"
+            },
+            "paymentType": "guarantee",
+            "refundable": {
+              "cancellationRefund": "REFUNDABLE_UP_TO_DEADLINE"
+            }
+          },
+          "price": {
+            "currency": "EUR",
+            "total": "357.00",
+            "variations": {
+              "average": {
+                "total": "119.00"
+              },
+              "changes": [
+                {
+                  "base": "119.00",
+                  "endDate": "2026-08-25",
+                  "startDate": "2026-08-22",
+                  "total": "119.00"
+                }
+              ]
+            }
+          },
+          "rateCode": "EAM",
+          "room": {
+            "description": {
+              "lang": "EN",
+              "text": "Mercure Breaks-Early / RO-Room only\nStandard Room with a double bed"
+            },
+            "type": "B1D",
+            "typeEstimated": {
+              "bedType": "DOUBLE",
+              "beds": 1,
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "roomInformation": {
+            "description": "Mercure Breaks-Early / RO-Room only\nStandard Room with a double bed",
+            "type": "B1D",
+            "typeEstimated": {
+              "bedType": "DOUBLE",
+              "beds": 1,
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers/CFIB38VK8C"
+        },
+        {
+          "boardType": "ROOM_ONLY",
+          "checkInDate": "2026-08-22",
+          "checkOutDate": "2026-08-25",
+          "guests": {
+            "adults": 2
+          },
+          "id": "FC6IWSWWD6",
+          "isLoyaltyRate": "false",
+          "policies": {
+            "cancellations": [
+              {
+                "deadline": "2026-08-21T18:01:00+02:00",
+                "description": {
+                  "text": "No cancellation charge applies prior to 18:00(local time) on the day of arrival. Beyond that time, the first night will be charged."
+                },
+                "numberOfNights": 1,
+                "policyType": "CANCELLATION"
+              }
+            ],
+            "guarantee": {
+              "acceptedPayments": {
+                "creditCardPolicies": [
+                  {
+                    "vendorCode": "AX"
+                  },
+                  {
+                    "vendorCode": "CA"
+                  },
+                  {
+                    "vendorCode": "DC"
+                  },
+                  {
+                    "vendorCode": "EC"
+                  },
+                  {
+                    "vendorCode": "IK"
+                  },
+                  {
+                    "vendorCode": "EE"
+                  }
+                ],
+                "creditCards": [
+                  "AX",
+                  "CA",
+                  "DC",
+                  "EC",
+                  "IK",
+                  "EE"
+                ],
+                "methods": [
+                  "TRAVEL_AGENT_ID",
+                  "CREDIT_CARD"
+                ]
+              }
+            },
+            "holdTime": {
+              "deadline": "2026-08-22T18:00:00"
+            },
+            "paymentType": "guarantee",
+            "refundable": {
+              "cancellationRefund": "REFUNDABLE_UP_TO_DEADLINE"
+            }
+          },
+          "price": {
+            "currency": "EUR",
+            "total": "552.50",
+            "variations": {
+              "average": {
+                "total": "184.17"
+              },
+              "changes": [
+                {
+                  "base": "170.00",
+                  "endDate": "2026-08-23",
+                  "startDate": "2026-08-22",
+                  "total": "170.00"
+                },
+                {
+                  "base": "192.10",
+                  "endDate": "2026-08-24",
+                  "startDate": "2026-08-23",
+                  "total": "192.10"
+                },
+                {
+                  "base": "190.40",
+                  "endDate": "2026-08-25",
+                  "startDate": "2026-08-24",
+                  "total": "190.40"
+                }
+              ]
+            }
+          },
+          "rateCode": "1KD",
+          "rateFamilyEstimated": {
+            "code": "BAR",
+            "type": "P"
+          },
+          "room": {
+            "description": {
+              "lang": "EN",
+              "text": "FLEX - RO B2C-Room only\nStandard Room with a double bed"
+            },
+            "type": "B1D",
+            "typeEstimated": {
+              "bedType": "DOUBLE",
+              "beds": 1,
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "roomInformation": {
+            "description": "FLEX - RO B2C-Room only\nStandard Room with a double bed",
+            "type": "B1D",
+            "typeEstimated": {
+              "bedType": "DOUBLE",
+              "beds": 1,
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers/FC6IWSWWD6"
+        },
+        {
+          "boardType": "ROOM_ONLY",
+          "checkInDate": "2026-08-22",
+          "checkOutDate": "2026-08-25",
+          "guests": {
+            "adults": 2
+          },
+          "id": "U1U8HFYM9Y",
+          "isLoyaltyRate": "false",
+          "policies": {
+            "cancellations": [
+              {
+                "deadline": "2026-08-21T18:01:00+02:00",
+                "description": {
+                  "text": "No cancellation charge applies prior to 18:00(local time) on the day of arrival. Beyond that time, the first night will be charged."
+                },
+                "numberOfNights": 1,
+                "policyType": "CANCELLATION"
+              }
+            ],
+            "guarantee": {
+              "acceptedPayments": {
+                "creditCardPolicies": [
+                  {
+                    "vendorCode": "AX"
+                  },
+                  {
+                    "vendorCode": "CA"
+                  },
+                  {
+                    "vendorCode": "DC"
+                  },
+                  {
+                    "vendorCode": "EC"
+                  },
+                  {
+                    "vendorCode": "IK"
+                  },
+                  {
+                    "vendorCode": "EE"
+                  }
+                ],
+                "creditCards": [
+                  "AX",
+                  "CA",
+                  "DC",
+                  "EC",
+                  "IK",
+                  "EE"
+                ],
+                "methods": [
+                  "TRAVEL_AGENT_ID",
+                  "CREDIT_CARD"
+                ]
+              }
+            },
+            "holdTime": {
+              "deadline": "2026-08-22T18:00:00"
+            },
+            "paymentType": "guarantee",
+            "refundable": {
+              "cancellationRefund": "REFUNDABLE_UP_TO_DEADLINE"
+            }
+          },
+          "price": {
+            "currency": "EUR",
+            "total": "459.56",
+            "variations": {
+              "average": {
+                "total": "153.19"
+              },
+              "changes": [
+                {
+                  "base": "141.40",
+                  "endDate": "2026-08-23",
+                  "startDate": "2026-08-22",
+                  "total": "141.40"
+                },
+                {
+                  "base": "159.78",
+                  "endDate": "2026-08-24",
+                  "startDate": "2026-08-23",
+                  "total": "159.78"
+                },
+                {
+                  "base": "158.37",
+                  "endDate": "2026-08-25",
+                  "startDate": "2026-08-24",
+                  "total": "158.37"
+                }
+              ]
+            }
+          },
+          "rateCode": "FGR",
+          "room": {
+            "description": {
+              "lang": "EN",
+              "text": "FGR Itzel-Room only\nStandard Room with a double bed"
+            },
+            "type": "B1D",
+            "typeEstimated": {
+              "bedType": "DOUBLE",
+              "beds": 1,
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "roomInformation": {
+            "description": "FGR Itzel-Room only\nStandard Room with a double bed",
+            "type": "B1D",
+            "typeEstimated": {
+              "bedType": "DOUBLE",
+              "beds": 1,
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers/U1U8HFYM9Y"
+        },
+        {
+          "boardType": "ROOM_ONLY",
+          "checkInDate": "2026-08-22",
+          "checkOutDate": "2026-08-25",
+          "guests": {
+            "adults": 2
+          },
+          "id": "DVUY22YHL4",
+          "isLoyaltyRate": "false",
+          "policies": {
+            "cancellations": [
+              {
+                "deadline": "2026-08-21T18:01:00+02:00",
+                "description": {
+                  "text": "No cancellation charge applies prior to 18:00(local time) on the day of arrival. Beyond that time, the first night will be charged."
+                },
+                "numberOfNights": 1,
+                "policyType": "CANCELLATION"
+              }
+            ],
+            "guarantee": {
+              "acceptedPayments": {
+                "creditCardPolicies": [
+                  {
+                    "vendorCode": "AX"
+                  },
+                  {
+                    "vendorCode": "CA"
+                  },
+                  {
+                    "vendorCode": "DC"
+                  },
+                  {
+                    "vendorCode": "EC"
+                  },
+                  {
+                    "vendorCode": "IK"
+                  },
+                  {
+                    "vendorCode": "EE"
+                  }
+                ],
+                "creditCards": [
+                  "AX",
+                  "CA",
+                  "DC",
+                  "EC",
+                  "IK",
+                  "EE"
+                ],
+                "methods": [
+                  "TRAVEL_AGENT_ID",
+                  "CREDIT_CARD"
+                ]
+              }
+            },
+            "holdTime": {
+              "deadline": "2026-08-22T18:00:00"
+            },
+            "paymentType": "guarantee",
+            "refundable": {
+              "cancellationRefund": "REFUNDABLE_UP_TO_DEADLINE"
+            }
+          },
+          "price": {
+            "currency": "EUR",
+            "total": "1137.50",
+            "variations": {
+              "average": {
+                "total": "379.17"
+              },
+              "changes": [
+                {
+                  "base": "350.00",
+                  "endDate": "2026-08-23",
+                  "startDate": "2026-08-22",
+                  "total": "350.00"
+                },
+                {
+                  "base": "395.50",
+                  "endDate": "2026-08-24",
+                  "startDate": "2026-08-23",
+                  "total": "395.50"
+                },
+                {
+                  "base": "392.00",
+                  "endDate": "2026-08-25",
+                  "startDate": "2026-08-24",
+                  "total": "392.00"
+                }
+              ]
+            }
+          },
+          "rateCode": "RDI",
+          "rateFamilyEstimated": {
+            "code": "RAC",
+            "type": "P"
+          },
+          "room": {
+            "description": {
+              "lang": "EN",
+              "text": "Rack rate-Room only\nStandard Room with a double bed"
+            },
+            "type": "B1D",
+            "typeEstimated": {
+              "bedType": "DOUBLE",
+              "beds": 1,
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "roomInformation": {
+            "description": "Rack rate-Room only\nStandard Room with a double bed",
+            "type": "B1D",
+            "typeEstimated": {
+              "bedType": "DOUBLE",
+              "beds": 1,
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers/DVUY22YHL4"
+        },
+        {
+          "boardType": "ROOM_ONLY",
+          "checkInDate": "2026-08-22",
+          "checkOutDate": "2026-08-25",
+          "guests": {
+            "adults": 2
+          },
+          "id": "D6LHTD6FF6",
+          "isLoyaltyRate": "false",
+          "policies": {
+            "cancellations": [
+              {
+                "deadline": "2026-08-21T18:01:00+02:00",
+                "description": {
+                  "text": "No cancellation charge applies prior to 18:00(local time) on the day of arrival. Beyond that time, the first night will be charged."
+                },
+                "numberOfNights": 1,
+                "policyType": "CANCELLATION"
+              }
+            ],
+            "guarantee": {
+              "acceptedPayments": {
+                "creditCardPolicies": [
+                  {
+                    "vendorCode": "AX"
+                  },
+                  {
+                    "vendorCode": "CA"
+                  },
+                  {
+                    "vendorCode": "DC"
+                  },
+                  {
+                    "vendorCode": "EC"
+                  },
+                  {
+                    "vendorCode": "IK"
+                  },
+                  {
+                    "vendorCode": "EE"
+                  }
+                ],
+                "creditCards": [
+                  "AX",
+                  "CA",
+                  "DC",
+                  "EC",
+                  "IK",
+                  "EE"
+                ],
+                "methods": [
+                  "TRAVEL_AGENT_ID",
+                  "CREDIT_CARD"
+                ]
+              }
+            },
+            "holdTime": {
+              "deadline": "2026-08-22T18:00:00"
+            },
+            "paymentType": "guarantee",
+            "refundable": {
+              "cancellationRefund": "REFUNDABLE_UP_TO_DEADLINE"
+            }
+          },
+          "price": {
+            "currency": "EUR",
+            "total": "1137.50",
+            "variations": {
+              "average": {
+                "total": "379.17"
+              },
+              "changes": [
+                {
+                  "base": "350.00",
+                  "endDate": "2026-08-23",
+                  "startDate": "2026-08-22",
+                  "total": "350.00"
+                },
+                {
+                  "base": "395.50",
+                  "endDate": "2026-08-24",
+                  "startDate": "2026-08-23",
+                  "total": "395.50"
+                },
+                {
+                  "base": "392.00",
+                  "endDate": "2026-08-25",
+                  "startDate": "2026-08-24",
+                  "total": "392.00"
+                }
+              ]
+            }
+          },
+          "rateCode": "RDI",
+          "rateFamilyEstimated": {
+            "code": "RAC",
+            "type": "P"
+          },
+          "room": {
+            "description": {
+              "lang": "EN",
+              "text": "Rack rate-Room only\nStandard Twin Room with 2 single beds"
+            },
+            "type": "A2T",
+            "typeEstimated": {
+              "bedType": "SINGLE",
+              "beds": 2,
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "roomInformation": {
+            "description": "Rack rate-Room only\nStandard Twin Room with 2 single beds",
+            "type": "A2T",
+            "typeEstimated": {
+              "bedType": "SINGLE",
+              "beds": 2,
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers/D6LHTD6FF6"
+        }
+      ],
+      "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers?hotelIds=RTPARMON\u0026adults=2\u0026checkInDate=2026-08-22\u0026checkOutDate=2026-08-25",
+      "type": "hotel-offers"
+    },
+    {
+      "available": true,
+      "hotel": {
+        "chainCode": "RT",
+        "cityCode": "PAR",
+        "dupeId": "700061718",
+        "hotelId": "RTPARRLM",
+        "latitude": 48.88989,
+        "longitude": 2.17413,
+        "name": "Suite Novotel Paris Rueil Malmaison",
+        "type": "hotel"
+      },
+      "offers": [
+        {
+          "boardType": "ROOM_ONLY",
+          "checkInDate": "2026-08-22",
+          "checkOutDate": "2026-08-25",
+          "guests": {
+            "adults": 2
+          },
+          "id": "H0FXD0RGX2",
+          "isLoyaltyRate": "false",
+          "policies": {
+            "cancellations": [
+              {
+                "deadline": "2026-08-21T18:01:00+02:00",
+                "description": {
+                  "text": "No cancellation charge applies prior to 18:00(local time) on the day of arrival. Beyond that time, the first night will be charged."
+                },
+                "numberOfNights": 1,
+                "policyType": "CANCELLATION"
+              }
+            ],
+            "guarantee": {
+              "acceptedPayments": {
+                "creditCardPolicies": [
+                  {
+                    "vendorCode": "AX"
+                  },
+                  {
+                    "vendorCode": "CA"
+                  },
+                  {
+                    "vendorCode": "EC"
+                  },
+                  {
+                    "vendorCode": "IK"
+                  },
+                  {
+                    "vendorCode": "EE"
+                  }
+                ],
+                "creditCards": [
+                  "AX",
+                  "CA",
+                  "EC",
+                  "IK",
+                  "EE"
+                ],
+                "methods": [
+                  "TRAVEL_AGENT_ID",
+                  "CREDIT_CARD"
+                ]
+              }
+            },
+            "holdTime": {
+              "deadline": "2026-08-22T18:00:00"
+            },
+            "paymentType": "guarantee",
+            "refundable": {
+              "cancellationRefund": "REFUNDABLE_UP_TO_DEADLINE"
+            }
+          },
+          "price": {
+            "currency": "EUR",
+            "taxes": [
+              {
+                "amount": "1.65",
+                "applicableDate": {
+                  "end": "2026-08-24",
+                  "start": "2026-08-22"
+                },
+                "code": "CITY_TAX",
+                "currency": "EUR",
+                "included": true,
+                "pricingFrequency": "PER_NIGHT",
+                "pricingMode": "PER_OCCUPANT"
+              }
+            ],
+            "total": "564.90",
+            "variations": {
+              "average": {
+                "total": "188.30"
+              },
+              "changes": [
+                {
+                  "base": "185.00",
+                  "endDate": "2026-08-25",
+                  "startDate": "2026-08-22"
+                }
+              ]
+            }
+          },
+          "rateCode": "1KD",
+          "rateFamilyEstimated": {
+            "code": "BAR",
+            "type": "P"
+          },
+          "room": {
+            "description": {
+              "lang": "EN",
+              "text": "FLEX - RO B2C-Room only\nSuperior Suite with a double bed and a couch"
+            },
+            "type": "S1D",
+            "typeEstimated": {
+              "bedType": "DOUBLE",
+              "beds": 1,
+              "category": "SUITE"
+            }
+          },
+          "roomInformation": {
+            "description": "FLEX - RO B2C-Room only\nSuperior Suite with a double bed and a couch",
+            "type": "S1D",
+            "typeEstimated": {
+              "bedType": "DOUBLE",
+              "beds": 1,
+              "category": "SUITE"
+            }
+          },
+          "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers/H0FXD0RGX2"
+        },
+        {
+          "boardType": "ROOM_ONLY",
+          "checkInDate": "2026-08-22",
+          "checkOutDate": "2026-08-25",
+          "guests": {
+            "adults": 2
+          },
+          "id": "G101VZL0BJ",
+          "isLoyaltyRate": "false",
+          "policies": {
+            "cancellations": [
+              {
+                "deadline": "2026-08-21T18:01:00+02:00",
+                "description": {
+                  "text": "No cancellation charge applies prior to 18:00(local time) on the day of arrival. Beyond that time, the first night will be charged."
+                },
+                "numberOfNights": 1,
+                "policyType": "CANCELLATION"
+              }
+            ],
+            "guarantee": {
+              "acceptedPayments": {
+                "creditCardPolicies": [
+                  {
+                    "vendorCode": "AX"
+                  },
+                  {
+                    "vendorCode": "CA"
+                  },
+                  {
+                    "vendorCode": "EC"
+                  },
+                  {
+                    "vendorCode": "IK"
+                  },
+                  {
+                    "vendorCode": "EE"
+                  }
+                ],
+                "creditCards": [
+                  "AX",
+                  "CA",
+                  "EC",
+                  "IK",
+                  "EE"
+                ],
+                "methods": [
+                  "TRAVEL_AGENT_ID",
+                  "CREDIT_CARD"
+                ]
+              }
+            },
+            "holdTime": {
+              "deadline": "2026-08-22T18:00:00"
+            },
+            "paymentType": "guarantee",
+            "refundable": {
+              "cancellationRefund": "REFUNDABLE_UP_TO_DEADLINE"
+            }
+          },
+          "price": {
+            "currency": "EUR",
+            "taxes": [
+              {
+                "amount": "1.65",
+                "applicableDate": {
+                  "end": "2026-08-24",
+                  "start": "2026-08-22"
+                },
+                "code": "CITY_TAX",
+                "currency": "EUR",
+                "included": true,
+                "pricingFrequency": "PER_NIGHT",
+                "pricingMode": "PER_OCCUPANT"
+              }
+            ],
+            "total": "564.90",
+            "variations": {
+              "average": {
+                "total": "188.30"
+              },
+              "changes": [
+                {
+                  "base": "185.00",
+                  "endDate": "2026-08-25",
+                  "startDate": "2026-08-22"
+                }
+              ]
+            }
+          },
+          "rateCode": "1KD",
+          "rateFamilyEstimated": {
+            "code": "BAR",
+            "type": "P"
+          },
+          "room": {
+            "description": {
+              "lang": "EN",
+              "text": "FLEX - RO B2C-Room only\nSuperior Suite with 1 double bed, 1 couch and 1\n pull-out bed"
+            },
+            "type": "A1D",
+            "typeEstimated": {
+              "bedType": "DOUBLE",
+              "beds": 1,
+              "category": "SUITE"
+            }
+          },
+          "roomInformation": {
+            "description": "FLEX - RO B2C-Room only\nSuperior Suite with 1 double bed, 1 couch and 1\n pull-out bed",
+            "type": "A1D",
+            "typeEstimated": {
+              "bedType": "DOUBLE",
+              "beds": 1,
+              "category": "SUITE"
+            }
+          },
+          "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers/G101VZL0BJ"
+        },
+        {
+          "boardType": "ROOM_ONLY",
+          "checkInDate": "2026-08-22",
+          "checkOutDate": "2026-08-25",
+          "guests": {
+            "adults": 2
+          },
+          "id": "LU5SWOZOJ8",
+          "isLoyaltyRate": "false",
+          "policies": {
+            "cancellations": [
+              {
+                "deadline": "2026-08-21T18:01:00+02:00",
+                "description": {
+                  "text": "No cancellation charge applies prior to 18:00(local time) on the day of arrival. Beyond that time, the first night will be charged."
+                },
+                "numberOfNights": 1,
+                "policyType": "CANCELLATION"
+              }
+            ],
+            "guarantee": {
+              "acceptedPayments": {
+                "creditCardPolicies": [
+                  {
+                    "vendorCode": "AX"
+                  },
+                  {
+                    "vendorCode": "CA"
+                  },
+                  {
+                    "vendorCode": "EC"
+                  },
+                  {
+                    "vendorCode": "IK"
+                  },
+                  {
+                    "vendorCode": "EE"
+                  }
+                ],
+                "creditCards": [
+                  "AX",
+                  "CA",
+                  "EC",
+                  "IK",
+                  "EE"
+                ],
+                "methods": [
+                  "TRAVEL_AGENT_ID",
+                  "CREDIT_CARD"
+                ]
+              }
+            },
+            "holdTime": {
+              "deadline": "2026-08-22T18:00:00"
+            },
+            "paymentType": "guarantee",
+            "refundable": {
+              "cancellationRefund": "REFUNDABLE_UP_TO_DEADLINE"
+            }
+          },
+          "price": {
+            "currency": "EUR",
+            "taxes": [
+              {
+                "amount": "1.65",
+                "applicableDate": {
+                  "end": "2026-08-24",
+                  "start": "2026-08-22"
+                },
+                "code": "CITY_TAX",
+                "currency": "EUR",
+                "included": true,
+                "pricingFrequency": "PER_NIGHT",
+                "pricingMode": "PER_OCCUPANT"
+              }
+            ],
+            "total": "564.90",
+            "variations": {
+              "average": {
+                "total": "188.30"
+              },
+              "changes": [
+                {
+                  "base": "185.00",
+                  "endDate": "2026-08-25",
+                  "startDate": "2026-08-22"
+                }
+              ]
+            }
+          },
+          "rateCode": "RAC",
+          "rateFamilyEstimated": {
+            "code": "BAR",
+            "type": "P"
+          },
+          "room": {
+            "description": {
+              "lang": "EN",
+              "text": "FLEXIBLE RATE-Room only\nSuperior Suite with a double bed and a couch"
+            },
+            "type": "S1D",
+            "typeEstimated": {
+              "bedType": "DOUBLE",
+              "beds": 1,
+              "category": "SUITE"
+            }
+          },
+          "roomInformation": {
+            "description": "FLEXIBLE RATE-Room only\nSuperior Suite with a double bed and a couch",
+            "type": "S1D",
+            "typeEstimated": {
+              "bedType": "DOUBLE",
+              "beds": 1,
+              "category": "SUITE"
+            }
+          },
+          "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers/LU5SWOZOJ8"
+        },
+        {
+          "boardType": "ROOM_ONLY",
+          "checkInDate": "2026-08-22",
+          "checkOutDate": "2026-08-25",
+          "guests": {
+            "adults": 2
+          },
+          "id": "83NY2QR4FJ",
+          "isLoyaltyRate": "false",
+          "policies": {
+            "cancellations": [
+              {
+                "deadline": "2026-08-21T18:01:00+02:00",
+                "description": {
+                  "text": "No cancellation charge applies prior to 18:00(local time) on the day of arrival. Beyond that time, the first night will be charged."
+                },
+                "numberOfNights": 1,
+                "policyType": "CANCELLATION"
+              }
+            ],
+            "guarantee": {
+              "acceptedPayments": {
+                "creditCardPolicies": [
+                  {
+                    "vendorCode": "AX"
+                  },
+                  {
+                    "vendorCode": "CA"
+                  },
+                  {
+                    "vendorCode": "EC"
+                  },
+                  {
+                    "vendorCode": "IK"
+                  },
+                  {
+                    "vendorCode": "EE"
+                  }
+                ],
+                "creditCards": [
+                  "AX",
+                  "CA",
+                  "EC",
+                  "IK",
+                  "EE"
+                ],
+                "methods": [
+                  "TRAVEL_AGENT_ID",
+                  "CREDIT_CARD"
+                ]
+              }
+            },
+            "holdTime": {
+              "deadline": "2026-08-22T18:00:00"
+            },
+            "paymentType": "guarantee",
+            "refundable": {
+              "cancellationRefund": "REFUNDABLE_UP_TO_DEADLINE"
+            }
+          },
+          "price": {
+            "currency": "EUR",
+            "taxes": [
+              {
+                "amount": "1.65",
+                "applicableDate": {
+                  "end": "2026-08-24",
+                  "start": "2026-08-22"
+                },
+                "code": "CITY_TAX",
+                "currency": "EUR",
+                "included": true,
+                "pricingFrequency": "PER_NIGHT",
+                "pricingMode": "PER_OCCUPANT"
+              }
+            ],
+            "total": "564.90",
+            "variations": {
+              "average": {
+                "total": "188.30"
+              },
+              "changes": [
+                {
+                  "base": "185.00",
+                  "endDate": "2026-08-25",
+                  "startDate": "2026-08-22"
+                }
+              ]
+            }
+          },
+          "rateCode": "RAC",
+          "rateFamilyEstimated": {
+            "code": "BAR",
+            "type": "P"
+          },
+          "room": {
+            "description": {
+              "lang": "EN",
+              "text": "FLEXIBLE RATE-Room only\nSuperior Suite with 1 double bed, 1 couch and 1\n pull-out bed"
+            },
+            "type": "A1D",
+            "typeEstimated": {
+              "bedType": "DOUBLE",
+              "beds": 1,
+              "category": "SUITE"
+            }
+          },
+          "roomInformation": {
+            "description": "FLEXIBLE RATE-Room only\nSuperior Suite with 1 double bed, 1 couch and 1\n pull-out bed",
+            "type": "A1D",
+            "typeEstimated": {
+              "bedType": "DOUBLE",
+              "beds": 1,
+              "category": "SUITE"
+            }
+          },
+          "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers/83NY2QR4FJ"
+        },
+        {
+          "boardType": "ROOM_ONLY",
+          "checkInDate": "2026-08-22",
+          "checkOutDate": "2026-08-25",
+          "guests": {
+            "adults": 2
+          },
+          "id": "LKAASPHVUO",
+          "isLoyaltyRate": "false",
+          "policies": {
+            "cancellations": [
+              {
+                "deadline": "2026-08-21T18:01:00+02:00",
+                "description": {
+                  "text": "No cancellation charge applies prior to 18:00(local time) on the day of arrival. Beyond that time, the first night will be charged."
+                },
+                "numberOfNights": 1,
+                "policyType": "CANCELLATION"
+              }
+            ],
+            "guarantee": {
+              "acceptedPayments": {
+                "creditCardPolicies": [
+                  {
+                    "vendorCode": "AX"
+                  },
+                  {
+                    "vendorCode": "CA"
+                  },
+                  {
+                    "vendorCode": "EC"
+                  },
+                  {
+                    "vendorCode": "IK"
+                  },
+                  {
+                    "vendorCode": "EE"
+                  }
+                ],
+                "creditCards": [
+                  "AX",
+                  "CA",
+                  "EC",
+                  "IK",
+                  "EE"
+                ],
+                "methods": [
+                  "TRAVEL_AGENT_ID",
+                  "CREDIT_CARD"
+                ]
+              }
+            },
+            "holdTime": {
+              "deadline": "2026-08-22T18:00:00"
+            },
+            "paymentType": "guarantee",
+            "refundable": {
+              "cancellationRefund": "REFUNDABLE_UP_TO_DEADLINE"
+            }
+          },
+          "price": {
+            "currency": "EUR",
+            "taxes": [
+              {
+                "amount": "1.65",
+                "applicableDate": {
+                  "end": "2026-08-24",
+                  "start": "2026-08-22"
+                },
+                "code": "CITY_TAX",
+                "currency": "EUR",
+                "included": true,
+                "pricingFrequency": "PER_NIGHT",
+                "pricingMode": "PER_OCCUPANT"
+              }
+            ],
+            "total": "564.90",
+            "variations": {
+              "average": {
+                "total": "188.30"
+              },
+              "changes": [
+                {
+                  "base": "185.00",
+                  "endDate": "2026-08-25",
+                  "startDate": "2026-08-22"
+                }
+              ]
+            }
+          },
+          "rateCode": "RDI",
+          "rateFamilyEstimated": {
+            "code": "RAC",
+            "type": "P"
+          },
+          "room": {
+            "description": {
+              "lang": "EN",
+              "text": "Rack rate-Room only\nSuperior Suite with a double bed and a couch"
+            },
+            "type": "S1D",
+            "typeEstimated": {
+              "bedType": "DOUBLE",
+              "beds": 1,
+              "category": "SUITE"
+            }
+          },
+          "roomInformation": {
+            "description": "Rack rate-Room only\nSuperior Suite with a double bed and a couch",
+            "type": "S1D",
+            "typeEstimated": {
+              "bedType": "DOUBLE",
+              "beds": 1,
+              "category": "SUITE"
+            }
+          },
+          "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers/LKAASPHVUO"
+        },
+        {
+          "boardType": "ROOM_ONLY",
+          "checkInDate": "2026-08-22",
+          "checkOutDate": "2026-08-25",
+          "guests": {
+            "adults": 2
+          },
+          "id": "ITS863RUZV",
+          "isLoyaltyRate": "false",
+          "policies": {
+            "cancellations": [
+              {
+                "deadline": "2026-08-21T18:01:00+02:00",
+                "description": {
+                  "text": "No cancellation charge applies prior to 18:00(local time) on the day of arrival. Beyond that time, the first night will be charged."
+                },
+                "numberOfNights": 1,
+                "policyType": "CANCELLATION"
+              }
+            ],
+            "guarantee": {
+              "acceptedPayments": {
+                "creditCardPolicies": [
+                  {
+                    "vendorCode": "AX"
+                  },
+                  {
+                    "vendorCode": "CA"
+                  },
+                  {
+                    "vendorCode": "EC"
+                  },
+                  {
+                    "vendorCode": "IK"
+                  },
+                  {
+                    "vendorCode": "EE"
+                  }
+                ],
+                "creditCards": [
+                  "AX",
+                  "CA",
+                  "EC",
+                  "IK",
+                  "EE"
+                ],
+                "methods": [
+                  "TRAVEL_AGENT_ID",
+                  "CREDIT_CARD"
+                ]
+              }
+            },
+            "holdTime": {
+              "deadline": "2026-08-22T18:00:00"
+            },
+            "paymentType": "guarantee",
+            "refundable": {
+              "cancellationRefund": "REFUNDABLE_UP_TO_DEADLINE"
+            }
+          },
+          "price": {
+            "currency": "EUR",
+            "taxes": [
+              {
+                "amount": "1.65",
+                "applicableDate": {
+                  "end": "2026-08-24",
+                  "start": "2026-08-22"
+                },
+                "code": "CITY_TAX",
+                "currency": "EUR",
+                "included": true,
+                "pricingFrequency": "PER_NIGHT",
+                "pricingMode": "PER_OCCUPANT"
+              }
+            ],
+            "total": "564.90",
+            "variations": {
+              "average": {
+                "total": "188.30"
+              },
+              "changes": [
+                {
+                  "base": "185.00",
+                  "endDate": "2026-08-25",
+                  "startDate": "2026-08-22"
+                }
+              ]
+            }
+          },
+          "rateCode": "RDI",
+          "rateFamilyEstimated": {
+            "code": "RAC",
+            "type": "P"
+          },
+          "room": {
+            "description": {
+              "lang": "EN",
+              "text": "Rack rate-Room only\nSuperior Suite with 1 double bed, 1 couch and 1\n pull-out bed"
+            },
+            "type": "A1D",
+            "typeEstimated": {
+              "bedType": "DOUBLE",
+              "beds": 1,
+              "category": "SUITE"
+            }
+          },
+          "roomInformation": {
+            "description": "Rack rate-Room only\nSuperior Suite with 1 double bed, 1 couch and 1\n pull-out bed",
+            "type": "A1D",
+            "typeEstimated": {
+              "bedType": "DOUBLE",
+              "beds": 1,
+              "category": "SUITE"
+            }
+          },
+          "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers/ITS863RUZV"
+        },
+        {
+          "boardType": "ROOM_ONLY",
+          "checkInDate": "2026-08-22",
+          "checkOutDate": "2026-08-25",
+          "guests": {
+            "adults": 2
+          },
+          "id": "TDV3J1F2CD",
+          "isLoyaltyRate": "false",
+          "policies": {
+            "cancellations": [
+              {
+                "deadline": "2026-08-21T18:01:00+02:00",
+                "description": {
+                  "text": "No cancellation charge applies prior to 18:00(local time) on the day of arrival. Beyond that time, the first night will be charged."
+                },
+                "numberOfNights": 1,
+                "policyType": "CANCELLATION"
+              }
+            ],
+            "guarantee": {
+              "acceptedPayments": {
+                "creditCardPolicies": [
+                  {
+                    "vendorCode": "AX"
+                  },
+                  {
+                    "vendorCode": "CA"
+                  },
+                  {
+                    "vendorCode": "EC"
+                  },
+                  {
+                    "vendorCode": "IK"
+                  },
+                  {
+                    "vendorCode": "EE"
+                  }
+                ],
+                "creditCards": [
+                  "AX",
+                  "CA",
+                  "EC",
+                  "IK",
+                  "EE"
+                ],
+                "methods": [
+                  "TRAVEL_AGENT_ID",
+                  "CREDIT_CARD"
+                ]
+              }
+            },
+            "holdTime": {
+              "deadline": "2026-08-22T18:00:00"
+            },
+            "paymentType": "guarantee",
+            "refundable": {
+              "cancellationRefund": "REFUNDABLE_UP_TO_DEADLINE"
+            }
+          },
+          "price": {
+            "currency": "EUR",
+            "taxes": [
+              {
+                "amount": "1.65",
+                "applicableDate": {
+                  "end": "2026-08-24",
+                  "start": "2026-08-22"
+                },
+                "code": "CITY_TAX",
+                "currency": "EUR",
+                "included": true,
+                "pricingFrequency": "PER_NIGHT",
+                "pricingMode": "PER_OCCUPANT"
+              }
+            ],
+            "total": "564.90",
+            "variations": {
+              "average": {
+                "total": "188.30"
+              },
+              "changes": [
+                {
+                  "base": "185.00",
+                  "endDate": "2026-08-25",
+                  "startDate": "2026-08-22"
+                }
+              ]
+            }
+          },
+          "rateCode": "RDP",
+          "rateFamilyEstimated": {
+            "code": "RAC",
+            "type": "P"
+          },
+          "room": {
+            "description": {
+              "lang": "EN",
+              "text": "Rack Rate-Room only\nSuperior Suite with a double bed and a couch"
+            },
+            "type": "S1D",
+            "typeEstimated": {
+              "bedType": "DOUBLE",
+              "beds": 1,
+              "category": "SUITE"
+            }
+          },
+          "roomInformation": {
+            "description": "Rack Rate-Room only\nSuperior Suite with a double bed and a couch",
+            "type": "S1D",
+            "typeEstimated": {
+              "bedType": "DOUBLE",
+              "beds": 1,
+              "category": "SUITE"
+            }
+          },
+          "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers/TDV3J1F2CD"
+        },
+        {
+          "boardType": "ROOM_ONLY",
+          "checkInDate": "2026-08-22",
+          "checkOutDate": "2026-08-25",
+          "guests": {
+            "adults": 2
+          },
+          "id": "A8U6TI8FZ0",
+          "isLoyaltyRate": "false",
+          "policies": {
+            "cancellations": [
+              {
+                "deadline": "2026-08-21T18:01:00+02:00",
+                "description": {
+                  "text": "No cancellation charge applies prior to 18:00(local time) on the day of arrival. Beyond that time, the first night will be charged."
+                },
+                "numberOfNights": 1,
+                "policyType": "CANCELLATION"
+              }
+            ],
+            "guarantee": {
+              "acceptedPayments": {
+                "creditCardPolicies": [
+                  {
+                    "vendorCode": "AX"
+                  },
+                  {
+                    "vendorCode": "CA"
+                  },
+                  {
+                    "vendorCode": "EC"
+                  },
+                  {
+                    "vendorCode": "IK"
+                  },
+                  {
+                    "vendorCode": "EE"
+                  }
+                ],
+                "creditCards": [
+                  "AX",
+                  "CA",
+                  "EC",
+                  "IK",
+                  "EE"
+                ],
+                "methods": [
+                  "TRAVEL_AGENT_ID",
+                  "CREDIT_CARD"
+                ]
+              }
+            },
+            "holdTime": {
+              "deadline": "2026-08-22T18:00:00"
+            },
+            "paymentType": "guarantee",
+            "refundable": {
+              "cancellationRefund": "REFUNDABLE_UP_TO_DEADLINE"
+            }
+          },
+          "price": {
+            "currency": "EUR",
+            "taxes": [
+              {
+                "amount": "1.65",
+                "applicableDate": {
+                  "end": "2026-08-24",
+                  "start": "2026-08-22"
+                },
+                "code": "CITY_TAX",
+                "currency": "EUR",
+                "included": true,
+                "pricingFrequency": "PER_NIGHT",
+                "pricingMode": "PER_OCCUPANT"
+              }
+            ],
+            "total": "564.90",
+            "variations": {
+              "average": {
+                "total": "188.30"
+              },
+              "changes": [
+                {
+                  "base": "185.00",
+                  "endDate": "2026-08-25",
+                  "startDate": "2026-08-22"
+                }
+              ]
+            }
+          },
+          "rateCode": "RDP",
+          "rateFamilyEstimated": {
+            "code": "RAC",
+            "type": "P"
+          },
+          "room": {
+            "description": {
+              "lang": "EN",
+              "text": "Rack Rate-Room only\nSuperior Suite with 1 double bed, 1 couch and 1\n pull-out bed"
+            },
+            "type": "A1D",
+            "typeEstimated": {
+              "bedType": "DOUBLE",
+              "beds": 1,
+              "category": "SUITE"
+            }
+          },
+          "roomInformation": {
+            "description": "Rack Rate-Room only\nSuperior Suite with 1 double bed, 1 couch and 1\n pull-out bed",
+            "type": "A1D",
+            "typeEstimated": {
+              "bedType": "DOUBLE",
+              "beds": 1,
+              "category": "SUITE"
+            }
+          },
+          "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers/A8U6TI8FZ0"
+        }
+      ],
+      "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers?hotelIds=RTPARRLM\u0026adults=2\u0026checkInDate=2026-08-22\u0026checkOutDate=2026-08-25",
+      "type": "hotel-offers"
+    },
+    {
+      "available": true,
+      "hotel": {
+        "chainCode": "RT",
+        "cityCode": "PAR",
+        "dupeId": "700027007",
+        "hotelId": "RTPARSTE",
+        "latitude": 48.86806,
+        "longitude": 2.33129,
+        "name": "HY Marriott Savannah Plant Riverside District",
+        "type": "hotel"
+      },
+      "offers": [
+        {
+          "boardType": "ROOM_ONLY",
+          "checkInDate": "2026-08-22",
+          "checkOutDate": "2026-08-25",
+          "guests": {
+            "adults": 2
+          },
+          "id": "UY3ABH5Y16",
+          "isLoyaltyRate": "false",
+          "policies": {
+            "cancellations": [
+              {
+                "deadline": "2026-08-21T00:00:00+02:00",
+                "description": {
+                  "text": "The amount due is not refundable even if the booking is cancelled or modified."
+                },
+                "percentage": "100",
+                "policyType": "CANCELLATION"
+              }
+            ],
+            "deposit": {
+              "acceptedPayments": {
+                "creditCardPolicies": [
+                  {
+                    "vendorCode": "AX"
+                  },
+                  {
+                    "vendorCode": "CA"
+                  },
+                  {
+                    "vendorCode": "DC"
+                  },
+                  {
+                    "vendorCode": "EC"
+                  },
+                  {
+                    "vendorCode": "IK"
+                  },
+                  {
+                    "vendorCode": "JC"
+                  },
+                  {
+                    "vendorCode": "EE"
+                  }
+                ],
+                "creditCards": [
+                  "AX",
+                  "CA",
+                  "DC",
+                  "EC",
+                  "IK",
+                  "JC",
+                  "EE"
+                ],
+                "methods": [
+                  "CREDIT_CARD"
+                ]
+              }
+            },
+            "paymentType": "deposit",
+            "refundable": {
+              "cancellationRefund": "REFUNDABLE_UP_TO_DEADLINE"
+            }
+          },
+          "price": {
+            "currency": "EUR",
+            "taxes": [
+              {
+                "amount": "1.40",
+                "applicableDate": {
+                  "end": "2026-08-24",
+                  "start": "2026-08-22"
+                },
+                "code": "CITY_TAX",
+                "currency": "EUR",
+                "included": true,
+                "pricingFrequency": "PER_NIGHT",
+                "pricingMode": "PER_OCCUPANT"
+              }
+            ],
+            "total": "503.40",
+            "variations": {
+              "average": {
+                "total": "167.80"
+              },
+              "changes": [
+                {
+                  "base": "165.00",
+                  "endDate": "2026-08-25",
+                  "startDate": "2026-08-22"
+                }
+              ]
+            }
+          },
+          "rateCode": "3KD",
+          "rateFamilyEstimated": {
+            "code": "PRO",
+            "type": "P"
+          },
+          "room": {
+            "description": {
+              "lang": "EN",
+              "text": "SAVER - 1-Room only\nStandard Room with 2 single beds GB TEST GB"
+            },
+            "type": "C2T",
+            "typeEstimated": {
+              "bedType": "SINGLE",
+              "beds": 2,
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "roomInformation": {
+            "description": "SAVER - 1-Room only\nStandard Room with 2 single beds GB TEST GB",
+            "type": "C2T",
+            "typeEstimated": {
+              "bedType": "SINGLE",
+              "beds": 2,
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers/UY3ABH5Y16"
+        },
+        {
+          "boardType": "ROOM_ONLY",
+          "checkInDate": "2026-08-22",
+          "checkOutDate": "2026-08-25",
+          "guests": {
+            "adults": 2
+          },
+          "id": "XT3J64T3ZT",
+          "isLoyaltyRate": "false",
+          "policies": {
+            "cancellations": [
+              {
+                "deadline": "2026-08-21T00:00:00+02:00",
+                "description": {
+                  "text": "The amount due is not refundable even if the booking is cancelled or modified."
+                },
+                "percentage": "100",
+                "policyType": "CANCELLATION"
+              }
+            ],
+            "deposit": {
+              "acceptedPayments": {
+                "creditCardPolicies": [
+                  {
+                    "vendorCode": "AX"
+                  },
+                  {
+                    "vendorCode": "CA"
+                  },
+                  {
+                    "vendorCode": "DC"
+                  },
+                  {
+                    "vendorCode": "EC"
+                  },
+                  {
+                    "vendorCode": "IK"
+                  },
+                  {
+                    "vendorCode": "JC"
+                  },
+                  {
+                    "vendorCode": "EE"
+                  }
+                ],
+                "creditCards": [
+                  "AX",
+                  "CA",
+                  "DC",
+                  "EC",
+                  "IK",
+                  "JC",
+                  "EE"
+                ],
+                "methods": [
+                  "CREDIT_CARD"
+                ]
+              }
+            },
+            "paymentType": "deposit",
+            "refundable": {
+              "cancellationRefund": "REFUNDABLE_UP_TO_DEADLINE"
+            }
+          },
+          "price": {
+            "currency": "EUR",
+            "taxes": [
+              {
+                "amount": "1.40",
+                "applicableDate": {
+                  "end": "2026-08-24",
+                  "start": "2026-08-22"
+                },
+                "code": "CITY_TAX",
+                "currency": "EUR",
+                "included": true,
+                "pricingFrequency": "PER_NIGHT",
+                "pricingMode": "PER_OCCUPANT"
+              }
+            ],
+            "total": "503.40",
+            "variations": {
+              "average": {
+                "total": "167.80"
+              },
+              "changes": [
+                {
+                  "base": "165.00",
+                  "endDate": "2026-08-25",
+                  "startDate": "2026-08-22"
+                }
+              ]
+            }
+          },
+          "rateCode": "RA3",
+          "rateFamilyEstimated": {
+            "code": "PRO",
+            "type": "P"
+          },
+          "room": {
+            "description": {
+              "lang": "EN",
+              "text": "ADVANCE SAVER-Room only\nStandard Room with 2 single beds GB TEST GB"
+            },
+            "type": "C2T",
+            "typeEstimated": {
+              "bedType": "SINGLE",
+              "beds": 2,
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "roomInformation": {
+            "description": "ADVANCE SAVER-Room only\nStandard Room with 2 single beds GB TEST GB",
+            "type": "C2T",
+            "typeEstimated": {
+              "bedType": "SINGLE",
+              "beds": 2,
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers/XT3J64T3ZT"
+        },
+        {
+          "boardType": "ROOM_ONLY",
+          "checkInDate": "2026-08-22",
+          "checkOutDate": "2026-08-25",
+          "guests": {
+            "adults": 2
+          },
+          "id": "7OQXV0EHTW",
+          "isLoyaltyRate": "false",
+          "policies": {
+            "cancellations": [
+              {
+                "deadline": "2026-08-21T18:01:00+02:00",
+                "description": {
+                  "text": "No cancellation charge applies prior to 18:00(local time) on the day of arrival. Beyond that time, the first night will be charged."
+                },
+                "numberOfNights": 1,
+                "policyType": "CANCELLATION"
+              }
+            ],
+            "guarantee": {
+              "acceptedPayments": {
+                "creditCardPolicies": [
+                  {
+                    "vendorCode": "AX"
+                  },
+                  {
+                    "vendorCode": "CA"
+                  },
+                  {
+                    "vendorCode": "DC"
+                  },
+                  {
+                    "vendorCode": "EC"
+                  },
+                  {
+                    "vendorCode": "IK"
+                  },
+                  {
+                    "vendorCode": "JC"
+                  },
+                  {
+                    "vendorCode": "EE"
+                  }
+                ],
+                "creditCards": [
+                  "AX",
+                  "CA",
+                  "DC",
+                  "EC",
+                  "IK",
+                  "JC",
+                  "EE"
+                ],
+                "methods": [
+                  "TRAVEL_AGENT_ID",
+                  "CREDIT_CARD"
+                ]
+              }
+            },
+            "holdTime": {
+              "deadline": "2026-08-22T18:00:00"
+            },
+            "paymentType": "guarantee",
+            "refundable": {
+              "cancellationRefund": "REFUNDABLE_UP_TO_DEADLINE"
+            }
+          },
+          "price": {
+            "currency": "EUR",
+            "taxes": [
+              {
+                "amount": "1.40",
+                "applicableDate": {
+                  "end": "2026-08-24",
+                  "start": "2026-08-22"
+                },
+                "code": "CITY_TAX",
+                "currency": "EUR",
+                "included": true,
+                "pricingFrequency": "PER_NIGHT",
+                "pricingMode": "PER_OCCUPANT"
+              }
+            ],
+            "total": "564.90",
+            "variations": {
+              "average": {
+                "total": "188.30"
+              },
+              "changes": [
+                {
+                  "base": "185.50",
+                  "endDate": "2026-08-25",
+                  "startDate": "2026-08-22"
+                }
+              ]
+            }
+          },
+          "rateCode": "EAM",
+          "room": {
+            "description": {
+              "lang": "EN",
+              "text": "Mercure Breaks-Early / RO-Room only\nStandard Room with 2 single beds GB TEST GB"
+            },
+            "type": "C2T",
+            "typeEstimated": {
+              "bedType": "SINGLE",
+              "beds": 2,
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "roomInformation": {
+            "description": "Mercure Breaks-Early / RO-Room only\nStandard Room with 2 single beds GB TEST GB",
+            "type": "C2T",
+            "typeEstimated": {
+              "bedType": "SINGLE",
+              "beds": 2,
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers/7OQXV0EHTW"
+        },
+        {
+          "boardType": "ROOM_ONLY",
+          "checkInDate": "2026-08-22",
+          "checkOutDate": "2026-08-25",
+          "guests": {
+            "adults": 2
+          },
+          "id": "5BWK2C851N",
+          "isLoyaltyRate": "false",
+          "policies": {
+            "cancellations": [
+              {
+                "deadline": "2026-08-21T18:01:00+02:00",
+                "description": {
+                  "text": "No cancellation charge applies prior to 18:00(local time) on the day of arrival. Beyond that time, the first night will be charged."
+                },
+                "numberOfNights": 1,
+                "policyType": "CANCELLATION"
+              }
+            ],
+            "guarantee": {
+              "acceptedPayments": {
+                "creditCardPolicies": [
+                  {
+                    "vendorCode": "AX"
+                  },
+                  {
+                    "vendorCode": "CA"
+                  },
+                  {
+                    "vendorCode": "DC"
+                  },
+                  {
+                    "vendorCode": "EC"
+                  },
+                  {
+                    "vendorCode": "IK"
+                  },
+                  {
+                    "vendorCode": "JC"
+                  },
+                  {
+                    "vendorCode": "EE"
+                  }
+                ],
+                "creditCards": [
+                  "AX",
+                  "CA",
+                  "DC",
+                  "EC",
+                  "IK",
+                  "JC",
+                  "EE"
+                ],
+                "methods": [
+                  "TRAVEL_AGENT_ID",
+                  "CREDIT_CARD"
+                ]
+              }
+            },
+            "holdTime": {
+              "deadline": "2026-08-22T18:00:00"
+            },
+            "paymentType": "guarantee",
+            "refundable": {
+              "cancellationRefund": "REFUNDABLE_UP_TO_DEADLINE"
+            }
+          },
+          "price": {
+            "currency": "EUR",
+            "taxes": [
+              {
+                "amount": "1.40",
+                "applicableDate": {
+                  "end": "2026-08-24",
+                  "start": "2026-08-22"
+                },
+                "code": "CITY_TAX",
+                "currency": "EUR",
+                "included": true,
+                "pricingFrequency": "PER_NIGHT",
+                "pricingMode": "PER_OCCUPANT"
+              }
+            ],
+            "total": "803.40",
+            "variations": {
+              "average": {
+                "total": "267.80"
+              },
+              "changes": [
+                {
+                  "base": "265.00",
+                  "endDate": "2026-08-25",
+                  "startDate": "2026-08-22"
+                }
+              ]
+            }
+          },
+          "rateCode": "1KD",
+          "rateFamilyEstimated": {
+            "code": "BAR",
+            "type": "P"
+          },
+          "room": {
+            "description": {
+              "lang": "EN",
+              "text": "FLEX - RO B2C-Room only\nStandard Room with 2 single beds GB TEST GB"
+            },
+            "type": "C2T",
+            "typeEstimated": {
+              "bedType": "SINGLE",
+              "beds": 2,
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "roomInformation": {
+            "description": "FLEX - RO B2C-Room only\nStandard Room with 2 single beds GB TEST GB",
+            "type": "C2T",
+            "typeEstimated": {
+              "bedType": "SINGLE",
+              "beds": 2,
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers/5BWK2C851N"
+        },
+        {
+          "boardType": "ROOM_ONLY",
+          "checkInDate": "2026-08-22",
+          "checkOutDate": "2026-08-25",
+          "guests": {
+            "adults": 2
+          },
+          "id": "TRIPHHZAYX",
+          "isLoyaltyRate": "false",
+          "policies": {
+            "cancellations": [
+              {
+                "deadline": "2026-08-21T18:01:00+02:00",
+                "description": {
+                  "text": "No cancellation charge applies prior to 18:00(local time) on the day of arrival. Beyond that time, the first night will be charged."
+                },
+                "numberOfNights": 1,
+                "policyType": "CANCELLATION"
+              }
+            ],
+            "guarantee": {
+              "acceptedPayments": {
+                "creditCardPolicies": [
+                  {
+                    "vendorCode": "AX"
+                  },
+                  {
+                    "vendorCode": "CA"
+                  },
+                  {
+                    "vendorCode": "DC"
+                  },
+                  {
+                    "vendorCode": "EC"
+                  },
+                  {
+                    "vendorCode": "IK"
+                  },
+                  {
+                    "vendorCode": "JC"
+                  },
+                  {
+                    "vendorCode": "EE"
+                  }
+                ],
+                "creditCards": [
+                  "AX",
+                  "CA",
+                  "DC",
+                  "EC",
+                  "IK",
+                  "JC",
+                  "EE"
+                ],
+                "methods": [
+                  "TRAVEL_AGENT_ID",
+                  "CREDIT_CARD"
+                ]
+              }
+            },
+            "holdTime": {
+              "deadline": "2026-08-22T18:00:00"
+            },
+            "paymentType": "guarantee",
+            "refundable": {
+              "cancellationRefund": "REFUNDABLE_UP_TO_DEADLINE"
+            }
+          },
+          "price": {
+            "currency": "EUR",
+            "taxes": [
+              {
+                "amount": "1.40",
+                "applicableDate": {
+                  "end": "2026-08-24",
+                  "start": "2026-08-22"
+                },
+                "code": "CITY_TAX",
+                "currency": "EUR",
+                "included": true,
+                "pricingFrequency": "PER_NIGHT",
+                "pricingMode": "PER_OCCUPANT"
+              }
+            ],
+            "total": "677.87",
+            "variations": {
+              "average": {
+                "total": "225.96"
+              },
+              "changes": [
+                {
+                  "base": "223.16",
+                  "endDate": "2026-08-25",
+                  "startDate": "2026-08-22"
+                }
+              ]
+            }
+          },
+          "rateCode": "FGR",
+          "room": {
+            "description": {
+              "lang": "EN",
+              "text": "FGR Itzel-Room only\nStandard Room with 2 single beds GB TEST GB"
+            },
+            "type": "C2T",
+            "typeEstimated": {
+              "bedType": "SINGLE",
+              "beds": 2,
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "roomInformation": {
+            "description": "FGR Itzel-Room only\nStandard Room with 2 single beds GB TEST GB",
+            "type": "C2T",
+            "typeEstimated": {
+              "bedType": "SINGLE",
+              "beds": 2,
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers/TRIPHHZAYX"
+        },
+        {
+          "boardType": "ROOM_ONLY",
+          "checkInDate": "2026-08-22",
+          "checkOutDate": "2026-08-25",
+          "guests": {
+            "adults": 2
+          },
+          "id": "BW3ICVWZ0J",
+          "isLoyaltyRate": "false",
+          "policies": {
+            "cancellations": [
+              {
+                "deadline": "2026-08-21T18:01:00+02:00",
+                "description": {
+                  "text": "No cancellation charge applies prior to 18:00(local time) on the day of arrival. Beyond that time, the first night will be charged."
+                },
+                "numberOfNights": 1,
+                "policyType": "CANCELLATION"
+              }
+            ],
+            "guarantee": {
+              "acceptedPayments": {
+                "creditCardPolicies": [
+                  {
+                    "vendorCode": "AX"
+                  },
+                  {
+                    "vendorCode": "CA"
+                  },
+                  {
+                    "vendorCode": "DC"
+                  },
+                  {
+                    "vendorCode": "EC"
+                  },
+                  {
+                    "vendorCode": "IK"
+                  },
+                  {
+                    "vendorCode": "JC"
+                  },
+                  {
+                    "vendorCode": "EE"
+                  }
+                ],
+                "creditCards": [
+                  "AX",
+                  "CA",
+                  "DC",
+                  "EC",
+                  "IK",
+                  "JC",
+                  "EE"
+                ],
+                "methods": [
+                  "TRAVEL_AGENT_ID",
+                  "CREDIT_CARD"
+                ]
+              }
+            },
+            "holdTime": {
+              "deadline": "2026-08-22T18:00:00"
+            },
+            "paymentType": "guarantee",
+            "refundable": {
+              "cancellationRefund": "REFUNDABLE_UP_TO_DEADLINE"
+            }
+          },
+          "price": {
+            "currency": "EUR",
+            "taxes": [
+              {
+                "amount": "1.40",
+                "applicableDate": {
+                  "end": "2026-08-24",
+                  "start": "2026-08-22"
+                },
+                "code": "CITY_TAX",
+                "currency": "EUR",
+                "included": true,
+                "pricingFrequency": "PER_NIGHT",
+                "pricingMode": "PER_OCCUPANT"
+              }
+            ],
+            "total": "1178.40",
+            "variations": {
+              "average": {
+                "total": "392.80"
+              },
+              "changes": [
+                {
+                  "base": "390.00",
+                  "endDate": "2026-08-25",
+                  "startDate": "2026-08-22"
+                }
+              ]
+            }
+          },
+          "rateCode": "BS1",
+          "rateFamilyEstimated": {
+            "code": "COR",
+            "type": "P"
+          },
+          "room": {
+            "description": {
+              "lang": "EN",
+              "text": "BUSINESS RATE BB-Room only\nStandard Room with 2 single beds GB TEST GB"
+            },
+            "type": "C2T",
+            "typeEstimated": {
+              "bedType": "SINGLE",
+              "beds": 2,
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "roomInformation": {
+            "description": "BUSINESS RATE BB-Room only\nStandard Room with 2 single beds GB TEST GB",
+            "type": "C2T",
+            "typeEstimated": {
+              "bedType": "SINGLE",
+              "beds": 2,
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers/BW3ICVWZ0J"
+        },
+        {
+          "boardType": "ROOM_ONLY",
+          "checkInDate": "2026-08-22",
+          "checkOutDate": "2026-08-25",
+          "guests": {
+            "adults": 2
+          },
+          "id": "EA9NQK4Q2B",
+          "isLoyaltyRate": "false",
+          "policies": {
+            "cancellations": [
+              {
+                "deadline": "2026-08-21T18:01:00+02:00",
+                "description": {
+                  "text": "No cancellation charge applies prior to 18:00(local time) on the day of arrival. Beyond that time, the first night will be charged."
+                },
+                "numberOfNights": 1,
+                "policyType": "CANCELLATION"
+              }
+            ],
+            "guarantee": {
+              "acceptedPayments": {
+                "creditCardPolicies": [
+                  {
+                    "vendorCode": "AX"
+                  },
+                  {
+                    "vendorCode": "CA"
+                  },
+                  {
+                    "vendorCode": "DC"
+                  },
+                  {
+                    "vendorCode": "EC"
+                  },
+                  {
+                    "vendorCode": "IK"
+                  },
+                  {
+                    "vendorCode": "JC"
+                  },
+                  {
+                    "vendorCode": "EE"
+                  }
+                ],
+                "creditCards": [
+                  "AX",
+                  "CA",
+                  "DC",
+                  "EC",
+                  "IK",
+                  "JC",
+                  "EE"
+                ],
+                "methods": [
+                  "TRAVEL_AGENT_ID",
+                  "CREDIT_CARD"
+                ]
+              }
+            },
+            "holdTime": {
+              "deadline": "2026-08-22T18:00:00"
+            },
+            "paymentType": "guarantee",
+            "refundable": {
+              "cancellationRefund": "REFUNDABLE_UP_TO_DEADLINE"
+            }
+          },
+          "price": {
+            "currency": "EUR",
+            "taxes": [
+              {
+                "amount": "1.40",
+                "applicableDate": {
+                  "end": "2026-08-24",
+                  "start": "2026-08-22"
+                },
+                "code": "CITY_TAX",
+                "currency": "EUR",
+                "included": true,
+                "pricingFrequency": "PER_NIGHT",
+                "pricingMode": "PER_OCCUPANT"
+              }
+            ],
+            "total": "1178.40",
+            "variations": {
+              "average": {
+                "total": "392.80"
+              },
+              "changes": [
+                {
+                  "base": "390.00",
+                  "endDate": "2026-08-25",
+                  "startDate": "2026-08-22"
+                }
+              ]
+            }
+          },
+          "rateCode": "RDI",
+          "rateFamilyEstimated": {
+            "code": "RAC",
+            "type": "P"
+          },
+          "room": {
+            "description": {
+              "lang": "EN",
+              "text": "Rack rate-Room only\nStandard Room with 2 single beds GB TEST GB"
+            },
+            "type": "C2T",
+            "typeEstimated": {
+              "bedType": "SINGLE",
+              "beds": 2,
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "roomInformation": {
+            "description": "Rack rate-Room only\nStandard Room with 2 single beds GB TEST GB",
+            "type": "C2T",
+            "typeEstimated": {
+              "bedType": "SINGLE",
+              "beds": 2,
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers/EA9NQK4Q2B"
+        }
+      ],
+      "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers?hotelIds=RTPARSTE\u0026adults=2\u0026checkInDate=2026-08-22\u0026checkOutDate=2026-08-25",
+      "type": "hotel-offers"
     }
   ],
-  "meta": { "count": 2 }
+  "warnings": [
+    {
+      "code": 4070,
+      "detail": "Provider Error - UNABLE TO PROCESS - CONTACT HELP DESK",
+      "source": {
+        "parameter": "hotelIds=RTPARBAS,RTPAREVR,RTPARITA,RTPARLYO,RTPARMRV"
+      },
+      "title": "UNABLE TO PROCESS - CONTACT HELP DESK"
+    },
+    {
+      "code": 3289,
+      "detail": "Provider Error - RATE NOT AVAILABLE FOR REQUESTED DATES",
+      "source": {
+        "parameter": "hotelIds=RTPARBAG,RTPARDFF,RTPARFAY"
+      },
+      "title": "RATE NOT AVAILABLE FOR REQUESTED DATES"
+    },
+    {
+      "code": 1257,
+      "detail": "Provider Error - INVALID PROPERTY CODE",
+      "source": {
+        "parameter": "hotelIds=RTPARADV,RTPARALL,RTPARMAX,RTPAROIE,RTPARSDP,RTPARVEE"
+      },
+      "title": "INVALID PROPERTY CODE"
+    }
+  ]
 }

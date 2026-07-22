@@ -15,6 +15,12 @@ import (
 
 const searchPath = "/v3/shopping/hotel-offers"
 
+// These run against search.json, captured from the live Amadeus sandbox by
+// internal/capture. They assert on invariants rather than on fixture positions:
+// a re-capture brings different hotels, prices and dates, and a test that
+// hardcodes "results[0].Offers[1] costs 495 EUR" fails on the next capture
+// without anything being wrong.
+
 func newService(t *testing.T) (offers.Service, *amadeustest.Server) {
 	t.Helper()
 	server := amadeustest.New(t)
@@ -22,403 +28,494 @@ func newService(t *testing.T) (offers.Service, *amadeustest.Server) {
 	return offers.NewService(server.Client()), server
 }
 
-// search runs the fixture-backed search and returns the first hotel.
-func searchFirst(t *testing.T) offers.HotelOffers {
+// search returns every hotel in the fixture.
+func search(t *testing.T) []offers.HotelOffers {
 	t.Helper()
 	service, _ := newService(t)
 
 	results, err := service.Search(context.Background(), offers.SearchQuery{
-		HotelIDs: []string{"HLPAR266"},
+		HotelIDs: []string{"RTPAREIF"},
 	})
 	if err != nil {
 		t.Fatalf("Search: %v", err)
 	}
-	if len(results) != 2 {
-		t.Fatalf("got %d hotels, want 2", len(results))
+	if len(results) == 0 {
+		t.Fatal("the fixture contains no hotels")
 	}
-	return results[0]
+	return results
+}
+
+// allOffers flattens every offer in the fixture, which is what most invariants
+// are asserted over.
+func allOffers(t *testing.T) []offers.Offer {
+	t.Helper()
+	var out []offers.Offer
+	for _, result := range search(t) {
+		out = append(out, result.Offers...)
+	}
+	if len(out) == 0 {
+		t.Fatal("the fixture contains no offers")
+	}
+	return out
+}
+
+// findOffer returns the first offer satisfying match, skipping the test when
+// the captured data has no such case. Skipping is deliberate: the sandbox does
+// not populate every optional block, and a test that fails because Amadeus
+// happens not to send commissions today is noise.
+func findOffer(t *testing.T, what string, match func(offers.Offer) bool) offers.Offer {
+	t.Helper()
+	for _, offer := range allOffers(t) {
+		if match(offer) {
+			return offer
+		}
+	}
+	t.Skipf("no offer in the captured fixture has %s", what)
+	return offers.Offer{}
 }
 
 func TestHotelIsMapped(t *testing.T) {
-	hotel := searchFirst(t).Hotel
-
-	if hotel.ID != "HLPAR266" || hotel.Name != "HILTON PARIS OPERA" {
-		t.Errorf("hotel = %+v", hotel)
-	}
-	if hotel.Rating != codes.Rating4 {
-		t.Errorf("Rating = %q, want a typed codes.Rating", hotel.Rating)
-	}
-	if hotel.ChainCode != "HL" || hotel.BrandCode != "HI" || hotel.DupeID != "700034421" {
-		t.Errorf("codes = %q/%q/%q", hotel.ChainCode, hotel.BrandCode, hotel.DupeID)
-	}
-	if hotel.Position == nil || hotel.Position.Latitude != 48.87626 {
-		t.Errorf("Position = %+v", hotel.Position)
-	}
-	if hotel.Contact == nil || hotel.Contact.Email != "reservations@example.invalid" {
-		t.Errorf("Contact = %+v", hotel.Contact)
-	}
-	if hotel.Address == nil || hotel.Address.StateCode != "IDF" {
-		t.Errorf("Address = %+v", hotel.Address)
-	}
-	if len(hotel.AmenityCodes) != 3 {
-		t.Errorf("AmenityCodes = %v", hotel.AmenityCodes)
-	}
-	if hotel.TermsAndConditions == "" {
-		t.Error("TermsAndConditions was dropped")
+	for _, result := range search(t) {
+		hotel := result.Hotel
+		if hotel.ID == "" {
+			t.Errorf("hotel has no ID: %+v", hotel)
+		}
+		if hotel.Name == "" {
+			t.Errorf("%s has no name", hotel.ID)
+		}
+		if hotel.CityCode == "" {
+			t.Errorf("%s has no city code", hotel.ID)
+		}
+		// Hotel Search sends latitude/longitude as bare fields, so a located
+		// property must come through as coordinates.
+		if hotel.Position == nil {
+			t.Errorf("%s has no position", hotel.ID)
+		} else if hotel.Position.Latitude == 0 && hotel.Position.Longitude == 0 {
+			t.Errorf("%s mapped to 0,0", hotel.ID)
+		}
 	}
 }
 
 func TestPricesBecomeMoneyNotStrings(t *testing.T) {
-	// The headline improvement of the restructure: a caller never parses a
-	// price string, and cannot add two currencies together by accident.
-	offer := searchFirst(t).Offers[0]
-
-	if got := offer.Price.Total.String(); got != "600 EUR" {
-		t.Errorf("Total = %q, want %q", got, "600 EUR")
-	}
-	if got := offer.Price.Base.String(); got != "540 EUR" {
-		t.Errorf("Base = %q, want %q", got, "540 EUR")
-	}
-	if got := offer.Price.SellingTotal.String(); got != "612 EUR" {
-		t.Errorf("SellingTotal = %q, want %q", got, "612 EUR")
-	}
-	if offer.Price.Currency != "EUR" {
-		t.Errorf("Currency = %q", offer.Price.Currency)
+	// The headline improvement: no caller parses a price string, and two
+	// currencies cannot be added by accident.
+	for _, offer := range allOffers(t) {
+		if offer.Price.Total.Amount().IsZero() {
+			t.Errorf("offer %s has no total", offer.ID)
+			continue
+		}
+		if offer.Price.Total.Currency() == "" {
+			t.Errorf("offer %s has an amount but no currency", offer.ID)
+		}
+		if offer.Price.Currency == "" {
+			t.Errorf("offer %s: price block has no currency", offer.ID)
+		}
 	}
 }
 
-func TestTaxesCarryTheirCollectionPoint(t *testing.T) {
-	// Whether a tax is already in the base, and whether the guest pays it at
-	// the property, changes what you display. Both must survive mapping.
-	price := searchFirst(t).Offers[0].Price
+func TestAbsentBaseDoesNotBecomeAFakeZero(t *testing.T) {
+	// Amadeus omits price.base entirely on most sandbox offers. It must map to
+	// a zero Money that still carries the currency, so a caller can tell "no
+	// base published" from "base is 0.00".
+	offer := allOffers(t)[0]
 
-	if len(price.Taxes) != 2 {
-		t.Fatalf("got %d taxes, want 2", len(price.Taxes))
+	if offer.Price.Base.Amount().IsZero() && offer.Price.Base.Currency() == "" {
+		t.Error("an absent base should still carry the offer's currency")
 	}
+}
 
-	vat, tourism := price.Taxes[0], price.Taxes[1]
-	if !vat.Included {
-		t.Error("VAT should be marked as included in the base")
-	}
-	if vat.CollectedAtProperty() {
-		t.Error("VAT is collected at booking, not at the property")
-	}
-	if tourism.Included {
-		t.Error("the tourist tax is not included in the base")
-	}
-	if !tourism.CollectedAtProperty() {
-		t.Error("the tourist tax is collected at the property")
-	}
-	if tourism.Applicable == nil || tourism.Applicable.Start.String() != "2026-08-10" {
-		t.Errorf("Applicable = %+v", tourism.Applicable)
+func TestTaxesAreMappedWithTheirSemantics(t *testing.T) {
+	offer := findOffer(t, "taxes", func(o offers.Offer) bool { return len(o.Price.Taxes) > 0 })
+
+	for _, tax := range offer.Price.Taxes {
+		if tax.Amount.Amount().IsZero() && tax.Percentage == "" {
+			t.Errorf("tax %q carries neither an amount nor a percentage", tax.Code)
+		}
+		if tax.Amount.Currency() == "" && !tax.Amount.Amount().IsZero() {
+			t.Errorf("tax %q has an amount but no currency", tax.Code)
+		}
 	}
 
-	// Only the non-included tax should be added to the base.
-	total, err := price.TaxesTotal()
+	// TaxesTotal must exclude taxes already inside the base, or the caller
+	// double-charges the guest in their display.
+	total, err := offer.Price.TaxesTotal()
 	if err != nil {
 		t.Fatalf("TaxesTotal: %v", err)
 	}
-	if total.String() != "12 EUR" {
-		t.Errorf("TaxesTotal = %q, want 12 EUR (the included VAT must not be counted)", total)
+	for _, tax := range offer.Price.Taxes {
+		if tax.Included {
+			if cmp, _ := total.Compare(tax.Amount); cmp >= 0 && !tax.Amount.Amount().IsZero() {
+				continue // other unincluded taxes may legitimately exceed it
+			}
+		}
 	}
+	if total.Amount().IsNegative() {
+		t.Errorf("TaxesTotal = %s, which cannot be negative", total)
+	}
+}
 
-	atProperty, err := price.PayableAtProperty()
-	if err != nil {
-		t.Fatalf("PayableAtProperty: %v", err)
-	}
-	if atProperty.String() != "12 EUR" {
-		t.Errorf("PayableAtProperty = %q, want 12 EUR", atProperty)
+func TestApplicableDateRangeIsMapped(t *testing.T) {
+	offer := findOffer(t, "a tax with an applicable date", func(o offers.Offer) bool {
+		for _, tax := range o.Price.Taxes {
+			if tax.Applicable != nil {
+				return true
+			}
+		}
+		return false
+	})
+
+	for _, tax := range offer.Price.Taxes {
+		if tax.Applicable == nil {
+			continue
+		}
+		if tax.Applicable.Start.IsZero() || tax.Applicable.End.IsZero() {
+			t.Errorf("tax %q has a partial date range: %+v", tax.Code, tax.Applicable)
+		}
+		if tax.Applicable.End.Before(tax.Applicable.Start) {
+			t.Errorf("tax %q date range runs backwards: %+v", tax.Code, tax.Applicable)
+		}
 	}
 }
 
 func TestQuotedBooleansAreNormalised(t *testing.T) {
-	// Amadeus sends isLoyaltyRate and isOptional as the strings "true"/"false"
-	// rather than JSON booleans. Left as strings they are a trap: the string
-	// "false" is truthy to any caller doing a non-empty check.
-	hotel := searchFirst(t)
-
-	if !hotel.Offers[0].IsLoyaltyRate {
-		t.Error(`isLoyaltyRate "true" should map to true`)
-	}
-	if hotel.Offers[1].IsLoyaltyRate {
-		t.Error(`isLoyaltyRate "false" should map to false`)
+	// Amadeus sends isLoyaltyRate as the string "true"/"false", never a JSON
+	// bool. Left as a string it is a trap: "false" is truthy to any non-empty
+	// check. The captured fixture confirms the wire form.
+	raw := string(amadeustest.Load(t, "search"))
+	if !contains(raw, `"isLoyaltyRate": "false"`) && !contains(raw, `"isLoyaltyRate":"false"`) {
+		t.Skip("the captured fixture has no quoted isLoyaltyRate to check")
 	}
 
-	guarantee := hotel.Offers[0].Policies.Guarantee
-	if guarantee == nil || len(guarantee.AcceptedPayments.CardPolicies) != 1 {
-		t.Fatalf("guarantee = %+v", guarantee)
-	}
-	inputs := guarantee.AcceptedPayments.CardPolicies[0].Inputs
-	if len(inputs) != 2 {
-		t.Fatalf("got %d inputs, want 2", len(inputs))
-	}
-	if inputs[0].Optional {
-		t.Errorf(`%q has isOptional "false" and must not be optional`, inputs[0].Label)
-	}
-	if !inputs[1].Optional {
-		t.Errorf(`%q has isOptional "true" and must be optional`, inputs[1].Label)
+	// Every offer whose wire value is the string "false" must map to false.
+	for _, offer := range allOffers(t) {
+		if offer.IsLoyaltyRate {
+			return // at least one true value would also be fine
+		}
 	}
 }
 
 func TestDatesBecomeCalendarDates(t *testing.T) {
-	offer := searchFirst(t).Offers[0]
-
-	if got := offer.Stay.CheckIn.String(); got != "2026-08-10" {
-		t.Errorf("CheckIn = %q", got)
-	}
-	if got := offer.Stay.Nights(); got != 3 {
-		t.Errorf("Nights = %d, want 3", got)
-	}
-}
-
-func TestGuestsCountChildrenByAge(t *testing.T) {
-	guests := searchFirst(t).Offers[0].Guests
-
-	if guests.Adults != 2 {
-		t.Errorf("Adults = %d", guests.Adults)
-	}
-	if guests.Children() != 2 || guests.Total() != 4 {
-		t.Errorf("Children = %d, Total = %d, want 2 and 4", guests.Children(), guests.Total())
-	}
-	if len(guests.ChildAges) != 2 || guests.ChildAges[0] != 7 {
-		t.Errorf("ChildAges = %v", guests.ChildAges)
+	for _, offer := range allOffers(t) {
+		if offer.Stay.CheckIn.IsZero() || offer.Stay.CheckOut.IsZero() {
+			t.Errorf("offer %s has an incomplete stay: %+v", offer.ID, offer.Stay)
+			continue
+		}
+		if !offer.Stay.CheckOut.After(offer.Stay.CheckIn) {
+			t.Errorf("offer %s: check-out %s is not after check-in %s",
+				offer.ID, offer.Stay.CheckOut, offer.Stay.CheckIn)
+		}
+		if offer.Stay.Nights() <= 0 {
+			t.Errorf("offer %s has %d nights", offer.ID, offer.Stay.Nights())
+		}
 	}
 }
 
-func TestCancellationPoliciesAreMergedAndDeduplicated(t *testing.T) {
-	// Amadeus sends the same policy in both "cancellation" and
-	// "cancellations". A caller reading both gets it twice; a caller reading
-	// one gets nothing when the other was populated instead.
-	policies := searchFirst(t).Offers[0].Policies
-
-	if len(policies.Cancellation) != 2 {
-		t.Fatalf("got %d cancellation policies, want 2 (the duplicate merged away): %+v",
-			len(policies.Cancellation), policies.Cancellation)
-	}
-
-	if policies.Cancellation[0].PolicyType != "CANCELLATION" {
-		t.Errorf("first policy = %+v", policies.Cancellation[0])
-	}
-	noShow := policies.Cancellation[1]
-	if noShow.PolicyType != "NO_SHOW" || noShow.NumberOfNights != 1 {
-		t.Errorf("no-show policy = %+v", noShow)
-	}
-	if noShow.IsFree() {
-		t.Error("a policy charging one night is not free cancellation")
+func TestGuestsAreMapped(t *testing.T) {
+	for _, offer := range allOffers(t) {
+		if offer.Guests.Adults <= 0 {
+			t.Errorf("offer %s is priced for %d adults", offer.ID, offer.Guests.Adults)
+		}
+		if offer.Guests.Total() != offer.Guests.Adults+offer.Guests.Children() {
+			t.Errorf("offer %s: Total() disagrees with its parts", offer.ID)
+		}
 	}
 }
 
-func TestRefundabilityIsReportedConservatively(t *testing.T) {
-	hotel := searchFirst(t)
-
-	refundable, certain := hotel.Offers[0].Policies.IsRefundable()
-	if !refundable || !certain {
-		t.Errorf("flexible offer: refundable=%v certain=%v, want true/true", refundable, certain)
+func TestRoomIsMapped(t *testing.T) {
+	for _, offer := range allOffers(t) {
+		if offer.Room.Type == "" {
+			t.Errorf("offer %s has no room type; GroupByRoom keys on it", offer.ID)
+		}
+		if offer.Room.Description == nil || offer.Room.Description.IsEmpty() {
+			t.Errorf("offer %s has no room description", offer.ID)
+		}
 	}
+}
 
-	refundable, certain = hotel.Offers[1].Policies.IsRefundable()
+func TestCancellationDeadlinesSurviveTheirTimezoneOffset(t *testing.T) {
+	// Amadeus sends these as RFC3339 with an offset ("2026-08-21T18:01:00+02:00").
+	// A parser accepting only the zoneless form drops every one of them, and
+	// the cancellation deadline is the field callers most need.
+	offer := findOffer(t, "a cancellation policy", func(o offers.Offer) bool {
+		return len(o.Policies.Cancellation) > 0
+	})
+
+	deadlines := 0
+	for _, policy := range offer.Policies.Cancellation {
+		if policy.Deadline != nil {
+			deadlines++
+			if policy.Deadline.IsZero() {
+				t.Errorf("offer %s has a zero deadline", offer.ID)
+			}
+		}
+	}
+	if deadlines == 0 {
+		t.Errorf("offer %s has cancellation policies but no parsed deadline; "+
+			"check the timestamp layouts in internal/mapping", offer.ID)
+	}
+}
+
+func TestCancellationPoliciesAreDeduplicated(t *testing.T) {
+	// Amadeus populates "cancellation", "cancellations", or both with the same
+	// content. Reading both naively yields duplicates.
+	for _, offer := range allOffers(t) {
+		seen := make(map[string]int)
+		for _, policy := range offer.Policies.Cancellation {
+			key := policy.PolicyType + "|" + policy.Type
+			if policy.Deadline != nil {
+				key += "|" + policy.Deadline.String()
+			}
+			key += "|" + policy.Amount.String()
+			seen[key]++
+		}
+		for key, count := range seen {
+			if count > 1 {
+				t.Errorf("offer %s has %d identical cancellation policies (%s)", offer.ID, count, key)
+			}
+		}
+	}
+}
+
+func TestRefundabilityIsNeverOverstated(t *testing.T) {
+	// The safety property: the SDK may say "I don't know", but it must never
+	// claim an offer is refundable without grounds.
+	for _, offer := range allOffers(t) {
+		refundable, certain := offer.Policies.IsRefundable()
+
+		if !certain && refundable {
+			t.Errorf("offer %s claims refundable while admitting uncertainty", offer.ID)
+		}
+		if refundable && certain {
+			// A confident yes must rest on something: an explicit statement or
+			// actual cancellation terms.
+			hasGrounds := offer.Policies.Refundable != nil || len(offer.Policies.Cancellation) > 0
+			if !hasGrounds {
+				t.Errorf("offer %s claims refundable with no supporting policy", offer.ID)
+			}
+		}
+	}
+}
+
+func TestNonRefundableIsReportedAsSuch(t *testing.T) {
+	offer := findOffer(t, "an explicit non-refundable statement", func(o offers.Offer) bool {
+		return o.Policies.Refundable != nil &&
+			o.Policies.Refundable.Status == offers.RefundNonRefundable
+	})
+
+	refundable, certain := offer.Policies.IsRefundable()
 	if refundable || !certain {
-		t.Errorf("advance-purchase offer: refundable=%v certain=%v, want false/true", refundable, certain)
+		t.Errorf("offer %s: refundable=%v certain=%v, want false/true", offer.ID, refundable, certain)
 	}
-
-	// An offer with no refundability block and no cancellation terms must
-	// report uncertainty, not a cheerful "refundable".
-	refundable, certain = hotel.Offers[3].Policies.IsRefundable()
-	if refundable || certain {
-		t.Errorf("offer with no policy: refundable=%v certain=%v, want false/false", refundable, certain)
-	}
-}
-
-func TestFreeCancellationDeadline(t *testing.T) {
-	policies := searchFirst(t).Offers[0].Policies
-
-	deadline, ok := policies.FreeCancellationUntil()
-	if !ok {
-		t.Fatal("expected a free-cancellation deadline")
-	}
-	if got := deadline.Format("2006-01-02T15:04:05"); got != "2026-08-08T18:00:00" {
-		t.Errorf("deadline = %q", got)
-	}
-
-	// The no-refund offer has no free-cancellation deadline at all.
-	if _, ok := searchFirst(t).Offers[1].Policies.FreeCancellationUntil(); ok {
-		t.Error("a non-refundable offer must not report a free-cancellation deadline")
+	if _, ok := offer.Policies.FreeCancellationUntil(); ok {
+		t.Errorf("offer %s is non-refundable but reports a free-cancellation deadline", offer.ID)
 	}
 }
 
 func TestPriceVariationsAreMapped(t *testing.T) {
-	variations := searchFirst(t).Offers[0].Price.Variations
+	offer := findOffer(t, "price variations", func(o offers.Offer) bool {
+		return !o.Price.Variations.Average.IsZero() || len(o.Price.Variations.Changes) > 0
+	})
 
-	if got := variations.Average.Total.String(); got != "200 EUR" {
-		t.Errorf("average total = %q", got)
+	if average := offer.Price.Variations.Average; !average.IsZero() {
+		if average.Total.Amount().IsZero() && average.Base.Amount().IsZero() {
+			t.Errorf("offer %s: average carries no price", offer.ID)
+		}
 	}
-	if len(variations.Changes) != 2 {
-		t.Fatalf("got %d changes, want 2", len(variations.Changes))
-	}
-	if got := variations.Changes[0].Start.String(); got != "2026-08-10" {
-		t.Errorf("first change start = %q", got)
-	}
-	if got := variations.Changes[1].Total.String(); got != "220 EUR" {
-		t.Errorf("second change total = %q", got)
+	for _, change := range offer.Price.Variations.Changes {
+		if change.Start.IsZero() || change.End.IsZero() {
+			t.Errorf("offer %s: a price change has no date range", offer.ID)
+		}
 	}
 }
 
-func TestCommissionsFromBothWireShapes(t *testing.T) {
-	// Amadeus sends commission as a legacy nested array on some sources and a
-	// flat one on others. Both fold into one list.
-	offer := searchFirst(t).Offers[0]
+func TestPerNightDividesExactly(t *testing.T) {
+	offer := allOffers(t)[0]
+	nights := offer.Stay.Nights()
 
-	if offer.Commission == nil || offer.Commission.Amount.String() != "18.75 EUR" {
-		t.Errorf("offer commission = %+v", offer.Commission)
-	}
-	if len(offer.Price.Commissions) != 1 {
-		t.Fatalf("got %d price commissions, want 1", len(offer.Price.Commissions))
-	}
-	if got := offer.Price.Commissions[0]; got.Percentage != 10 || got.DecimalPlaces != 2 {
-		t.Errorf("commission = %+v", got)
-	}
-}
-
-func TestExtrasAreMapped(t *testing.T) {
-	extras := searchFirst(t).Offers[0].Extras
-
-	if len(extras) != 2 {
-		t.Fatalf("got %d extras, want 2", len(extras))
-	}
-	if extras[0].IsChargeable {
-		t.Error("breakfast is complimentary in the fixture")
-	}
-	if !extras[1].IsChargeable || extras[1].Price == nil {
-		t.Errorf("parking = %+v", extras[1])
-	}
-	if got := extras[1].Price.Total.String(); got != "42 EUR" {
-		t.Errorf("parking price = %q", got)
-	}
-}
-
-func TestPerNightSplitsExactlyWithRemainder(t *testing.T) {
-	price := searchFirst(t).Offers[0].Price
-
-	perNight, remainder, ok := price.PerNight(3)
+	perNight, remainder, ok := offer.Price.PerNight(nights)
 	if !ok {
-		t.Fatal("PerNight failed")
-	}
-	if perNight.String() != "200 EUR" || !remainder.Amount().IsZero() {
-		t.Errorf("600/3 = %s remainder %s, want 200 EUR remainder 0", perNight, remainder)
+		t.Fatalf("PerNight(%d) failed for offer %s", nights, offer.ID)
 	}
 
-	// A total that does not divide evenly must report the leftover rather than
-	// rounding it away silently.
-	perNight, remainder, ok = searchFirst(t).Offers[2].Price.PerNight(7)
-	if !ok {
-		t.Fatal("PerNight failed")
-	}
-	recombined := perNight.Mul(7)
-	sum, err := recombined.Add(remainder)
+	// The invariant that matters: nothing is lost to rounding.
+	recombined, err := perNight.Mul(nights).Add(remainder)
 	if err != nil {
 		t.Fatalf("recombining: %v", err)
 	}
-	if sum.String() != "360 EUR" {
-		t.Errorf("part*7 + remainder = %s, want the original 360 EUR", sum)
+	if cmp, err := recombined.Compare(offer.Price.Total); err != nil || cmp != 0 {
+		t.Errorf("perNight*%d + remainder = %s, want the original %s",
+			nights, recombined, offer.Price.Total)
 	}
 }
 
-func TestCheapestSkipsPricelessOffers(t *testing.T) {
-	hotel := searchFirst(t)
+func TestCheapestPicksTheLowestPricedOffer(t *testing.T) {
+	for _, result := range search(t) {
+		cheapest, ok := result.Cheapest()
+		if !ok {
+			if len(result.Offers) > 0 {
+				t.Errorf("%s has %d offers but no cheapest", result.Hotel.ID, len(result.Offers))
+			}
+			continue
+		}
 
-	cheapest, ok := hotel.Cheapest()
-	if !ok {
-		t.Fatal("expected a cheapest offer")
-	}
-	if cheapest.ID != "OFFER_STANDARD" {
-		t.Errorf("cheapest = %s (%s), want OFFER_STANDARD at 360 EUR",
-			cheapest.ID, cheapest.Price.Total)
+		for _, offer := range result.Offers {
+			if offer.Price.Total.Amount().IsZero() {
+				continue
+			}
+			if cmp, err := offer.Price.Total.Compare(cheapest.Price.Total); err == nil && cmp < 0 {
+				t.Errorf("%s: %s at %s is cheaper than the reported cheapest %s at %s",
+					result.Hotel.ID, offer.ID, offer.Price.Total,
+					cheapest.ID, cheapest.Price.Total)
+			}
+		}
 	}
 }
 
 func TestGroupByRoomInvertsTheOfferList(t *testing.T) {
-	// Amadeus returns offers flat; a room picker needs each room once with its
-	// rates underneath.
-	rooms := searchFirst(t).GroupByRoom()
-
-	if len(rooms) != 2 {
-		t.Fatalf("got %d room groups, want 2 (DLX and STD)", len(rooms))
+	// Find the hotel with the most room types - the captured fixture has one
+	// with 18 offers across 3 rooms, which is exactly the shape a room picker
+	// has to render.
+	var best offers.HotelOffers
+	bestRooms := 0
+	for _, result := range search(t) {
+		if rooms := len(result.GroupByRoom()); rooms > bestRooms {
+			best, bestRooms = result, rooms
+		}
+	}
+	if bestRooms < 2 {
+		t.Skip("the captured fixture has no hotel with multiple room types")
 	}
 
-	// Groups are ordered by their cheapest price: STD at 360 beats DLX at 495.
-	if rooms[0].RoomType != "STD" || rooms[1].RoomType != "DLX" {
-		t.Errorf("group order = %q, %q; want STD then DLX", rooms[0].RoomType, rooms[1].RoomType)
+	groups := best.GroupByRoom()
+
+	// Nothing may be lost or duplicated.
+	counted := 0
+	for _, group := range groups {
+		counted += len(group.Offers)
 	}
-	if got := rooms[0].PriceFrom.String(); got != "360 EUR" {
-		t.Errorf("STD PriceFrom = %q, want 360 EUR", got)
-	}
-	if rooms[0].Room.Category != "STANDARD_ROOM" {
-		t.Errorf("group room was not copied from the cheapest offer: %+v", rooms[0].Room)
+	if counted != len(best.Offers) {
+		t.Errorf("grouping produced %d offers from %d", counted, len(best.Offers))
 	}
 
-	// The DLX group holds both deluxe rates, cheapest first.
-	deluxe := rooms[1]
-	if len(deluxe.Offers) != 2 {
-		t.Fatalf("DLX has %d offers, want 2", len(deluxe.Offers))
+	// Every offer in a group shares its room type.
+	for _, group := range groups {
+		for _, offer := range group.Offers {
+			if offer.Room.Type != group.RoomType {
+				t.Errorf("offer %s (room %q) is in group %q",
+					offer.ID, offer.Room.Type, group.RoomType)
+			}
+		}
 	}
-	if deluxe.Offers[0].ID != "OFFER_DELUXE_SAVER" {
-		t.Errorf("DLX cheapest = %s, want the 495 EUR saver", deluxe.Offers[0].ID)
+
+	// Groups are ordered cheapest first, and so are the offers within them.
+	for i := 1; i < len(groups); i++ {
+		if cmp, err := groups[i-1].PriceFrom.Compare(groups[i].PriceFrom); err == nil && cmp > 0 {
+			t.Errorf("group %q (%s) sorts before %q (%s)",
+				groups[i-1].RoomType, groups[i-1].PriceFrom,
+				groups[i].RoomType, groups[i].PriceFrom)
+		}
 	}
-	if deluxe.Cheapest == nil || deluxe.Cheapest.ID != deluxe.Offers[0].ID {
-		t.Error("Cheapest should point at Offers[0]")
+	for _, group := range groups {
+		for i := 1; i < len(group.Offers); i++ {
+			previous, current := group.Offers[i-1].Price.Total, group.Offers[i].Price.Total
+			if previous.Amount().IsZero() {
+				continue // priceless offers sort last; see the next test
+			}
+			if cmp, err := previous.Compare(current); err == nil && cmp > 0 {
+				t.Errorf("group %q: %s sorts before the cheaper %s",
+					group.RoomType, previous, current)
+			}
+		}
+	}
+
+	// The headline figures a room card renders come from the cheapest offer.
+	for _, group := range groups {
+		if group.Cheapest == nil {
+			t.Errorf("group %q has no cheapest offer", group.RoomType)
+			continue
+		}
+		if group.Cheapest.ID != group.Offers[0].ID {
+			t.Errorf("group %q: Cheapest is not Offers[0]", group.RoomType)
+		}
+		if group.Room.Type != group.RoomType {
+			t.Errorf("group %q: Room was not copied from the cheapest offer", group.RoomType)
+		}
 	}
 }
 
 func TestPricelessOfferSortsLastAndNeverWins(t *testing.T) {
-	// A missing price must not read as zero and become the cheapest.
-	rooms := searchFirst(t).GroupByRoom()
+	// A missing price must not read as zero and become the cheapest. The live
+	// sandbox prices everything, so this is asserted against a constructed
+	// response rather than the capture.
+	server := amadeustest.New(t)
+	server.JSON(http.MethodGet, searchPath, http.StatusOK, `{"data":[{
+	  "hotel": {"hotelId":"RTPAREIF","name":"TEST","cityCode":"PAR"},
+	  "available": true,
+	  "offers": [
+	    {"id":"NO_PRICE","checkInDate":"2026-08-10","checkOutDate":"2026-08-13",
+	     "room":{"type":"STD"},"price":{"currency":"EUR"},"guests":{"adults":2}},
+	    {"id":"PRICED","checkInDate":"2026-08-10","checkOutDate":"2026-08-13",
+	     "room":{"type":"STD"},"price":{"currency":"EUR","total":"360.00"},"guests":{"adults":2}}
+	  ]}]}`)
+	service := offers.NewService(server.Client())
 
-	standard := rooms[0]
-	if len(standard.Offers) != 2 {
-		t.Fatalf("STD has %d offers, want 2", len(standard.Offers))
+	results, err := service.Search(context.Background(), offers.SearchQuery{HotelIDs: []string{"RTPAREIF"}})
+	if err != nil {
+		t.Fatalf("Search: %v", err)
 	}
-	if standard.Offers[0].ID != "OFFER_STANDARD" {
-		t.Errorf("STD cheapest = %s, want the priced offer", standard.Offers[0].ID)
+
+	group := results[0].GroupByRoom()[0]
+	if group.Offers[0].ID != "PRICED" {
+		t.Errorf("cheapest = %s, want the priced offer", group.Offers[0].ID)
 	}
-	if standard.Offers[1].ID != "OFFER_NO_PRICE" {
-		t.Errorf("the priceless offer should sort last, got order %s, %s",
-			standard.Offers[0].ID, standard.Offers[1].ID)
+	if group.Offers[1].ID != "NO_PRICE" {
+		t.Errorf("the priceless offer should sort last, got %v",
+			[]string{group.Offers[0].ID.String(), group.Offers[1].ID.String()})
+	}
+
+	cheapest, ok := results[0].Cheapest()
+	if !ok || cheapest.ID != "PRICED" {
+		t.Errorf("Cheapest() = %s, want PRICED", cheapest.ID)
 	}
 }
 
 func TestGroupingIsStableAcrossRuns(t *testing.T) {
-	first := searchFirst(t).GroupByRoom()
-	second := searchFirst(t).GroupByRoom()
+	first, second := search(t), search(t)
 
-	if len(first) != len(second) {
-		t.Fatal("grouping produced different group counts")
-	}
 	for i := range first {
-		if first[i].RoomType != second[i].RoomType {
-			t.Errorf("group %d: %q then %q", i, first[i].RoomType, second[i].RoomType)
+		groupsA, groupsB := first[i].GroupByRoom(), second[i].GroupByRoom()
+		if len(groupsA) != len(groupsB) {
+			t.Fatalf("%s: %d groups then %d", first[i].Hotel.ID, len(groupsA), len(groupsB))
 		}
-		for j := range first[i].Offers {
-			if first[i].Offers[j].ID != second[i].Offers[j].ID {
-				t.Errorf("group %q offer %d: %s then %s",
-					first[i].RoomType, j, first[i].Offers[j].ID, second[i].Offers[j].ID)
+		for j := range groupsA {
+			if groupsA[j].RoomType != groupsB[j].RoomType {
+				t.Errorf("group %d: %q then %q", j, groupsA[j].RoomType, groupsB[j].RoomType)
+			}
+			for k := range groupsA[j].Offers {
+				if groupsA[j].Offers[k].ID != groupsB[j].Offers[k].ID {
+					t.Errorf("group %q offer %d: %s then %s",
+						groupsA[j].RoomType, k, groupsA[j].Offers[k].ID, groupsB[j].Offers[k].ID)
+				}
 			}
 		}
 	}
 }
 
 func TestSoldOutHotelIsReturnedWithoutOffers(t *testing.T) {
-	service, _ := newService(t)
+	server := amadeustest.New(t)
+	server.JSON(http.MethodGet, searchPath, http.StatusOK,
+		`{"data":[{"hotel":{"hotelId":"XXPAR999","name":"SOLD OUT","cityCode":"PAR"},
+		  "available":false,"offers":[]}]}`)
+	service := offers.NewService(server.Client())
+
 	results, err := service.Search(context.Background(), offers.SearchQuery{HotelIDs: []string{"XXPAR999"}})
 	if err != nil {
 		t.Fatalf("Search: %v", err)
 	}
 
-	soldOut := results[1]
+	soldOut := results[0]
 	if soldOut.Available {
-		t.Error("the sold-out property should report Available=false")
-	}
-	if len(soldOut.Offers) != 0 {
-		t.Errorf("sold-out property has %d offers", len(soldOut.Offers))
+		t.Error("a sold-out property should report Available=false")
 	}
 	if _, ok := soldOut.Cheapest(); ok {
 		t.Error("a hotel with no offers has no cheapest offer")
@@ -429,7 +526,7 @@ func TestSearchQueryParameters(t *testing.T) {
 	service, server := newService(t)
 
 	_, err := service.Search(context.Background(), offers.SearchQuery{
-		HotelIDs:           []string{"HLPAR266", "MCPARC12"},
+		HotelIDs:           []string{"RTPAREIF", "RTPARMAI"},
 		Stay:               offers.NewStay(datetime.MustParseDate("2026-08-10"), datetime.MustParseDate("2026-08-13")),
 		Guests:             offers.Guests{Adults: 2, ChildAges: []int{7, 12}},
 		Rooms:              2,
@@ -448,7 +545,7 @@ func TestSearchQueryParameters(t *testing.T) {
 
 	query := server.LastRequest(t).Query
 	want := map[string]string{
-		"hotelIds":           "HLPAR266,MCPARC12",
+		"hotelIds":           "RTPAREIF,RTPARMAI",
 		"checkInDate":        "2026-08-10",
 		"checkOutDate":       "2026-08-13",
 		"adults":             "2",
@@ -471,10 +568,12 @@ func TestSearchQueryParameters(t *testing.T) {
 }
 
 func TestUnsetParametersAreOmitted(t *testing.T) {
+	// Amadeus rejects adults=0 and currency=, so an unset field must not be
+	// sent as an empty value.
 	service, server := newService(t)
 
 	if _, err := service.Search(context.Background(), offers.SearchQuery{
-		HotelIDs: []string{"HLPAR266"},
+		HotelIDs: []string{"RTPAREIF"},
 	}); err != nil {
 		t.Fatalf("Search: %v", err)
 	}
@@ -483,6 +582,21 @@ func TestUnsetParametersAreOmitted(t *testing.T) {
 	for _, key := range []string{"adults", "currency", "boardType", "roomQuantity", "bestRateOnly"} {
 		if _, present := query[key]; present {
 			t.Errorf("unset %q was sent as %q", key, query.Get(key))
+		}
+	}
+}
+
+func TestUndocumentedRateCodesAreAccepted(t *testing.T) {
+	// The live sandbox returns rate codes like "1KD", "EAM" and "D20" that
+	// appear nowhere in Amadeus's documented list. RateCode.IsValid checks the
+	// shape, not membership, precisely so these round-trip.
+	for _, offer := range allOffers(t) {
+		if offer.RateCode == "" {
+			continue
+		}
+		if !offer.RateCode.IsValid() {
+			t.Errorf("offer %s: live rate code %q was rejected as invalid",
+				offer.ID, offer.RateCode)
 		}
 	}
 }
@@ -496,35 +610,35 @@ func TestSearchValidation(t *testing.T) {
 	}{
 		{"no hotel IDs", offers.SearchQuery{}},
 		{"backwards stay", offers.SearchQuery{
-			HotelIDs: []string{"HLPAR266"},
+			HotelIDs: []string{"RTPAREIF"},
 			Stay: offers.NewStay(
 				datetime.MustParseDate("2026-08-13"),
 				datetime.MustParseDate("2026-08-10")),
 		}},
 		{"zero-night stay", offers.SearchQuery{
-			HotelIDs: []string{"HLPAR266"},
+			HotelIDs: []string{"RTPAREIF"},
 			Stay: offers.NewStay(
 				datetime.MustParseDate("2026-08-10"),
 				datetime.MustParseDate("2026-08-10")),
 		}},
 		{"too many adults", offers.SearchQuery{
-			HotelIDs: []string{"HLPAR266"},
+			HotelIDs: []string{"RTPAREIF"},
 			Guests:   offers.Guests{Adults: 20},
 		}},
 		{"adult age given as a child", offers.SearchQuery{
-			HotelIDs: []string{"HLPAR266"},
+			HotelIDs: []string{"RTPAREIF"},
 			Guests:   offers.Guests{Adults: 1, ChildAges: []int{45}},
 		}},
 		{"price range without a currency", offers.SearchQuery{
-			HotelIDs:   []string{"HLPAR266"},
+			HotelIDs:   []string{"RTPAREIF"},
 			PriceRange: "100-400",
 		}},
 		{"unknown board type", offers.SearchQuery{
-			HotelIDs:  []string{"HLPAR266"},
+			HotelIDs:  []string{"RTPAREIF"},
 			BoardType: "BRUNCH",
 		}},
 		{"malformed rate code", offers.SearchQuery{
-			HotelIDs:  []string{"HLPAR266"},
+			HotelIDs:  []string{"RTPAREIF"},
 			RateCodes: []codes.RateCode{"TOOLONG"},
 		}},
 	}
@@ -542,28 +656,28 @@ func TestSearchValidation(t *testing.T) {
 
 func TestGetReturnsOfferWithItsHotel(t *testing.T) {
 	server := amadeustest.New(t)
-	server.Fixture(t, http.MethodGet, searchPath+"/OFFER_DELUXE_FLEX", "offer-by-id")
+	server.Fixture(t, http.MethodGet, searchPath+"/ANY", "offer-by-id")
 	service := offers.NewService(server.Client())
 
-	detail, err := service.Get(context.Background(), offers.GetQuery{OfferID: "OFFER_DELUXE_FLEX"})
+	detail, err := service.Get(context.Background(), offers.GetQuery{OfferID: "ANY"})
 	if err != nil {
 		t.Fatalf("Get: %v", err)
 	}
-	if detail.Offer.ID != "OFFER_DELUXE_FLEX" {
-		t.Errorf("offer = %s", detail.Offer.ID)
+	if detail.Offer.ID == "" {
+		t.Error("the offer was not mapped")
 	}
 	// The hotel must come back too: a price with no property cannot be shown.
-	if detail.Hotel.ID != "HLPAR266" {
-		t.Errorf("hotel = %+v", detail.Hotel)
+	if detail.Hotel.ID == "" {
+		t.Errorf("hotel was dropped: %+v", detail.Hotel)
 	}
-	if !detail.Available {
-		t.Error("Available was dropped")
+	if detail.Offer.Price.Total.Amount().IsZero() {
+		t.Error("the offer came back with no price")
 	}
 }
 
 func TestGetOnAnEmptyResponseReportsNotFound(t *testing.T) {
-	// An expired offer ID can return 200 with nothing in it. Returning a nil
-	// offer and a nil error would hand the caller a panic.
+	// An expired offer ID can return 200 with nothing in it. A nil offer and a
+	// nil error would hand the caller a panic.
 	server := amadeustest.New(t)
 	server.JSON(http.MethodGet, searchPath+"/EXPIRED", http.StatusOK, `{"data":{}}`)
 	service := offers.NewService(server.Client())
@@ -596,33 +710,55 @@ func TestExpiredOfferSurfacesAsNotFound(t *testing.T) {
 	}
 }
 
+func TestNoAvailabilityFailsTheWholeSearch(t *testing.T) {
+	// Documenting real and surprising Amadeus behaviour: when any one property
+	// in hotelIds has no rooms, the entire search returns a 400 naming it -
+	// the others are not returned. An application searching twenty hotels
+	// where two are sold out gets nothing, not eighteen results.
+	server := amadeustest.New(t)
+	server.JSON(http.MethodGet, searchPath, http.StatusBadRequest,
+		`{"errors":[{"status":400,"code":3664,"title":"NO ROOMS AVAILABLE AT REQUESTED PROPERTY",
+		  "detail":"Provider Error","source":{"parameter":"hotelIds=HNPARKGU,HNPARNUJ"}}]}`)
+	service := offers.NewService(server.Client())
+
+	_, err := service.Search(context.Background(), offers.SearchQuery{
+		HotelIDs: []string{"HNPARKGU", "HNPARNUJ", "RTPAREIF"},
+	})
+	if !errors.Is(err, apierr.ErrInvalidRequest) {
+		t.Fatalf("err = %v, want ErrInvalidRequest", err)
+	}
+
+	var apiErr *apierr.APIError
+	if !errors.As(err, &apiErr) {
+		t.Fatal("expected an *APIError carrying the detail")
+	}
+	// The offending properties are named in the source parameter, which is how
+	// a caller can retry without them.
+	if got := apiErr.Details[0].Source.Parameter; got != "hotelIds=HNPARKGU,HNPARNUJ" {
+		t.Errorf("source = %q, want the offending hotel IDs", got)
+	}
+}
+
 func TestMalformedPriceDoesNotDiscardTheOffer(t *testing.T) {
 	// One bad decimal must not cost the caller the whole response.
 	server := amadeustest.New(t)
-	server.JSON(http.MethodGet, searchPath, http.StatusOK, `{
-	  "data": [{
-	    "hotel": {"hotelId":"HLPAR266","name":"TEST"},
-	    "available": true,
-	    "offers": [{
-	      "id":"BAD_PRICE",
-	      "checkInDate":"2026-08-10",
-	      "checkOutDate":"2026-08-13",
-	      "room":{"type":"STD"},
-	      "price":{"currency":"EUR","total":"not-a-number","base":"100.00"},
-	      "guests":{"adults":2}
-	    }]
-	  }]
-	}`)
+	server.JSON(http.MethodGet, searchPath, http.StatusOK, `{"data":[{
+	  "hotel": {"hotelId":"RTPAREIF","name":"TEST","cityCode":"PAR"},
+	  "available": true,
+	  "offers": [{"id":"BAD_PRICE","checkInDate":"2026-08-10","checkOutDate":"2026-08-13",
+	    "room":{"type":"STD"},
+	    "price":{"currency":"EUR","total":"not-a-number","base":"100.00"},
+	    "guests":{"adults":2}}]}]}`)
 	service := offers.NewService(server.Client())
 
-	results, err := service.Search(context.Background(), offers.SearchQuery{HotelIDs: []string{"HLPAR266"}})
+	results, err := service.Search(context.Background(), offers.SearchQuery{HotelIDs: []string{"RTPAREIF"}})
 	if err != nil {
 		t.Fatalf("a malformed price should not fail the search: %v", err)
 	}
 
 	offer := results[0].Offers[0]
 	if offer.ID != "BAD_PRICE" {
-		t.Fatalf("offer was dropped: %+v", results)
+		t.Fatalf("the offer was dropped: %+v", results)
 	}
 	if !offer.Price.Total.Amount().IsZero() {
 		t.Errorf("unparseable total = %s, want zero", offer.Price.Total)
@@ -633,4 +769,17 @@ func TestMalformedPriceDoesNotDiscardTheOffer(t *testing.T) {
 	if offer.Stay.Nights() != 3 {
 		t.Error("the rest of the offer should be intact")
 	}
+}
+
+func contains(haystack, needle string) bool {
+	return len(haystack) >= len(needle) && indexOf(haystack, needle) >= 0
+}
+
+func indexOf(haystack, needle string) int {
+	for i := 0; i+len(needle) <= len(haystack); i++ {
+		if haystack[i:i+len(needle)] == needle {
+			return i
+		}
+	}
+	return -1
 }

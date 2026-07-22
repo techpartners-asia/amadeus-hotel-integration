@@ -131,6 +131,24 @@ func (t Text) String() string { return t.Value }
 // IsEmpty reports whether the text carries no content.
 func (t Text) IsEmpty() bool { return t.Value == "" }
 
+// IsVisual reports whether the asset actually carries an image.
+//
+// Amadeus ships descriptive prose in the same array as photographs: an entry
+// tagged HOTEL_LONG_DESCRIPTION may hold text and nothing else. Those entries
+// have no URL and no renditions, and rendering one as an image produces an
+// empty src. Check this before treating an asset as a picture.
+func (a Asset) IsVisual() bool {
+	if a.URL != "" {
+		return true
+	}
+	for _, scale := range a.Scales {
+		if scale.URL != "" {
+			return true
+		}
+	}
+	return false
+}
+
 // Best returns the scale whose width is closest to targetWidth without
 // exceeding it, falling back to the smallest available and finally to the
 // asset's own URL.

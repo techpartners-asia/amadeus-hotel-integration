@@ -1,250 +1,384 @@
 {
   "data": {
-    "type": "hotel-offers",
+    "available": true,
     "hotel": {
-      "type": "hotel",
-      "hotelId": "HLPAR266",
-      "chainCode": "HL",
-      "brandCode": "HI",
-      "dupeId": "700034421",
-      "name": "HILTON PARIS OPERA",
-      "rating": "4",
-      "cityCode": "PAR",
-      "latitude": 48.87626,
-      "longitude": 2.32603,
-      "termsAndConditions": "https://example.invalid/terms",
-      "contact": {
-        "phone": "33-1-40088844",
-        "fax": "33-1-40088845",
-        "email": "reservations@example.invalid"
-      },
       "address": {
-        "lines": [
-          "108 RUE SAINT LAZARE"
-        ],
-        "postalCode": "75008",
-        "cityName": "PARIS",
-        "stateCode": "IDF",
         "countryCode": "FR"
       },
       "amenities": [
-        "SWIMMING_POOL",
-        "RESTAURANT",
-        "WIFI"
-      ]
+        "CRIBS_AVAILABLE"
+      ],
+      "chainCode": "RT",
+      "cityCode": "PAR",
+      "hotelId": "RTPAR672",
+      "name": "ADAGIO PARIS XV",
+      "type": "hotel"
     },
-    "available": true,
-    "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers?hotelIds=HLPAR266",
     "offers": [
       {
-        "id": "OFFER_DELUXE_FLEX",
-        "type": "hotel-offer",
-        "checkInDate": "2026-08-10",
-        "checkOutDate": "2026-08-13",
-        "rateCode": "PRO",
-        "rateName": "Flexible Rate",
-        "boardType": "BREAKFAST",
-        "category": "PUBLIC",
-        "isLoyaltyRate": "true",
-        "roomQuantity": 1,
-        "rateFamilyEstimated": {
-          "code": "PRO",
-          "type": "P"
-        },
-        "description": {
-          "text": "Deluxe room, flexible cancellation",
-          "lang": "EN"
-        },
+        "boardType": "ROOM_ONLY",
+        "checkInDate": "2026-08-22",
+        "checkOutDate": "2026-08-25",
         "commission": {
-          "amount": "18.75",
-          "percentage": "10",
           "description": {
-            "text": "Standard agency commission",
-            "lang": "EN"
+            "text": "Travel agency commission - not applicable"
           }
         },
-        "guests": {
-          "adults": 2,
-          "childAges": [
-            7,
-            12
-          ]
+        "description": {
+          "lang": "EN",
+          "text": "FLEX - RO B2C"
         },
-        "room": {
-          "type": "DLX",
-          "typeEstimated": {
-            "category": "DELUXE_ROOM",
-            "beds": 1,
-            "bedType": "KING"
+        "guests": {
+          "adults": 2
+        },
+        "id": "REZ7BSRS3E",
+        "isLoyaltyRate": "false",
+        "policies": {
+          "additionalDetails": [
+            {
+              "description": [
+                {
+                  "text": "The credit card used for the reservation will be requested upon your arrival. The name on your ID should be identical to the name on your credit card."
+                }
+              ]
+            }
+          ],
+          "cancellations": [
+            {
+              "deadline": "2026-08-21T18:01:00+02:00",
+              "description": {
+                "text": "No cancellation charge applies prior to 18:00(local time) on the day of arrival. Beyond that time, the first night will be charged."
+              },
+              "numberOfNights": 1,
+              "policyType": "CANCELLATION"
+            }
+          ],
+          "checkInOut": {
+            "checkIn": "15:00:00",
+            "checkOut": "12:00:00"
           },
-          "description": {
-            "text": "Deluxe King Room with city view",
-            "lang": "EN"
+          "guarantee": {
+            "acceptedPayments": {
+              "creditCardPolicies": [
+                {
+                  "inputParameters": [
+                    {
+                      "isOptional": "true",
+                      "label": "CVV"
+                    },
+                    {
+                      "isOptional": "true",
+                      "label": "cardHolderOneName"
+                    },
+                    {
+                      "isOptional": "true",
+                      "label": "addressOneLine"
+                    },
+                    {
+                      "isOptional": "true",
+                      "label": "postalCode"
+                    },
+                    {
+                      "isOptional": "true",
+                      "label": "cityName"
+                    },
+                    {
+                      "isOptional": "true",
+                      "label": "stateCode"
+                    },
+                    {
+                      "isOptional": "true",
+                      "label": "countryCode"
+                    },
+                    {
+                      "isOptional": "true",
+                      "label": "nationality"
+                    },
+                    {
+                      "isOptional": "true",
+                      "label": "phone"
+                    },
+                    {
+                      "isOptional": "true",
+                      "label": "email"
+                    }
+                  ],
+                  "vendorCode": "AX"
+                },
+                {
+                  "inputParameters": [
+                    {
+                      "isOptional": "true",
+                      "label": "CVV"
+                    },
+                    {
+                      "isOptional": "true",
+                      "label": "cardHolderOneName"
+                    },
+                    {
+                      "isOptional": "true",
+                      "label": "addressOneLine"
+                    },
+                    {
+                      "isOptional": "true",
+                      "label": "postalCode"
+                    },
+                    {
+                      "isOptional": "true",
+                      "label": "cityName"
+                    },
+                    {
+                      "isOptional": "true",
+                      "label": "stateCode"
+                    },
+                    {
+                      "isOptional": "true",
+                      "label": "countryCode"
+                    },
+                    {
+                      "isOptional": "true",
+                      "label": "nationality"
+                    },
+                    {
+                      "isOptional": "true",
+                      "label": "phone"
+                    },
+                    {
+                      "isOptional": "true",
+                      "label": "email"
+                    }
+                  ],
+                  "vendorCode": "CA"
+                },
+                {
+                  "inputParameters": [
+                    {
+                      "isOptional": "true",
+                      "label": "CVV"
+                    },
+                    {
+                      "isOptional": "true",
+                      "label": "cardHolderOneName"
+                    },
+                    {
+                      "isOptional": "true",
+                      "label": "addressOneLine"
+                    },
+                    {
+                      "isOptional": "true",
+                      "label": "postalCode"
+                    },
+                    {
+                      "isOptional": "true",
+                      "label": "cityName"
+                    },
+                    {
+                      "isOptional": "true",
+                      "label": "stateCode"
+                    },
+                    {
+                      "isOptional": "true",
+                      "label": "countryCode"
+                    },
+                    {
+                      "isOptional": "true",
+                      "label": "nationality"
+                    },
+                    {
+                      "isOptional": "true",
+                      "label": "phone"
+                    },
+                    {
+                      "isOptional": "true",
+                      "label": "email"
+                    }
+                  ],
+                  "vendorCode": "DC"
+                },
+                {
+                  "inputParameters": [
+                    {
+                      "isOptional": "true",
+                      "label": "CVV"
+                    },
+                    {
+                      "isOptional": "true",
+                      "label": "cardHolderOneName"
+                    },
+                    {
+                      "isOptional": "true",
+                      "label": "addressOneLine"
+                    },
+                    {
+                      "isOptional": "true",
+                      "label": "postalCode"
+                    },
+                    {
+                      "isOptional": "true",
+                      "label": "cityName"
+                    },
+                    {
+                      "isOptional": "true",
+                      "label": "stateCode"
+                    },
+                    {
+                      "isOptional": "true",
+                      "label": "countryCode"
+                    },
+                    {
+                      "isOptional": "true",
+                      "label": "nationality"
+                    },
+                    {
+                      "isOptional": "true",
+                      "label": "phone"
+                    },
+                    {
+                      "isOptional": "true",
+                      "label": "email"
+                    }
+                  ],
+                  "vendorCode": "EC"
+                },
+                {
+                  "inputParameters": [
+                    {
+                      "isOptional": "true",
+                      "label": "CVV"
+                    },
+                    {
+                      "isOptional": "true",
+                      "label": "cardHolderOneName"
+                    },
+                    {
+                      "isOptional": "true",
+                      "label": "addressOneLine"
+                    },
+                    {
+                      "isOptional": "true",
+                      "label": "postalCode"
+                    },
+                    {
+                      "isOptional": "true",
+                      "label": "cityName"
+                    },
+                    {
+                      "isOptional": "true",
+                      "label": "stateCode"
+                    },
+                    {
+                      "isOptional": "true",
+                      "label": "countryCode"
+                    },
+                    {
+                      "isOptional": "true",
+                      "label": "nationality"
+                    },
+                    {
+                      "isOptional": "true",
+                      "label": "phone"
+                    },
+                    {
+                      "isOptional": "true",
+                      "label": "email"
+                    }
+                  ],
+                  "vendorCode": "IK"
+                },
+                {
+                  "vendorCode": "EE"
+                }
+              ],
+              "creditCards": [
+                "AX",
+                "CA",
+                "DC",
+                "EC",
+                "IK",
+                "EE"
+              ],
+              "methods": [
+                "CREDIT_CARD"
+              ]
+            },
+            "description": {
+              "text": "Booking must be guaranteed by providing a credit card."
+            }
+          },
+          "paymentType": "guarantee",
+          "refundable": {
+            "cancellationRefund": "REFUNDABLE_UP_TO_DEADLINE"
           }
         },
         "price": {
+          "base": "300.00",
           "currency": "EUR",
-          "base": "540.00",
-          "total": "600.00",
-          "sellingTotal": "612.00",
           "taxes": [
             {
-              "amount": "48.00",
-              "code": "VAT",
-              "currency": "EUR",
-              "percentage": "10",
-              "included": true,
-              "collectionPoint": "AT_BOOKING_TIME",
-              "pricingFrequency": "PER_STAY",
-              "pricingMode": "PER_ROOM"
-            },
-            {
-              "amount": "12.00",
-              "code": "TOURISM",
-              "currency": "EUR",
-              "description": "City tourist tax",
-              "included": false,
-              "collectionPoint": "AT_HOTEL_PROPERTY",
               "applicableDate": {
-                "start": "2026-08-10",
-                "end": "2026-08-13"
-              }
-            }
-          ],
-          "markups": [
-            {
-              "amount": "12.00"
-            }
-          ],
-          "commissions": [
-            {
-              "amount": {
-                "amount": "18.75",
-                "currency": "EUR",
-                "decimalPlaces": 2,
-                "elementaryPriceType": "COMMISSION"
+                "end": "2026-08-24",
+                "start": "2026-08-22"
               },
-              "percentage": 10
+              "code": "CITY_TAX",
+              "description": "City and local taxes",
+              "included": true,
+              "pricingFrequency": "PER_NIGHT",
+              "pricingMode": "PER_OCCUPANT"
+            },
+            {
+              "applicableDate": {
+                "end": "2026-08-24",
+                "start": "2026-08-22"
+              },
+              "code": "COUNTRY_TAX",
+              "description": "National taxes on accommodation",
+              "included": true,
+              "pricingFrequency": "PER_NIGHT",
+              "pricingMode": "PER_PRODUCT"
             }
           ],
+          "total": "300.00",
           "variations": {
-            "average": {
-              "base": "180.00",
-              "currency": "EUR",
-              "total": "200.00"
-            },
             "changes": [
               {
-                "startDate": "2026-08-10",
-                "endDate": "2026-08-12",
-                "base": "170.00",
-                "currency": "EUR",
-                "total": "190.00"
-              },
-              {
-                "startDate": "2026-08-12",
-                "endDate": "2026-08-13",
-                "base": "200.00",
-                "currency": "EUR",
-                "total": "220.00"
+                "base": "100.00",
+                "endDate": "2026-08-25",
+                "startDate": "2026-08-22"
               }
             ]
           }
         },
-        "policies": {
-          "paymentType": "guarantee",
-          "cancellation": {
-            "type": "FULL_STAY",
-            "policyType": "CANCELLATION",
-            "deadline": "2026-08-08T18:00:00",
-            "description": {
-              "text": "Free cancellation until 8 August",
-              "lang": "EN"
-            }
+        "rateCode": "1KD",
+        "rateFamilyEstimated": {
+          "code": "BAR",
+          "type": "P"
+        },
+        "room": {
+          "description": {
+            "lang": "EN",
+            "text": "FLEX - RO B2C\nApartment with 1 bedroom for 4 persons\nMaximum occupancy - 4 people per room\nDaily cleaning, taxes and charges (water, power, heating), except local tourist tax.\nWi-Fi in your room - 220/240 V AC\nIron at reception - Pots/Pans/Dishes\nSafe deposit box in room - Accessible bathroom\nDouble-glazing - Opening windows\nSoundproof - Work desk in all rooms\nBathtub - Hair dryer at reception\nToilets - Audible smoke alarms in rooms\nEmergency info in rooms - Cleaning kit\nCoffee maker - Electric stove\nFridge - Furnished kitchen"
           },
-          "cancellations": [
-            {
-              "type": "FULL_STAY",
-              "policyType": "CANCELLATION",
-              "deadline": "2026-08-08T18:00:00",
-              "description": {
-                "text": "Free cancellation until 8 August",
-                "lang": "EN"
-              }
-            },
-            {
-              "type": "FULL_STAY",
-              "policyType": "NO_SHOW",
-              "amount": "200.00",
-              "numberOfNights": 1
-            }
-          ],
-          "refundable": {
-            "cancellationRefund": "REFUNDABLE_UP_TO_DEADLINE"
-          },
-          "guarantee": {
-            "acceptedPayments": {
-              "creditCards": [
-                "VI",
-                "CA",
-                "AX"
-              ],
-              "methods": [
-                "CREDIT_CARD"
-              ],
-              "creditCardPolicies": [
-                {
-                  "vendorCode": "VI",
-                  "inputParameters": [
-                    {
-                      "label": "cardHolderName",
-                      "isOptional": "false"
-                    },
-                    {
-                      "label": "cardSecurityCode",
-                      "isOptional": "true"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          "checkInOut": {
-            "checkIn": "15:00",
-            "checkOut": "12:00",
-            "checkInDescription": {
-              "text": "Check-in from 3pm",
-              "lang": "EN"
-            }
-          },
-          "lengthOfStay": {
-            "minimumLengthOfStay": 1,
-            "maximumLengthOfStay": 28
+          "type": "P2T",
+          "typeEstimated": {
+            "bedType": "DOUBLE",
+            "beds": 2,
+            "category": "ACCESSIBLE_ROOM"
           }
         },
-        "services": [
-          {
-            "code": "BREAKFAST",
-            "description": "Continental breakfast",
-            "isChargeable": false,
-            "pricingMethod": "PER_PERSON_PER_NIGHT",
-            "quantity": 2
-          },
-          {
-            "code": "PARKING",
-            "description": "Valet parking",
-            "isChargeable": true,
-            "pricingMethod": "PER_ROOM_PER_NIGHT",
-            "quantity": 1,
-            "price": {
-              "currency": "EUR",
-              "base": "35.00",
-              "total": "42.00"
-            }
+        "roomInformation": {
+          "description": "FLEX - RO B2C\nApartment with 1 bedroom for 4 persons\nMaximum occupancy - 4 people per room\nDaily cleaning, taxes and charges (water, power, heating), except local tourist tax.\nWi-Fi in your room - 220/240 V AC\nIron at reception - Pots/Pans/Dishes\nSafe deposit box in room - Accessible bathroom\nDouble-glazing - Opening windows\nSoundproof - Work desk in all rooms\nBathtub - Hair dryer at reception\nToilets - Audible smoke alarms in rooms\nEmergency info in rooms - Cleaning kit\nCoffee maker - Electric stove\nFridge - Furnished kitchen",
+          "type": "P2T",
+          "typeEstimated": {
+            "bedType": "DOUBLE",
+            "beds": 2,
+            "category": "ACCESSIBLE_ROOM"
           }
-        ],
-        "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers/OFFER_DELUXE_FLEX"
+        }
       }
-    ]
+    ],
+    "type": "hotel-offers"
+  },
+  "meta": {
+    "lang": "en"
   }
 }

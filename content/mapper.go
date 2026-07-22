@@ -35,7 +35,6 @@ func mapHotel(c contentdto.HotelContentResponse) Hotel {
 		Status:          string(basic.Status),
 		Description:     mapping.QualifiedText(&basic.Description),
 		Amenities:       mapAmenities(basic.Amenities),
-		Media:           mapping.MediaAssets(basic.Media),
 		Categories:      basic.Category,
 		CategoryCode:    string(basic.CategoryCode),
 		DefaultLanguage: basic.DefaultSpokenLanguage,
@@ -47,6 +46,14 @@ func mapHotel(c contentdto.HotelContentResponse) Hotel {
 		Certifications:  mapAwards(c.Hotel.Certifications),
 		Promotions:      mapPromotions(c.Promotions),
 		Rooms:           mapRooms(c.Rooms),
+	}
+
+	// Amadeus mixes photographs and prose in one media array, and populates
+	// basic.description only rarely. Splitting them here is what stops the
+	// property's own description being lost among the images.
+	hotel.Media, hotel.Descriptions = splitMedia(basic.Media)
+	if hotel.Description == nil {
+		hotel.Description = longestDescription(hotel.Descriptions)
 	}
 
 	if location := mapLocation(basic.Location); location != nil {
@@ -87,6 +94,65 @@ func mapHotel(c contentdto.HotelContentResponse) Hotel {
 	}
 
 	return hotel
+}
+
+// descriptionPreference ranks the tags Amadeus uses for prose, best first. The
+// long property description is what a listing page wants; a location blurb or a
+// marketing line is a poor substitute but better than nothing.
+var descriptionPreference = []string{
+	"HOTEL_LONG_DESCRIPTION",
+	"PROPERTY_DESCRIPTION",
+	"HOTEL_SHORT_DESCRIPTION",
+	"LONG_LOCATION_DESCRIPTION",
+	"SHORT_LOCATION_DESCRIPTION",
+	"MARKETING",
+}
+
+// splitMedia separates the photographs from the prose blocks that share the
+// media array, tagging each prose block with what it describes.
+func splitMedia(wire []dto.MediaResponse) (photos []media.Asset, prose []media.Text) {
+	for _, asset := range mapping.MediaAssets(wire) {
+		if asset.IsVisual() {
+			photos = append(photos, asset)
+			continue
+		}
+		if asset.Description == nil || asset.Description.IsEmpty() {
+			// Neither an image nor text: nothing to keep.
+			continue
+		}
+
+		text := *asset.Description
+		if text.Type == "" && len(asset.Tags) > 0 {
+			// The tag is where Amadeus records what the prose is about.
+			text.Type = asset.Tags[0]
+		}
+		prose = append(prose, text)
+	}
+	return photos, prose
+}
+
+// longestDescription picks the best available prose block to serve as the
+// property's description, preferring the tags a listing page would want and
+// falling back to the longest text when none of them are present.
+func longestDescription(prose []media.Text) *media.Text {
+	for _, preferred := range descriptionPreference {
+		for i, text := range prose {
+			if text.Type == preferred {
+				return &prose[i]
+			}
+		}
+	}
+
+	best := -1
+	for i, text := range prose {
+		if best == -1 || len(text.Value) > len(prose[best].Value) {
+			best = i
+		}
+	}
+	if best == -1 {
+		return nil
+	}
+	return &prose[best]
 }
 
 func mapAmenities(wire []dto.AmenityResponse) []Amenity {
@@ -273,7 +339,14 @@ func mapRooms(wire []contentdto.RoomResponse) []Room {
 			Amenities:          mapAmenities(r.Amenities),
 			Media:              mapping.MediaAssets(r.Media),
 			PolicyDescriptions: r.PolicyDescriptions,
-			Dimensions:         mapping.Dimensions(&r.Dimensions),
+		}
+
+		// The wire sends dimensions as an embedded struct rather than a
+		// pointer, so taking its address unconditionally would hand callers a
+		// non-nil pointer to zeroes - and `if room.Dimensions != nil` would
+		// always be true, telling them nothing.
+		if d := r.Dimensions; d.Area != 0 || d.Width != 0 || d.Height != 0 || d.Length != 0 {
+			out[i].Dimensions = mapping.Dimensions(&d)
 		}
 
 		if capacity := r.MaxPersonCapacity; capacity.Total != 0 || capacity.Adults != 0 {
