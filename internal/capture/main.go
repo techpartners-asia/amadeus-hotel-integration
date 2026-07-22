@@ -23,6 +23,7 @@ import (
 	"net/url"
 	"os"
 	"path/filepath"
+	"strings"
 	"time"
 
 	"github.com/techpartners-asia/amadeus-hotel-integration/internal/amadeus"
@@ -96,7 +97,7 @@ func run(ctx context.Context, client *amadeus.Client, cityCode, outDir string) e
 	search, err := capture(ctx, client, outDir, "offers", "search", amadeus.Request{
 		Path: "/v3/shopping/hotel-offers",
 		Query: url.Values{
-			"hotelIds":     {join(ids)},
+			"hotelIds":     {strings.Join(ids, ",")},
 			"checkInDate":  {checkIn},
 			"checkOutDate": {checkOut},
 			"adults":       {"2"},
@@ -197,15 +198,4 @@ func firstOfferID(body []byte) (string, error) {
 		}
 	}
 	return "", fmt.Errorf("the search returned no offers")
-}
-
-func join(values []string) string {
-	out := ""
-	for i, v := range values {
-		if i > 0 {
-			out += ","
-		}
-		out += v
-	}
-	return out
 }
