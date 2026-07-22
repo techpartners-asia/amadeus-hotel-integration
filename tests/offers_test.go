@@ -4,6 +4,7 @@ import (
 	"testing"
 	"time"
 
+	sdk "github.com/techpartners-asia/amadeus-hotel-integration"
 	requestOffers "github.com/techpartners-asia/amadeus-hotel-integration/modules/offers/dto/request"
 	"github.com/techpartners-asia/amadeus-hotel-integration/searchcriteria"
 )
@@ -91,10 +92,88 @@ func TestOffersListQueryParamsRateCodesJoined(t *testing.T) {
 
 // --- live API (network) ---
 
-// sandboxOfferHotels are the Paris properties that actually carry bookable
-// inventory in the Amadeus test environment. Most ids from the Hotel List API
-// return "PROPERTY CODE NOT FOUND IN SYSTEM" when queried for offers.
-var sandboxOfferHotels = []string{"RTPAREIF", "RTPARMAI", "XKPAR120"}
+// sandboxOfferHotels are Paris properties that carry bookable inventory in the
+// Amadeus test environment. Roughly 60% of the ids the Hotel List API returns
+// have no offers at all, so these are pinned rather than sampled from a search
+// (which returns its 185 results in a different order on every call).
+//
+// The first three were chosen for offer volume: with bestRateOnly=false they
+// return 42, 29 and 27 offers respectively, spanning 11 rate codes, 5 room
+// types and both board types. That breadth is what makes the DTO fidelity and
+// round-trip checks meaningful - a single cheapest-rate offer exercises only a
+// fraction of the response schema.
+//
+// The list is a union, not a "best of": the high-volume properties do not emit
+// every field the smaller ones do (RTPARMAI returns holdTime and
+// rateFamilyEstimated, which none of the first three produce), so dropping the
+// originals measurably narrowed schema coverage. XKPAR120 additionally covers a
+// non-RT chain, where a different provider can populate different fields.
+var sandboxOfferHotels = []string{
+	"RTPARVAL", "RTPARBLA", "RTPARIVR", // high offer volume
+	"RTPAREIF", "RTPARMAI", // retained for fields the above omit
+	"XKPAR120", // non-RT chain
+}
+
+// allRatesFor builds a request for every rate at one hotel. Amadeus defaults
+// bestRateOnly to true and returns just the cheapest offer, which exercises
+// only a sliver of the response schema; the fidelity checks need the full rate
+// table. BestRateOnly is a *bool so that an explicit false reaches the wire -
+// a plain false field would be indistinguishable from unset and omitted.
+func allRatesFor(id, checkIn, checkOut string) requestOffers.HotelOffersListRequest {
+	return requestOffers.HotelOffersListRequest{
+		HotelIDs:     []string{id},
+		CheckInDate:  checkIn,
+		CheckOutDate: checkOut,
+		Adults:       2,
+		BestRateOnly: requestOffers.Bool(false),
+	}
+}
+
+// maxOfferIDProbes caps the by-id fan-out. The pinned hotels return ~100 offers
+// between them, and one by-id call each would dominate the suite's runtime for
+// no extra coverage, since offers from the same hotel share a schema.
+const maxOfferIDProbes = 12
+
+// sampleOfferIDs collects offer ids across the pinned hotels, taking them
+// round-robin rather than draining one hotel first, so a cap still yields ids
+// from every property and provider instead of 12 variants of the same rate.
+func sampleOfferIDs(s *sdk.SDK, checkIn, checkOut string) []string {
+	perHotel := make([][]string, 0, len(sandboxOfferHotels))
+	for _, id := range sandboxOfferHotels {
+		offers, err := s.Offers.List(allRatesFor(id, checkIn, checkOut))
+		if err != nil {
+			continue
+		}
+		var ids []string
+		for _, o := range offers {
+			for _, offer := range o.Offers {
+				ids = append(ids, offer.ID)
+			}
+		}
+		if len(ids) > 0 {
+			perHotel = append(perHotel, ids)
+		}
+	}
+
+	var out []string
+	for round := 0; len(out) < maxOfferIDProbes; round++ {
+		progressed := false
+		for _, ids := range perHotel {
+			if round >= len(ids) {
+				continue
+			}
+			progressed = true
+			out = append(out, ids[round])
+			if len(out) == maxOfferIDProbes {
+				return out
+			}
+		}
+		if !progressed {
+			break // every hotel exhausted
+		}
+	}
+	return out
+}
 
 // stayDates returns a check-in/check-out window far enough ahead to be bookable.
 func stayDates() (string, string) {

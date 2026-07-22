@@ -16,6 +16,8 @@ A Go SDK that wraps the [Amadeus Hotel APIs](https://developers.amadeus.com/) to
 - [Search Criteria](#search-criteria)
 - [Authentication](#authentication)
 - [Error Handling](#error-handling)
+  - [Offer search errors](#offer-search-errors)
+  - [Booking creation errors](#booking-creation-errors)
 - [API Reference](#api-reference)
 - [Testing](#testing)
 - [Project Structure](#project-structure)
@@ -618,7 +620,10 @@ The Amadeus error envelope looks like:
 | `429`  | Too Many Requests | Rate limit exceeded -- back off and retry. |
 | `500`  | Server Error | Amadeus-side failure (`code` 141 "SYSTEM ERROR HAS OCCURRED"); safe to retry idempotent calls. |
 
-**Common Amadeus error codes** (the `code` field; not exhaustive):
+**Common Amadeus error codes** (the `code` field; not exhaustive). This is a quick
+cross-endpoint index -- for the full documented sets see
+[Offer search errors](#offer-search-errors) and
+[Booking creation errors](#booking-creation-errors):
 
 | Code  | Title | Where it shows up |
 | ----- | ----- | ----------------- |
@@ -640,8 +645,263 @@ The Amadeus error envelope looks like:
 | 25859 | MODIFICATION NOT ALLOWED FOR THIS CHAIN | chain does not support `Modify` |
 
 > Amadeus error codes are returned as strings/ints depending on the endpoint; the SDK
-> exposes them as `int` in `ErrorResponse.Code`. Always branch on `code` (machine-readable)
-> rather than `title` (which may be localized).
+> exposes them as `int` in `ErrorResponse.Code`. Amadeus' docs often write them
+> zero-padded (`00477`, `01157`) -- compare against the unpadded `int`. Always branch on
+> `code` (machine-readable) rather than `title` (which may be localized).
+>
+> Four entries above (`1797`, `141`, `27706`, `8622`/`1694`/`25859`) predate the
+> documented sets below and cover Modify/Cancel/Delete, for which we don't yet have the
+> official error tables. Treat them as indicative until confirmed.
+
+### Offer search errors
+
+`Offers.List` returns `400` for these. Amadeus writes every one of them zero-padded
+in the docs (`00477`, `01157`); `ErrorResponse.Code` is an `int`, so they arrive
+**without** the padding -- compare against `477` and `1157`, not the padded strings.
+
+Most are recoverable by relaxing the request rather than by fixing a malformed field:
+a search that is simply too narrow fails rather than returning an empty list.
+
+#### Dates and length of stay
+
+| Code | Title | Meaning |
+| ---- | ----- | ------- |
+| 6987 | DURATION PERIOD OR DATES INCORRECT | Stay duration or dates don't make sense. |
+| 704 | INVALID DATE RANGE | Check-in/check-out range is invalid. |
+| 175 | CHECK DATE RANGE | Date range needs review. |
+| 4413 | INVALID CHECK-OUT DATE | Check-out date is invalid (must be after check-in). |
+| 1300 | LENGTH OF STAY EXCEEDS MAXIMUM | Stay is longer than the property allows. |
+| 3273 | MAXIMUM ADVANCE DAYS BOOKING EXCEEDED | Check-in is too far in the future. |
+| 8194 | DAY USE NOT ALLOWED | Same-day check-in/check-out isn't offered. |
+
+#### Location and property
+
+| Code | Title | Meaning |
+| ---- | ----- | ------- |
+| 1157 | INVALID CITY CODE | `cityCode` isn't a valid IATA code. |
+| 1257 | INVALID PROPERTY CODE | `hotelId` is malformed. |
+| 3237 | PROPERTY CODE NOT FOUND IN SYSTEM | Well-formed `hotelId` that Amadeus doesn't know. |
+| 895 | NOTHING FOUND FOR REQUESTED CITY | No property matched. Usually over-narrow filters, not a bad city code. |
+| 11126 | NO PROPERTIES FOUND FOR RP/DI REQUESTED | No property matched the rate-plan / distance request. |
+| 15626 | NO SIMILAR NAME FOUND | Name lookup matched nothing. |
+
+> `895` is the one you'll hit most in the test environment. It means the request was
+> understood and simply matched nothing -- sandbox inventory is thin, so a filter that
+> works in production often returns `895` in test. Treat it as an empty result, not a
+> malformed request.
+
+#### Guests and occupancy
+
+| Code | Title | Meaning |
+| ---- | ----- | ------- |
+| 4847 | PASSENGER TYPE SELECTION NOT VALID | Guest type combination isn't accepted. |
+| 25 | CHECK NUMBER IN PARTY | Guest count needs review. |
+| 12247 | NO RATE FOR REQUESTED OCCUPANCY - RE-ENTER WITH LOWER OCCUPANCY | Retry with fewer guests. |
+
+#### Rates and currency
+
+| Code | Title | Meaning |
+| ---- | ----- | ------- |
+| 533 | INVALID RATE CODE | Unknown `rateCodes` value. See `searchcriteria.AllRateCodes`. |
+| 11227 | RATE RESTRICTED | Rate exists but your office may not sell it. |
+| 6698 | RATE NOT LOADED | Rate doesn't exist on the provider side. |
+| 20 | RESTRICTED | Access to the requested content is restricted. |
+| 432 | INVALID CURRENCY CODE | `currency` isn't a valid ISO 4217 code. |
+
+#### Availability
+
+| Code | Title | Meaning |
+| ---- | ----- | ------- |
+| 3664 | NO ROOMS AVAILABLE AT REQUESTED PROPERTY | Property has no inventory for the stay. |
+| 1297 | ROOM TYPE NOT AT LOCATION | This room type isn't offered here; others may be. |
+| 3494 | ROOM OR RATE NOT AVAILABLE OR RESTRICTED | No availability on the provider side. |
+
+#### Format and processing
+
+| Code | Title | Meaning |
+| ---- | ----- | ------- |
+| 477 | INVALID FORMAT | A query parameter is malformed. `source.parameter` names it. |
+| 1271 | GUEST RECORD NOT FOUND | Referenced guest record doesn't exist. |
+| 12391 | TIME OUT - PLEASE MODIFY YOUR REQUEST | Search was too broad to complete. Narrow it and retry. |
+| 11 | UNABLE TO PROCESS - PROVIDER | Provider-side failure. Retryable. |
+| 4070 | UNABLE TO PROCESS - CONTACT HELP DESK | Amadeus-side failure needing support. |
+
+Unlike `Booking.Create`, `Offers.List` is a read: retrying is always safe.
+
+### Booking creation errors
+
+`Booking.Create` has by far the largest error surface in the API, because a booking
+can be rejected by Amadeus *or* by the hotel property. The tables below are the
+documented codes for that endpoint.
+
+Two columns drive how you should react:
+
+- **Owner** -- `Amadeus` means the request itself is wrong and you can usually fix it
+  and resubmit. `Hotel provider` means the request was well-formed but the property
+  refused it; resubmitting the same payload will fail again.
+- **Pointer** -- maps to `apiErr.Errors[i].Source.Pointer`, so you can attach the
+  message to the field that caused it.
+
+#### Request shape and offer
+
+| Code | Title | Owner | Pointer | Meaning |
+| ---- | ----- | ----- | ------- | ------- |
+| 477 | INVALID FORMAT | Amadeus | `data` | A parameter is missing or malformed. `detail` names it when present. |
+| 8612 | INVALID TYPE | Amadeus | `data/type` | The `type` inside `data` is wrong. |
+| 38420 | OFFER NOT FOUND | Amadeus | `data/roomAssociations/hotelOfferId` | Offer id does not exist or has expired. Get a fresh one. |
+| 36801 | INVALID OFFER ID | Amadeus | `data/roomAssociations/hotelOfferId` | Malformed offer id. Check every reference to it in the request. |
+
+#### Guests and room associations
+
+| Code | Title | Owner | Pointer | Meaning |
+| ---- | ----- | ----- | ------- | ------- |
+| 4725 | INVALID PASSENGER ASSOCIATION | Amadeus | `data/roomAssociations` | Guests defined don't match guests in the room association. Check count and ids. |
+| 33555 | NUMBER OF ROOMS MISMATCH BETWEEN SHOPPING AND BOOKING | Amadeus | `data/roomAssociations` | Room count differs from the one that was shopped. |
+| 1503 | INVALID NUMBER OF GUESTS | Amadeus | `data/guests` or `data/roomAssociations` | Guest count differs from the one that was shopped. |
+| 3843 | NUMBER IN PARTY EXCEEDS ROOM OCCUPANCY LIMIT | Amadeus | `data/guests` or `data/roomAssociations` | Too many guests for the room. |
+| 27530 | AT LEAST ONE ADULT IS REQUIRED | Amadeus | `data/guests` or `data/roomAssociations` | No adult among the guests. |
+
+#### Loyalty and special requests
+
+| Code | Title | Owner | Pointer | Meaning |
+| ---- | ----- | ----- | ------- | ------- |
+| 1295 | /ID- NOT RECOGNISED | Hotel provider | `data/roomAssociations/guestsReferences/hotelLoyaltyId` | Property does not recognise the loyalty id. |
+| 2997 | RESTRICTED OPTION-NOT ALLOWED -- /FT- | Amadeus | `data/guests/frequentTraveler` | Property does not support airline frequent-flyer numbers. |
+| 3215 | INVALID LENGTH ON OPTION FOR CHAIN GIVEN -- /SI- | Amadeus | `data/roomAssociations/specialRequest` | Special request is too long for this chain. |
+| 1421 | /SI-INVALID FORMAT | Amadeus | `data/roomAssociations/specialRequest` | Special request format is invalid. |
+
+#### Payment method
+
+| Code | Title | Owner | Pointer | Meaning |
+| ---- | ----- | ----- | ------- | ------- |
+| 1146 | DEPOSIT REQUIRED | Amadeus | `data/payment` | Offer requires a deposit that wasn't supplied. |
+| 1427 | GUARANTEE REQUIRED | Amadeus | `data/payment` | Offer requires a guarantee that wasn't supplied. |
+| 38592 | INVALID METHOD OF PAYMENT | Hotel provider | `data/payment` | Property rejects this payment method. |
+| 38529 | INVALID PREPAY | Hotel provider | `data/payment` | Property rejects the prepay arrangement. |
+| 37576 | INVALID PAYMENT METHOD | Hotel provider | `data/payment` | Property rejects this payment method. |
+| 1207 | Invalid Form of Guarantee | Hotel provider | `data/payment` | Guarantee form not accepted. |
+| 1317 | Invalid Form of Deposit | Hotel provider | `data/payment` | Deposit form not accepted. |
+| 12018 | INVALID BOOKING SOURCE NUMBER (`/BS-`) | Amadeus | `data/payment` | Travel agent id in the request is incorrect. |
+
+#### Credit card
+
+| Code | Title | Owner | Pointer | Meaning |
+| ---- | ----- | ----- | ------- | ------- |
+| 3659 | CREDIT CARD DEPOSIT REQUIRED | Hotel provider | `data/payment/paymentCard` | Property requires a card deposit. |
+| 1205 | INVALID CREDIT CARD TYPE | Amadeus | `.../paymentCardInfo/vendorCode` | Unknown card vendor code. |
+| 3682 | CREDIT CARD NOT ACCEPTED AT HOTEL PROPERTY | Hotel provider | `.../paymentCardInfo/vendorCode` | Property doesn't take this card brand. Use another method. |
+| 8517 | INVALID CREDIT CARD NUMBER | Hotel provider | `.../paymentCardInfo/cardNumber` | Card number rejected. |
+| 1240 | NO CREDIT CARD NUMBER GIVEN | Amadeus | `.../paymentCardInfo/cardNumber` | Card number missing. |
+| 28926 | MISSING CARD VERIFICATION VALUE CVV | Hotel provider | `.../paymentCardInfo/securityCode` | CVV not supplied. |
+| 6842 | ERR INVALID SECURITY CODE(S) | Hotel provider | `.../paymentCardInfo/securityCode` | CVV rejected. |
+| 22425 | CREDIT_CARD_SECURITY_CODE_REQUIRED_/G- | Hotel provider | `.../paymentCardInfo/securityCode` | CVV required for the guarantee. |
+| 22426 | CREDIT_CARD_SECURITY_CODE_REQUIRED_/DP | Hotel provider | `.../paymentCardInfo/securityCode` | CVV required for the deposit. |
+| 24550 | ERROR IN CREDIT CARD DATE /DP- | Hotel provider | `.../paymentCardInfo/expiryDate` | Expiry date invalid. |
+| 39871 | VIRTUAL CREDIT CARD NOT ACCEPTED AT PROPERTY | Hotel provider | `data/payment/billBack` or `.../paymentCard/VCC` | Don't use a VCC at this property. |
+| 32315 | PAYMENT TRANSACTION FAILED. PLEASE CHECK YOUR CREDIT CARD DATA | Hotel provider | `.../paymentCardInfo` | Payment failed at the property. |
+| 39283 | CREDIT CARD AUTHORIZATION TIME-OUT | Amadeus | -- | Authorization timed out. See the retry warning below. |
+
+#### 3-D Secure
+
+| Code | Title | Owner | Pointer | Meaning |
+| ---- | ----- | ----- | ------- | ------- |
+| 41347 | 3DS AUTHENTIFICATION NOT PERMITTED | Hotel provider | `.../paymentCardInfo/threeDomainSecure` | Property does not permit 3DS authentication. |
+| 4926 | INVALID DATA RECEIVED | Amadeus | `.../paymentCardInfo/threeDomainSecure` | 3DS data doesn't match what the declared version expects. |
+| 5020 | INVALID OWNER | Amadeus | `.../paymentCardInfo/threeDomainSecure` | Amadeus Value bookings require the card owner; check which owners your office has activated. |
+
+#### Offer no longer bookable -- re-shop
+
+These mean the offer you hold can't be booked. Go back to `Offers.List` for a new one;
+resubmitting the same `hotelOfferId` will not succeed.
+
+| Code | Title | Owner | Meaning |
+| ---- | ----- | ----- | ------- |
+| 15595 | INVALID PRICING REQUEST | Amadeus | Cannot book. Use another offer id. |
+| 12030 | PRICING INFORMATION MISSING. | Amadeus | Cannot book. Use another offer id. |
+| 37200 | PRICE DISCREPANCY | Hotel provider | Provider's rate amount disagrees. Restart from shopping. |
+| 41344 | CANCELLATION DISCREPANCY | Hotel provider | Provider's cancellation policy disagrees. Restart from shopping. |
+
+#### No availability at the property
+
+All owned by the hotel provider. The property has no inventory matching the request;
+a different room, rate or date may still work.
+
+| Code | Title | Meaning |
+| ---- | ----- | ------- |
+| 3664 | NO ROOMS AVAILABLE AT REQUESTED PROPERTY | No availability at the property. |
+| 1297 | ROOM TYPE NOT AT LOCATION | This room type is unavailable; others may exist. |
+| 3289 | RATE NOT AVAILABLE FOR REQUESTED DATES | Same rate may be available on other dates. |
+| 1999 | ROOM TYPE / RATE CODE NOT AVAILABLE | Other room types may be available. |
+| 3494 | ROOM OR RATE NOT AVAILABLE OR RESTRICTED | No availability on the provider side. |
+| 6698 | RATE NOT LOADED | The rate doesn't exist on the provider side. |
+| 12247 | NO RATE FOR REQUESTED OCCUPANCY - RE-ENTER WITH LOWER OCCUPANCY | Retry with fewer guests. |
+
+#### Access
+
+| Code | Title | Owner | Meaning |
+| ---- | ----- | ----- | ------- |
+| 33440 | THIS PROPERTY IS BLACKLISTED FOR YOUR OFFICE | Amadeus | Your office may not book this property from your country. |
+
+#### Server errors (`500`)
+
+| Code | Title | Owner |
+| ---- | ----- | ----- |
+| 11 | UNABLE TO PROCESS | Provider |
+| 4070 | UNABLE TO PROCESS - CONTACT HELP DESK | Amadeus |
+| 16440 | BILLBACK ERROR - External Security System | Amadeus |
+| 31686 | BILLBACK NOT AVAILABLE - PLEASE RETRY LATER | Amadeus |
+| 21934 | UNABLE TO PROCESS - TIMEOUT | Amadeus |
+| 38660 | UNABLE TO CREATE THE ORDER - FAILED ON PROVIDER SIDE | Hotel provider |
+| 42150 | PSD2 AUTHENTICATION CANNOT BE PERFORMED | Amadeus |
+
+> Amadeus writes the first two of these zero-padded (`00011`, `04070`). `ErrorResponse.Code`
+> is an `int`, so they arrive as `11` and `4070` -- compare against those.
+
+#### Do not blindly retry these
+
+`Booking.Create` is **not idempotent**. A handful of errors mean the outcome is
+genuinely unknown: the booking may already exist on the provider side even though the
+call failed. Retrying risks double-booking a guest and double-charging a card.
+
+| Code | Status | Why it's ambiguous |
+| ---- | ------ | ------------------ |
+| 25860 | 400 | CHECK VOUCHER RECEPTION AND CALL HELPDESK - BOOKING FAILURE. The link between Amadeus and the provider went down. The docs say explicitly: check the booking was not created in the provider system before retrying. |
+| 38660 | 500 | Order creation failed on the provider side -- how far it got is unknown. |
+| 21934 | 500 | Timeout. The request may have completed after the client gave up. |
+| 39283 | 400 | Credit card authorization timed out; the authorization may still have landed. |
+
+For these, reconcile before acting -- query the order and confirm its real state rather
+than resending. Everything else in the `500` table is safe to retry after a backoff.
+
+```go
+order, err := client.Booking.Create(bookingRequest)
+if err != nil {
+    var apiErr *sharedResponseDTO.APIError
+    if !errors.As(err, &apiErr) {
+        // Transport failure: same ambiguity as the codes above, since the request
+        // may have reached Amadeus. Reconcile rather than blindly resending.
+        return fmt.Errorf("booking transport error, state unknown: %w", err)
+    }
+
+    for _, e := range apiErr.Errors {
+        switch e.Code {
+        case 25860, 38660, 21934, 39283:
+            // Outcome unknown -- never auto-retry. Flag for reconciliation.
+            return reconcileUnknownBooking(bookingRequest, e)
+        case 38420, 36801, 15595, 12030, 37200, 41344:
+            // Offer is dead. Re-shop and let the caller confirm the new price.
+            return ErrOfferExpired
+        case 3664, 1297, 3289, 1999, 3494, 6698, 12247:
+            // Property has no matching inventory.
+            return ErrNoAvailability
+        default:
+            // Field-level problem: e.Source.Pointer identifies the offending field.
+            return fmt.Errorf("booking rejected [%d] %s: %s (field %s)",
+                e.Code, e.Title, e.Detail, e.Source.Pointer)
+        }
+    }
+}
+```
 
 ---
 

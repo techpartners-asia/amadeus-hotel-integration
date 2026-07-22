@@ -13,7 +13,6 @@ import (
 	responseContentDTO "github.com/techpartners-asia/amadeus-hotel-integration/modules/content/dto/response"
 	requestHotelListCityDTO "github.com/techpartners-asia/amadeus-hotel-integration/modules/list/dto/request/city"
 	responseHotelListDTO "github.com/techpartners-asia/amadeus-hotel-integration/modules/list/dto/response"
-	requestOffers "github.com/techpartners-asia/amadeus-hotel-integration/modules/offers/dto/request"
 	responseHotelOffersDTO "github.com/techpartners-asia/amadeus-hotel-integration/modules/offers/dto/response"
 )
 
@@ -289,12 +288,8 @@ func TestOffersDTOCoversAPIResponse(t *testing.T) {
 
 	var bodies []string
 	for _, id := range sandboxOfferHotels {
-		res, err := client.R().SetQueryParams(map[string]string{
-			"hotelIds":     id,
-			"checkInDate":  checkIn,
-			"checkOutDate": checkOut,
-			"adults":       "2",
-		}).Get("")
+		req := allRatesFor(id, checkIn, checkOut)
+		res, err := client.R().SetQueryParams(req.ToQueryParams()).Get("")
 		if err == nil && res.StatusCode() == 200 {
 			bodies = append(bodies, res.String())
 		}
@@ -309,23 +304,7 @@ func TestOfferByIDDTOCoversAPIResponse(t *testing.T) {
 	s := newSDK(t)
 	checkIn, checkOut := stayDates()
 
-	var offerIDs []string
-	for _, id := range sandboxOfferHotels {
-		offers, err := s.Offers.List(requestOffers.HotelOffersListRequest{
-			HotelIDs:     []string{id},
-			CheckInDate:  checkIn,
-			CheckOutDate: checkOut,
-			Adults:       2,
-		})
-		if err != nil {
-			continue
-		}
-		for _, o := range offers {
-			for _, offer := range o.Offers {
-				offerIDs = append(offerIDs, offer.ID)
-			}
-		}
-	}
+	offerIDs := sampleOfferIDs(s, checkIn, checkOut)
 
 	client := amadeusIntegration.NewClient(constants.OFFERS_BASE_URL)
 	var bodies []string

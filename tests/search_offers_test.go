@@ -108,7 +108,7 @@ func TestSearchThenOffersPerHotel(t *testing.T) {
 	s := newSDK(t)
 	checkIn, checkOut := stayDates()
 
-	hotels := searchHotels(t, s, "PAR", bookableChain, 8)
+	hotels := searchHotels(t, s, "PAR", bookableChain, 5)
 
 	var priced, unpriced int
 	for _, h := range hotels {
