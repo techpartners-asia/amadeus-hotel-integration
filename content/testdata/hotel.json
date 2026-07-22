@@ -1,0 +1,287 @@
+{
+  "data": {
+    "basic": {
+      "hotelId": "HLPAR266",
+      "chainCode": "HL",
+      "brandCode": "HI",
+      "chainName": "Hilton",
+      "brandName": "Hilton Hotels & Resorts",
+      "dupeId": "700034421",
+      "name": "Hilton Paris Opera",
+      "rating": "4",
+      "status": "OPEN",
+      "defaultSpokenLanguage": "FR",
+      "categoryCode": "HOTEL",
+      "category": ["UPSCALE", "BUSINESS"],
+      "segment": ["LEISURE", "CORPORATE"],
+      "description": {
+        "text": "A historic property near Gare Saint-Lazare.",
+        "lang": "EN",
+        "type": "PROPERTY_DESCRIPTION"
+      },
+      "amenities": [
+        {
+          "code": "SWIMMING_POOL",
+          "description": "Indoor swimming pool",
+          "amenityType": "RECREATION",
+          "isChargeable": false
+        },
+        {
+          "code": "PARKING",
+          "description": "Valet parking",
+          "amenityType": "TRANSPORT",
+          "isChargeable": true,
+          "pricingMethod": "PER_ROOM_PER_NIGHT",
+          "quantity": 40,
+          "amenityProvider": { "name": "ATPCO" }
+        }
+      ],
+      "media": [
+        {
+          "id": "IMG_EXTERIOR",
+          "type": "Image",
+          "category": "EXTERIOR",
+          "href": "https://example.invalid/exterior-original.jpg",
+          "alt": "Hotel facade seen from the street",
+          "mediaScales": [
+            {
+              "href": "https://example.invalid/exterior-320.jpg",
+              "dimensions": { "width": 320, "height": 213, "unit": "PIXELS" }
+            },
+            {
+              "href": "https://example.invalid/exterior-1024.jpg",
+              "dimensions": { "width": 1024, "height": 683, "unit": "PIXELS" }
+            }
+          ]
+        }
+      ],
+      "location": {
+        "name": "Paris",
+        "subType": "CITY",
+        "iataCode": "PAR",
+        "geoCode": { "latitude": 48.87626, "longitude": 2.32603 }
+      },
+      "area": [{ "hotelAreaType": "CITY", "name": "8th Arrondissement" }],
+      "contact": [
+        {
+          "purpose": ["RESERVATIONS"],
+          "locationType": "PHYSICAL",
+          "addresseeName": { "prefix": "", "firstName": "Reservations", "lastName": "Desk" },
+          "phone": {
+            "category": "PHONE",
+            "deviceType": "VOICE",
+            "countryCallingCode": "33",
+            "areaCode": "1",
+            "number": "40088844"
+          },
+          "email": { "category": "RESERVATIONS", "email": "reservations@example.invalid" },
+          "address": {
+            "lines": ["108 rue Saint Lazare"],
+            "postalCode": "75008",
+            "cityName": "Paris",
+            "countryCode": "FR",
+            "countryName": "France",
+            "stateCode": "IDF"
+          },
+          "website": { "url": "https://example.invalid/hilton-paris-opera" }
+        }
+      ],
+      "hotelBusinessIdentifications": {
+        "identifiers": [{ "id": "FR12345678901", "name": "VAT" }]
+      },
+      "altitude": { "unit": "METERS", "value": 35 },
+      "season": { "openCalendar": [] }
+    },
+    "hotel": {
+      "taxId": "FR12345678901",
+      "currencyCode": ["EUR"],
+      "spokenLanguages": ["FR", "EN", "ES"],
+      "climate": "Temperate oceanic",
+      "timeZone": {
+        "id": "Europe/Paris",
+        "name": "Central European Time",
+        "offSet": "+01:00",
+        "dstOffsetInSeconds": 3600
+      },
+      "building": {
+        "architectureCode": "HISTORIC",
+        "builtDate": "1889",
+        "renovationDate": "2015",
+        "numberOfFloors": 7,
+        "numberOfRooms": 268
+      },
+      "certifications": [
+        { "name": "Green Key", "providerName": "FEE", "rating": "GOLD", "dateGranted": "2024-03-01" }
+      ],
+      "relativeLocation": [
+        {
+          "destination": { "name": "Opera Garnier", "subType": "POINT_OF_INTEREST" },
+          "distances": [
+            { "unit": "MILE", "value": 0.4, "distanceType": "WALKING" },
+            { "unit": "KM", "value": 0.5, "distanceType": "DIRECT" }
+          ]
+        }
+      ]
+    },
+    "rooms": [
+      {
+        "name": { "text": "Deluxe King Room", "lang": "EN" },
+        "description": { "text": "Deluxe room with a king bed and city view.", "lang": "EN" },
+        "hotelRoomClassification": "ROOM",
+        "hotelRoomCategory": "DELUXE",
+        "beds": 1,
+        "bedType": "KING",
+        "quantity": 60,
+        "bedRoomsPerRoom": 1,
+        "bathroomsPerRoom": 1,
+        "viewCode": "CITY",
+        "architectureCode": "HISTORIC",
+        "hotelRoomLocation": "HIGH_FLOOR",
+        "sortOrder": 1,
+        "isNonSmoking": true,
+        "standardPersonCapacity": 2,
+        "maxPersonCapacity": { "adults": 2, "children": 1, "total": 3 },
+        "maxSleepFurnishings": { "cribs": 1, "extraBeds": 1 },
+        "dimensions": { "area": 28, "areaUnit": "SQUARE_METERS" },
+        "policyDescriptions": ["No smoking"],
+        "providerContentReference": { "id": "RT-DLX-01" },
+        "amenities": [{ "code": "MINIBAR", "description": "Stocked minibar", "isChargeable": true }],
+        "media": [{ "id": "IMG_ROOM", "type": "Image", "href": "https://example.invalid/room.jpg" }]
+      }
+    ],
+    "facilities": {
+      "amenities": [{ "code": "FITNESS_CENTER", "description": "24-hour gym" }],
+      "meetingRoomInfo": {
+        "quantity": 6,
+        "largestRoomSeatOccupancy": 220,
+        "largestRoomSpace": { "area": 310, "areaUnit": "SQUARE_METERS" },
+        "meetingRooms": [{ "name": "Salon Opera", "description": "Ballroom with natural light" }]
+      },
+      "restaurantInfo": {
+        "quantity": 2,
+        "restaurants": [
+          {
+            "name": "Le Brasserie",
+            "description": "French brasserie serving breakfast and dinner.",
+            "cuisineTypes": ["FRENCH", "EUROPEAN"],
+            "hasBreakfast": true,
+            "hasDinner": true
+          },
+          {
+            "name": "Sky Bar",
+            "cuisineTypes": ["FRENCH", "TAPAS"]
+          }
+        ]
+      }
+    },
+    "policies": {
+      "checkInOutPolicies": [
+        {
+          "checkIn": "15:00",
+          "checkOut": "12:00",
+          "checkInDescription": { "text": "Check-in from 3pm", "lang": "EN" }
+        }
+      ],
+      "paymentPolicies": [
+        {
+          "paymentType": "GUARANTEE",
+          "guarantee": {
+            "description": { "text": "A card is required to hold the room.", "lang": "EN" },
+            "acceptedPayments": {
+              "creditCards": ["VI", "CA", "AX"],
+              "methods": ["CREDIT_CARD"]
+            }
+          },
+          "additionalDetails": [{ "text": "Card charged on arrival.", "lang": "EN" }]
+        }
+      ],
+      "cancellationPolicies": [
+        {
+          "amount": "150.00",
+          "numberOfNights": 1,
+          "deadline": "24H",
+          "policyType": "CANCELLATION",
+          "description": { "text": "One night charged inside 24 hours.", "lang": "EN" }
+        }
+      ],
+      "petsPolicies": [
+        { "code": "PETS_ALLOWED", "description": "Dogs under 10kg welcome", "pricingMethod": "PER_STAY" }
+      ],
+      "taxPolicies": [
+        {
+          "code": "CITY_TAX",
+          "currency": "EUR",
+          "amount": "4.40",
+          "included": false,
+          "description": "Paris tourist tax, payable at the property",
+          "pricingFrequency": "PER_NIGHT",
+          "pricingMode": "PER_PERSON"
+        },
+        {
+          "code": "VAT",
+          "currency": "EUR",
+          "percentage": "10",
+          "included": true,
+          "description": "Value added tax"
+        }
+      ],
+      "commissionPolicies": [
+        { "percentage": "10", "description": { "text": "Standard agency commission", "lang": "EN" } }
+      ],
+      "guestPolicies": [
+        {
+          "minGuestAge": 18,
+          "maxChildAgeforBedSharing": 12,
+          "childStayFreeCutoffAge": 12,
+          "childStayFree": true
+        }
+      ],
+      "loyaltyPolicies": [
+        {
+          "eligibility": "Hilton Honors members",
+          "benefitsAccruals": [
+            { "loyaltyAwardType": "POINTS", "code": "HH", "codeDescription": "10 points per euro" }
+          ],
+          "discount": { "percentage": "5" }
+        }
+      ],
+      "stayRequirements": [{ "text": "Minimum two nights over public holidays.", "lang": "EN" }]
+    },
+    "awards": [
+      {
+        "name": "AAA Diamond",
+        "providerName": "AAA",
+        "rating": "4",
+        "ratingSystem": "DIAMOND",
+        "description": "Four Diamond award",
+        "dateGranted": "2025-01-15"
+      }
+    ],
+    "promotions": [
+      {
+        "name": "Stay 3 Pay 2",
+        "description": "Third night free on flexible rates.",
+        "category": "AAA",
+        "code": "S3P2",
+        "termsAndConditions": { "text": "Subject to availability.", "language": "EN" }
+      }
+    ],
+    "pointOfInterest": [
+      {
+        "categoryCode": "SIGHTSEEING",
+        "description": "Nineteenth-century opera house.",
+        "location": {
+          "name": "Palais Garnier",
+          "subType": "POINT_OF_INTEREST",
+          "geoCode": { "latitude": 48.8719, "longitude": 2.3316 }
+        },
+        "officialWebsite": { "url": "https://example.invalid/opera" },
+        "locationDistance": {
+          "destination": { "name": "Palais Garnier" },
+          "distances": [{ "unit": "KM", "value": 0.6, "distanceType": "WALKING" }]
+        },
+        "basic": { "name": "Palais Garnier" }
+      }
+    ]
+  }
+}

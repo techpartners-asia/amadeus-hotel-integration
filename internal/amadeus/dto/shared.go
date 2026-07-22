@@ -389,3 +389,10 @@ type (
 		Status          string `json:"status,omitempty"`
 	}
 )
+
+// GeoCodeResponse is Amadeus's latitude/longitude pair, as sent by the content
+// and inventory schemas.
+type GeoCodeResponse struct {
+	Latitude  float64 `json:"latitude"`
+	Longitude float64 `json:"longitude"`
+}
