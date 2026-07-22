@@ -6,7 +6,7 @@ import (
 
 	"github.com/techpartners-asia/amadeus-hotel-integration/apierr"
 	"github.com/techpartners-asia/amadeus-hotel-integration/internal/amadeus"
-	"github.com/techpartners-asia/amadeus-hotel-integration/internal/amadeus/dto"
+	"github.com/techpartners-asia/amadeus-hotel-integration/internal/amadeus/dto/offersdto"
 )
 
 // basePath is the Hotel Search (v3.5) endpoint root.
@@ -54,7 +54,7 @@ func (s *service) Search(ctx context.Context, query SearchQuery) ([]HotelOffers,
 		return nil, err
 	}
 
-	envelope, err := amadeus.Do[[]dto.OffersResponse](ctx, s.client, amadeus.Request{
+	envelope, err := amadeus.Do[[]offersdto.OffersResponse](ctx, s.client, amadeus.Request{
 		Path:  basePath,
 		Query: query.params(),
 	})
@@ -71,7 +71,7 @@ func (s *service) Get(ctx context.Context, query GetQuery) (*OfferDetail, error)
 
 	// The by-ID endpoint returns the offer wrapped in its hotel, since a price
 	// is meaningless without knowing the property it applies to.
-	envelope, err := amadeus.Do[dto.OffersResponse](ctx, s.client, amadeus.Request{
+	envelope, err := amadeus.Do[offersdto.OffersResponse](ctx, s.client, amadeus.Request{
 		Path:  basePath + "/" + string(query.OfferID),
 		Query: query.params(),
 	})
@@ -79,7 +79,7 @@ func (s *service) Get(ctx context.Context, query GetQuery) (*OfferDetail, error)
 		return nil, err
 	}
 
-	mapped := mapHotelOffers([]dto.OffersResponse{envelope.Data})
+	mapped := mapHotelOffers([]offersdto.OffersResponse{envelope.Data})
 	if len(mapped) == 0 || len(mapped[0].Offers) == 0 {
 		// A 200 carrying no offer means the ID no longer resolves, which is
 		// what an expired offer looks like. Reporting it as not-found beats

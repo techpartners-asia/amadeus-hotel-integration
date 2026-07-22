@@ -4,6 +4,7 @@ import (
 	"github.com/techpartners-asia/amadeus-hotel-integration/codes"
 	"github.com/techpartners-asia/amadeus-hotel-integration/geo"
 	"github.com/techpartners-asia/amadeus-hotel-integration/internal/amadeus/dto"
+	"github.com/techpartners-asia/amadeus-hotel-integration/internal/amadeus/dto/offersdto"
 	"github.com/techpartners-asia/amadeus-hotel-integration/money"
 )
 
@@ -17,7 +18,7 @@ import (
 // protects them.
 
 // mapHotelOffers translates a search result.
-func mapHotelOffers(wire []dto.OffersResponse) []HotelOffers {
+func mapHotelOffers(wire []offersdto.OffersResponse) []HotelOffers {
 	if wire == nil {
 		return nil
 	}
@@ -33,7 +34,7 @@ func mapHotelOffers(wire []dto.OffersResponse) []HotelOffers {
 	return out
 }
 
-func mapHotel(h dto.HotelResponse) Hotel {
+func mapHotel(h offersdto.HotelResponse) Hotel {
 	hotel := Hotel{
 		ID:                 h.HotelID,
 		Name:               h.Name,
@@ -70,7 +71,7 @@ func mapHotel(h dto.HotelResponse) Hotel {
 	return hotel
 }
 
-func mapOffers(wire []dto.OfferResponse) []Offer {
+func mapOffers(wire []offersdto.OfferResponse) []Offer {
 	if wire == nil {
 		return nil
 	}
@@ -81,7 +82,7 @@ func mapOffers(wire []dto.OfferResponse) []Offer {
 	return out
 }
 
-func mapOffer(o dto.OfferResponse) Offer {
+func mapOffer(o offersdto.OfferResponse) Offer {
 	offer := Offer{
 		ID: OfferID(o.ID),
 		Stay: Stay{
@@ -140,7 +141,7 @@ func mapOffer(o dto.OfferResponse) Offer {
 	return offer
 }
 
-func mapRoom(r dto.RoomResponse) Room {
+func mapRoom(r offersdto.RoomResponse) Room {
 	return Room{
 		Type:        r.Type,
 		Category:    r.TypeEstimated.Category,
@@ -150,7 +151,7 @@ func mapRoom(r dto.RoomResponse) Room {
 	}
 }
 
-func mapPrice(p dto.PriceResponse) Price {
+func mapPrice(p offersdto.PriceResponse) Price {
 	currency := money.Currency(p.Currency)
 
 	price := Price{
@@ -179,7 +180,7 @@ func mapPrice(p dto.PriceResponse) Price {
 	return price
 }
 
-func mapCommissionValue(amount *dto.AmountResponse, percentage float64, fallbackCurrency string) CommissionValue {
+func mapCommissionValue(amount *offersdto.AmountResponse, percentage float64, fallbackCurrency string) CommissionValue {
 	value := CommissionValue{Percentage: percentage}
 	if amount == nil {
 		return value
@@ -196,7 +197,7 @@ func mapCommissionValue(amount *dto.AmountResponse, percentage float64, fallback
 	return value
 }
 
-func mapTaxes(wire []dto.TaxResponse, fallbackCurrency string) []Tax {
+func mapTaxes(wire []offersdto.TaxResponse, fallbackCurrency string) []Tax {
 	if wire == nil {
 		return nil
 	}
@@ -239,7 +240,7 @@ func mapMarkups(wire []dto.MarkupResponse, currency string) []money.Money {
 	return out
 }
 
-func mapVariations(v dto.VariationsResponse, fallbackCurrency string) Variations {
+func mapVariations(v offersdto.VariationsResponse, fallbackCurrency string) Variations {
 	variations := Variations{
 		Average: PricePeriod{
 			Currency:     currencyOr(v.Average.Currency, fallbackCurrency),
@@ -266,7 +267,7 @@ func mapVariations(v dto.VariationsResponse, fallbackCurrency string) Variations
 	return variations
 }
 
-func mapPolicies(p dto.PoliciesResponse) Policies {
+func mapPolicies(p offersdto.PoliciesResponse) Policies {
 	policies := Policies{
 		PaymentType: p.PaymentType,
 	}
@@ -333,7 +334,7 @@ func mapPolicies(p dto.PoliciesResponse) Policies {
 // top-level fields Amadeus still sends. Note the wire spelling
 // "minimuLengthOfStay", which is Amadeus's typo and is reproduced in the DTO
 // because matching it is what makes the field decode.
-func mapLengthOfStay(p dto.PoliciesResponse) *LengthOfStayPolicy {
+func mapLengthOfStay(p offersdto.PoliciesResponse) *LengthOfStayPolicy {
 	policy := LengthOfStayPolicy{
 		Minimum: p.MinimuLengthOfStay,
 		Maximum: p.MaximumLengthOfStay,
@@ -357,7 +358,7 @@ func mapLengthOfStay(p dto.PoliciesResponse) *LengthOfStayPolicy {
 	return &policy
 }
 
-func mapCancellation(c dto.CancellationResponse) CancellationPolicy {
+func mapCancellation(c offersdto.CancellationResponse) CancellationPolicy {
 	return CancellationPolicy{
 		Amount:         parseMoney(c.Amount, ""),
 		Percentage:     c.Percentage,
@@ -369,7 +370,7 @@ func mapCancellation(c dto.CancellationResponse) CancellationPolicy {
 	}
 }
 
-func isEmptyCancellation(c dto.CancellationResponse) bool {
+func isEmptyCancellation(c offersdto.CancellationResponse) bool {
 	return c.Amount == "" && c.Deadline == "" && c.Percentage == "" &&
 		c.NumberOfNights == 0 && c.Type == "" && c.PolicyType == "" &&
 		c.Description.Text == ""
@@ -389,7 +390,7 @@ func sameCancellation(a, b CancellationPolicy) bool {
 	return a.Amount.Amount().Equal(b.Amount.Amount())
 }
 
-func mapPaymentPolicy(p dto.PaymentPolicyResponse) *PaymentPolicy {
+func mapPaymentPolicy(p offersdto.PaymentPolicyResponse) *PaymentPolicy {
 	return &PaymentPolicy{
 		Amount:           parseMoney(p.Amount, ""),
 		Deadline:         parseTimestamp(p.Deadline),
@@ -398,7 +399,7 @@ func mapPaymentPolicy(p dto.PaymentPolicyResponse) *PaymentPolicy {
 	}
 }
 
-func mapAcceptedPayments(a *dto.AcceptedPaymentsResponse) *AcceptedPayments {
+func mapAcceptedPayments(a *offersdto.AcceptedPaymentsResponse) *AcceptedPayments {
 	if a == nil {
 		return nil
 	}
@@ -420,7 +421,7 @@ func mapAcceptedPayments(a *dto.AcceptedPaymentsResponse) *AcceptedPayments {
 	return accepted
 }
 
-func mapExtras(wire []dto.ServiceResponse) []Extra {
+func mapExtras(wire []offersdto.ServiceResponse) []Extra {
 	if wire == nil {
 		return nil
 	}
@@ -439,7 +440,7 @@ func mapExtras(wire []dto.ServiceResponse) []Extra {
 	return out
 }
 
-func mapExtraPrice(p *dto.ServicePriceResponse) *ExtraPrice {
+func mapExtraPrice(p *offersdto.ServicePriceResponse) *ExtraPrice {
 	if p == nil {
 		return nil
 	}
@@ -459,7 +460,7 @@ func mapExtraPrice(p *dto.ServicePriceResponse) *ExtraPrice {
 	return price
 }
 
-func mapRoomDetails(r dto.RoomInformationResponse, currency string) *RoomDetails {
+func mapRoomDetails(r offersdto.RoomInformationResponse, currency string) *RoomDetails {
 	details := &RoomDetails{
 		ID:               r.ID,
 		Name:             mapTextContent(r.Name),
@@ -518,7 +519,7 @@ func mapRoomDetails(r dto.RoomInformationResponse, currency string) *RoomDetails
 	return details
 }
 
-func mapRoomAmenity(a dto.RoomAmenityResponse, currency string) RoomAmenity {
+func mapRoomAmenity(a offersdto.RoomAmenityResponse, currency string) RoomAmenity {
 	amenity := RoomAmenity{
 		Code:                  a.Code,
 		Description:           a.Description,
@@ -537,7 +538,7 @@ func mapRoomAmenity(a dto.RoomAmenityResponse, currency string) RoomAmenity {
 	return amenity
 }
 
-func mapStandardizedRoom(r dto.StandardizedRoomResponse) *StandardizedRoom {
+func mapStandardizedRoom(r offersdto.StandardizedRoomResponse) *StandardizedRoom {
 	room := &StandardizedRoom{
 		ID:         r.ID,
 		Name:       r.Name,

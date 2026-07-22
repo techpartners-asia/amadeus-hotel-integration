@@ -1,7 +1,9 @@
-package dto
+package offersdto
 
-// Wire structures for the Hotel Search API (v3.5): GET /shopping/hotel-offers
-// and GET /shopping/hotel-offers/{offerId}.
+import "github.com/techpartners-asia/amadeus-hotel-integration/internal/amadeus/dto"
+
+// Package offersdto holds the wire structures for the Hotel Search API (v3.5): GET /shopping/hotel-offers
+// (v3.5): GET /shopping/hotel-offers and GET /shopping/hotel-offers/{offerId}.
 //
 // Two Amadeus quirks are reproduced faithfully here and normalised by the
 // mapper rather than by the struct tags:
@@ -56,12 +58,12 @@ type (
 
 	// WarningResponse models a non-blocking warning returned with the response.
 	WarningResponse struct {
-		Code          int                     `json:"code,omitempty"`
-		Title         string                  `json:"title,omitempty"`
-		Detail        string                  `json:"detail,omitempty"`
-		Source        *WarningSourceResponse  `json:"source,omitempty"`
-		Documentation string                  `json:"documentation,omitempty"`
-		Sources       []WarningSourceResponse `json:"sources,omitempty"`
+		Code          int                         `json:"code,omitempty"`
+		Title         string                      `json:"title,omitempty"`
+		Detail        string                      `json:"detail,omitempty"`
+		Source        *dto.WarningSourceResponse  `json:"source,omitempty"`
+		Documentation string                      `json:"documentation,omitempty"`
+		Sources       []dto.WarningSourceResponse `json:"sources,omitempty"`
 	}
 
 	HotelResponse struct {
@@ -120,13 +122,13 @@ type (
 		// Commission information for the offer.
 		Commission *CommissionResponse `json:"commission,omitempty"`
 		// Free-text description of the offer.
-		Description *DescriptionResponse `json:"description,omitempty"`
-		Guests      GuestsResponse       `json:"guests"`
+		Description *dto.DescriptionResponse `json:"description,omitempty"`
+		Guests      GuestsResponse           `json:"guests"`
 		// Whether this is a loyalty rate.
 		// Amadeus returns this as a quoted string ("true"/"false"), not a JSON bool.
-		IsLoyaltyRate       string                      `json:"isLoyaltyRate,omitempty"`
-		RateCode            string                      `json:"rateCode"`
-		RateFamilyEstimated RateFamilyEstimatedResponse `json:"rateFamilyEstimated"`
+		IsLoyaltyRate       string                          `json:"isLoyaltyRate,omitempty"`
+		RateCode            string                          `json:"rateCode"`
+		RateFamilyEstimated dto.RateFamilyEstimatedResponse `json:"rateFamilyEstimated"`
 		// Marketing name of the rate.
 		RateName string `json:"rateName,omitempty"`
 		// Promotion code applied to the rate.
@@ -152,7 +154,7 @@ type (
 		// Flat commission amount.
 		Amount string `json:"amount,omitempty"`
 		// Description of the commission.
-		Description *DescriptionResponse `json:"description,omitempty"`
+		Description *dto.DescriptionResponse `json:"description,omitempty"`
 		// Commission percentage.
 		Percentage string `json:"percentage,omitempty"`
 	}
@@ -170,9 +172,9 @@ type (
 	}
 
 	RoomResponse struct {
-		Type          string                `json:"type"`
-		TypeEstimated TypeEstimatedResponse `json:"typeEstimated"`
-		Description   DescriptionResponse   `json:"description"`
+		Type          string                  `json:"type"`
+		TypeEstimated TypeEstimatedResponse   `json:"typeEstimated"`
+		Description   dto.DescriptionResponse `json:"description"`
 	}
 
 	TypeEstimatedResponse struct {
@@ -181,23 +183,6 @@ type (
 		Beds     int    `json:"beds"`
 		// Bed type. Enum: DOUBLE, KING, QUEEN, TWIN, SINGLE, PULLOUT, WATER_BED.
 		BedType string `json:"bedType"`
-	}
-
-	DescriptionResponse struct {
-		Text string `json:"text"`
-		Lang string `json:"lang"`
-	}
-
-	// TextContentResponse models multilingual text content with metadata.
-	TextContentResponse struct {
-		Text string `json:"text,omitempty"`
-		Lang string `json:"lang,omitempty"`
-		// Character set. Enum: ASCII_7, UTF_8.
-		CharSet string `json:"charSet,omitempty"`
-		// Encoding. Enum: BINARY, BASE_64.
-		Encoding        string `json:"encoding,omitempty"`
-		IanaContentType string `json:"ianaContentType,omitempty"`
-		Status          string `json:"status,omitempty"`
 	}
 
 	GuestsResponse struct {
@@ -213,7 +198,7 @@ type (
 		// Commission breakdown (current format).
 		Commissions []PriceCommissionEntryResponse `json:"commissions,omitempty"`
 		// Markups applied to the price.
-		Markups []MarkupResponse `json:"markups,omitempty"`
+		Markups []dto.MarkupResponse `json:"markups,omitempty"`
 		// Total before rate parity adjustments.
 		RateParityTotal string `json:"rateParityTotal,omitempty"`
 		// Selling total including markups.
@@ -285,7 +270,7 @@ type (
 		// Currency of the average price.
 		Currency string `json:"currency,omitempty"`
 		// Markups applied to the average price.
-		Markups []MarkupResponse `json:"markups,omitempty"`
+		Markups []dto.MarkupResponse `json:"markups,omitempty"`
 		// Selling total for the average price.
 		SellingTotal string `json:"sellingTotal,omitempty"`
 		// Total for the average price.
@@ -300,7 +285,7 @@ type (
 		// Currency for the period.
 		Currency string `json:"currency,omitempty"`
 		// Markups applied for the period.
-		Markups []MarkupResponse `json:"markups,omitempty"`
+		Markups []dto.MarkupResponse `json:"markups,omitempty"`
 		// Selling total for the period.
 		SellingTotal string `json:"sellingTotal,omitempty"`
 		Total        string `json:"total"`
@@ -335,15 +320,15 @@ type (
 
 	// PolicyDetailResponse holds additional policy description text.
 	PolicyDetailResponse struct {
-		Description []DescriptionResponse `json:"description,omitempty"`
+		Description []dto.DescriptionResponse `json:"description,omitempty"`
 	}
 
 	CancellationResponse struct {
 		// Cancellation fee amount.
 		Amount string `json:"amount,omitempty"`
 		// Cancellation deadline (date-time).
-		Deadline    string              `json:"deadline,omitempty"`
-		Description DescriptionResponse `json:"description"`
+		Deadline    string                  `json:"deadline,omitempty"`
+		Description dto.DescriptionResponse `json:"description"`
 		// Number of nights charged on cancellation.
 		NumberOfNights int `json:"numberOfNights,omitempty"`
 		// Cancellation fee percentage.
@@ -356,10 +341,10 @@ type (
 
 	// CheckInOutResponse models check-in/check-out timing policy.
 	CheckInOutResponse struct {
-		CheckIn             string               `json:"checkIn,omitempty"`
-		CheckInDescription  *DescriptionResponse `json:"checkInDescription,omitempty"`
-		CheckOut            string               `json:"checkOut,omitempty"`
-		CheckOutDescription *DescriptionResponse `json:"checkOutDescription,omitempty"`
+		CheckIn             string                   `json:"checkIn,omitempty"`
+		CheckInDescription  *dto.DescriptionResponse `json:"checkInDescription,omitempty"`
+		CheckOut            string                   `json:"checkOut,omitempty"`
+		CheckOutDescription *dto.DescriptionResponse `json:"checkOutDescription,omitempty"`
 	}
 
 	// PaymentPolicyResponse models deposit/prepay payment policies.
@@ -367,14 +352,14 @@ type (
 		AcceptedPayments *AcceptedPaymentsResponse `json:"acceptedPayments,omitempty"`
 		Amount           string                    `json:"amount,omitempty"`
 		// Payment deadline (date-time).
-		Deadline    string               `json:"deadline,omitempty"`
-		Description *DescriptionResponse `json:"description,omitempty"`
+		Deadline    string                   `json:"deadline,omitempty"`
+		Description *dto.DescriptionResponse `json:"description,omitempty"`
 	}
 
 	// GuaranteePolicyResponse models a guarantee payment policy.
 	GuaranteePolicyResponse struct {
 		AcceptedPayments *AcceptedPaymentsResponse `json:"acceptedPayments,omitempty"`
-		Description      *DescriptionResponse      `json:"description,omitempty"`
+		Description      *dto.DescriptionResponse  `json:"description,omitempty"`
 	}
 
 	// AcceptedPaymentsResponse lists accepted payment methods.
@@ -408,10 +393,10 @@ type (
 
 	// LengthOfStayResponse models length-of-stay constraints.
 	LengthOfStayResponse struct {
-		MaximumLengthOfStay            int                  `json:"maximumLengthOfStay,omitempty"`
-		MaximumLengthOfStayDescription *TextContentResponse `json:"maximumLengthOfStayDescription,omitempty"`
-		MinimumLengthOfStay            int                  `json:"minimumLengthOfStay,omitempty"`
-		MinimumLengthOfStayDescription *TextContentResponse `json:"minimumLengthOfStayDescription,omitempty"`
+		MaximumLengthOfStay            int                      `json:"maximumLengthOfStay,omitempty"`
+		MaximumLengthOfStayDescription *dto.TextContentResponse `json:"maximumLengthOfStayDescription,omitempty"`
+		MinimumLengthOfStay            int                      `json:"minimumLengthOfStay,omitempty"`
+		MinimumLengthOfStayDescription *dto.TextContentResponse `json:"minimumLengthOfStayDescription,omitempty"`
 	}
 
 	// RefundableResponse models refundability.
@@ -439,13 +424,13 @@ type (
 
 	// ServicePriceResponse models the price of a service or amenity.
 	ServicePriceResponse struct {
-		Base         string              `json:"base,omitempty"`
-		Currency     string              `json:"currency,omitempty"`
-		Markups      []MarkupResponse    `json:"markups,omitempty"`
-		SellingTotal string              `json:"sellingTotal,omitempty"`
-		Taxes        []TaxResponse       `json:"taxes,omitempty"`
-		Total        string              `json:"total,omitempty"`
-		Variations   *VariationsResponse `json:"variations,omitempty"`
+		Base         string               `json:"base,omitempty"`
+		Currency     string               `json:"currency,omitempty"`
+		Markups      []dto.MarkupResponse `json:"markups,omitempty"`
+		SellingTotal string               `json:"sellingTotal,omitempty"`
+		Taxes        []TaxResponse        `json:"taxes,omitempty"`
+		Total        string               `json:"total,omitempty"`
+		Variations   *VariationsResponse  `json:"variations,omitempty"`
 	}
 
 	// RoomInformationResponse models the detailed room information block.
@@ -459,11 +444,11 @@ type (
 		BathroomsPerRoom int    `json:"bathroomsPerRoom,omitempty"`
 		// Bed type. Enum: DOUBLE, FUTON, KING, MURPHY_BED, QUEEN, SOFA_BED,
 		// TATAMI_MATS, TWIN, SINGLE, FULL, RUN_OF_THE_HOUSE, DORM_BED, WATER_BED.
-		BedType         string              `json:"bedType,omitempty"`
-		BedroomsPerRoom int                 `json:"bedroomsPerRoom,omitempty"`
-		Beds            int                 `json:"beds,omitempty"`
-		Description     string              `json:"description,omitempty"`
-		Dimensions      *DimensionsResponse `json:"dimensions,omitempty"`
+		BedType         string                  `json:"bedType,omitempty"`
+		BedroomsPerRoom int                     `json:"bedroomsPerRoom,omitempty"`
+		Beds            int                     `json:"beds,omitempty"`
+		Description     string                  `json:"description,omitempty"`
+		Dimensions      *dto.DimensionsResponse `json:"dimensions,omitempty"`
 		// Room category. Enum includes SUITE, BUDGET, DELUXE, ECONOMY, LUXURY,
 		// STANDARD, MIDSCALE, UPSCALE, etc.
 		HotelRoomCategory string `json:"hotelRoomCategory,omitempty"`
@@ -472,11 +457,11 @@ type (
 		HotelRoomClassification string                                `json:"hotelRoomClassification,omitempty"`
 		HotelRoomLocation       string                                `json:"hotelRoomLocation,omitempty"`
 		ID                      string                                `json:"id,omitempty"`
-		MaxPersonCapacity       *MaxPersonCapacityResponse            `json:"maxPersonCapacity,omitempty"`
-		MaxSleepFurnishings     *MaxSleepFurnishingsResponse          `json:"maxSleepFurnishings,omitempty"`
-		Media                   []MediaResponse                       `json:"media,omitempty"`
-		Name                    *TextContentResponse                  `json:"name,omitempty"`
-		PolicyDescriptions      []DescriptionResponse                 `json:"policyDescriptions,omitempty"`
+		MaxPersonCapacity       *dto.MaxPersonCapacityResponse        `json:"maxPersonCapacity,omitempty"`
+		MaxSleepFurnishings     *dto.MaxSleepFurnishingsResponse      `json:"maxSleepFurnishings,omitempty"`
+		Media                   []dto.MediaResponse                   `json:"media,omitempty"`
+		Name                    *dto.TextContentResponse              `json:"name,omitempty"`
+		PolicyDescriptions      []dto.DescriptionResponse             `json:"policyDescriptions,omitempty"`
 		Quantity                int                                   `json:"quantity,omitempty"`
 		SortOrder               int                                   `json:"sortOrder,omitempty"`
 		Type                    string                                `json:"type,omitempty"`
@@ -488,15 +473,15 @@ type (
 	// RoomAmenityResponse models a room amenity.
 	RoomAmenityResponse struct {
 		// Media associated with the amenity.
-		Medias                       []MediaResponse          `json:"Medias,omitempty"`
-		AmenityAttribute             string                   `json:"amenityAttribute,omitempty"`
-		AmenityPerformanceAssessment string                   `json:"amenityPerformanceAssessment,omitempty"`
-		AmenityProvider              *AmenityProvider `json:"amenityProvider,omitempty"`
-		AmenityQualityAssessment     string                   `json:"amenityQualityAssessment,omitempty"`
-		AmenityType                  string                   `json:"amenityType,omitempty"`
-		Code                         string                   `json:"code,omitempty"`
-		Description                  string                   `json:"description,omitempty"`
-		Price                        *ServicePriceResponse    `json:"price,omitempty"`
+		Medias                       []dto.MediaResponse   `json:"Medias,omitempty"`
+		AmenityAttribute             string                `json:"amenityAttribute,omitempty"`
+		AmenityPerformanceAssessment string                `json:"amenityPerformanceAssessment,omitempty"`
+		AmenityProvider              *dto.AmenityProvider  `json:"amenityProvider,omitempty"`
+		AmenityQualityAssessment     string                `json:"amenityQualityAssessment,omitempty"`
+		AmenityType                  string                `json:"amenityType,omitempty"`
+		Code                         string                `json:"code,omitempty"`
+		Description                  string                `json:"description,omitempty"`
+		Price                        *ServicePriceResponse `json:"price,omitempty"`
 		// Pricing method. Enum: DAILY, HOURLY, HALF_DAY, PER_OCCURRENCE,
 		// PER_EVENT, PER_PERSON, FIRST_USE, PER_MINUTE, COMPLIMENTARY, WEEKLY,
 		// PER_STAY, PER_FUNCTION, PER_ROOM_PER_STAY, PER_ROOM_PER_NIGHT,
@@ -516,13 +501,13 @@ type (
 
 	// StandardizedRoomResponse models normalized room data.
 	StandardizedRoomResponse struct {
-		Amenities         []StandardizedAmenityResponse `json:"amenities,omitempty"`
-		BedConfigurations []BedConfigurationResponse    `json:"bedConfigurations,omitempty"`
-		Dimensions        *DimensionsResponse           `json:"dimensions,omitempty"`
-		ID                string                        `json:"id,omitempty"`
-		MaxPersonCapacity *MaxPersonCapacityResponse    `json:"maxPersonCapacity,omitempty"`
-		Name              string                        `json:"name,omitempty"`
-		Views             []StandardizedViewResponse    `json:"views,omitempty"`
+		Amenities         []StandardizedAmenityResponse  `json:"amenities,omitempty"`
+		BedConfigurations []BedConfigurationResponse     `json:"bedConfigurations,omitempty"`
+		Dimensions        *dto.DimensionsResponse        `json:"dimensions,omitempty"`
+		ID                string                         `json:"id,omitempty"`
+		MaxPersonCapacity *dto.MaxPersonCapacityResponse `json:"maxPersonCapacity,omitempty"`
+		Name              string                         `json:"name,omitempty"`
+		Views             []StandardizedViewResponse     `json:"views,omitempty"`
 	}
 
 	// StandardizedAmenityResponse models a normalized amenity.

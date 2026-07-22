@@ -1,0 +1,174 @@
+{
+  "data": {
+    "type": "hotel-order",
+    "id": "XN_5FGHIJKLMN",
+    "self": "https://test.travel.api.amadeus.com/v2/booking/hotel-orders/XN_5FGHIJKLMN",
+    "associatedRecords": [
+      { "reference": "JKL789", "originSystemCode": "GDS" }
+    ],
+    "guests": [
+      {
+        "tid": 1,
+        "id": 2001,
+        "title": "MS",
+        "firstName": "ADA",
+        "lastName": "LOVELACE",
+        "phone": "+33679278416",
+        "email": "ada@example.invalid",
+        "frequentTraveler": [
+          { "airlineCode": "AF", "frequentTravelerId": "32546971326" }
+        ]
+      },
+      {
+        "tid": 2,
+        "id": 2002,
+        "title": "CHILD",
+        "firstName": "BYRON",
+        "lastName": "LOVELACE",
+        "childAge": 8
+      }
+    ],
+    "hotelBookings": [
+      {
+        "type": "hotel-booking",
+        "id": "BK_001",
+        "bookingStatus": "CONFIRMED",
+        "travelAgentId": "00000000",
+        "hotelProviderInformation": [
+          {
+            "hotelProviderCode": "HL",
+            "confirmationNumber": "89124357",
+            "cancellationNumber": "NONE"
+          }
+        ],
+        "roomAssociations": [
+          {
+            "hotelOfferId": "OFFER_DELUXE_FLEX",
+            "specialRequest": "High floor if possible",
+            "guestReferences": [
+              { "guestReference": "1", "hotelLoyaltyId": "HH123456789" },
+              { "guestReference": "2" }
+            ]
+          }
+        ],
+        "hotel": {
+          "hotelId": "HLPAR266",
+          "chainCode": "HL",
+          "name": "HILTON PARIS OPERA",
+          "termsAndConditions": "https://example.invalid/terms",
+          "self": "https://test.travel.api.amadeus.com/v3/reference-data/locations/by-hotel?hotelIds=HLPAR266"
+        },
+        "hotelOffer": {
+          "id": "OFFER_DELUXE_FLEX",
+          "type": "hotel-offer",
+          "checkInDate": "2026-08-10",
+          "checkOutDate": "2026-08-13",
+          "boardType": "BREAKFAST",
+          "rateCode": "PRO",
+          "category": "PUBLIC",
+          "roomQuantity": 1,
+          "rateFamilyEstimated": { "code": "PRO", "type": "P" },
+          "guests": { "adults": 1, "childAges": [8] },
+          "commission": {
+            "amount": "18.75",
+            "percentage": "10",
+            "description": { "text": "Standard agency commission", "lang": "EN" }
+          },
+          "room": {
+            "type": "DLX",
+            "typeEstimated": { "category": "DELUXE_ROOM", "beds": 1, "bedType": "KING" },
+            "description": { "text": "Deluxe King Room with city view", "lang": "EN" }
+          },
+          "price": {
+            "currency": "EUR",
+            "base": "540.00",
+            "total": "600.00",
+            "sellingTotal": "612.00",
+            "markups": [{ "amount": "12.00" }],
+            "taxes": [
+              {
+                "amount": "48.00",
+                "code": "VAT",
+                "currency": "EUR",
+                "percentage": "10",
+                "included": true,
+                "pricingFrequency": "PER_STAY",
+                "pricingMode": "PER_ROOM"
+              },
+              {
+                "amount": "12.00",
+                "code": "TOURISM",
+                "currency": "EUR",
+                "description": "City tourist tax",
+                "included": false,
+                "applicableDate": { "start": "2026-08-10", "end": "2026-08-13" }
+              }
+            ],
+            "variations": {
+              "changes": [
+                {
+                  "startDate": "2026-08-10",
+                  "endDate": "2026-08-12",
+                  "base": "170.00",
+                  "currency": "EUR",
+                  "total": "190.00"
+                },
+                {
+                  "startDate": "2026-08-12",
+                  "endDate": "2026-08-13",
+                  "base": "200.00",
+                  "currency": "EUR",
+                  "total": "220.00"
+                }
+              ]
+            }
+          },
+          "policies": {
+            "paymentType": "guarantee",
+            "cancellations": [
+              {
+                "type": "FULL_STAY",
+                "policyType": "CANCELLATION",
+                "deadline": "2026-08-08T18:00:00",
+                "description": { "text": "Free cancellation until 8 August", "lang": "EN" }
+              }
+            ],
+            "refundable": { "cancellationRefund": "REFUNDABLE_UP_TO_DEADLINE" },
+            "checkInOut": { "checkIn": "15:00", "checkOut": "12:00" },
+            "lengthOfStay": { "minimumLengthOfStay": 1, "maximumLengthOfStay": 28 }
+          },
+          "services": [
+            {
+              "code": "BREAKFAST",
+              "description": "Continental breakfast",
+              "isChargeable": false,
+              "pricingMethod": "PER_PERSON_PER_NIGHT",
+              "quantity": 2
+            }
+          ]
+        },
+        "payment": {
+          "method": "CREDIT_CARD",
+          "paymentInstructions": "Charge on arrival",
+          "iataTravelAgency": { "iataNumber": "00000000" },
+          "paymentCard": {
+            "paymentCardInfo": {
+              "vendorCode": "VI",
+              "cardNumber": "XXXXXXXXXXXX1111",
+              "expiryDate": "1230",
+              "holderName": "ADA LOVELACE"
+            }
+          }
+        },
+        "arrivalInformation": {
+          "arrivalFlightDetails": {
+            "carrierCode": "AF",
+            "number": "1680",
+            "departure": { "iataCode": "LHR" },
+            "arrival": { "iataCode": "CDG", "terminal": "2E", "at": "2026-08-10T14:35:00Z" }
+          }
+        }
+      }
+    ]
+  }
+}

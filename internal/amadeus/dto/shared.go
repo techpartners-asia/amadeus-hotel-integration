@@ -370,3 +370,22 @@ type (
 		Name string `json:"name"` // Indicates the name of the currency.
 	}
 )
+
+type (
+	DescriptionResponse struct {
+		Text string `json:"text"`
+		Lang string `json:"lang"`
+	}
+
+	// TextContentResponse models multilingual text content with metadata.
+	TextContentResponse struct {
+		Text string `json:"text,omitempty"`
+		Lang string `json:"lang,omitempty"`
+		// Character set. Enum: ASCII_7, UTF_8.
+		CharSet string `json:"charSet,omitempty"`
+		// Encoding. Enum: BINARY, BASE_64.
+		Encoding        string `json:"encoding,omitempty"`
+		IanaContentType string `json:"ianaContentType,omitempty"`
+		Status          string `json:"status,omitempty"`
+	}
+)
