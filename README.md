@@ -302,6 +302,57 @@ Groups are ordered by cheapest price, then room type; offers within a group by
 price, then ID. An offer with no usable price sorts last and never becomes the
 "cheapest" unless it is the only one.
 
+### Room capacity — how many people fit
+
+Amadeus is unreliable here, so the SDK tells you where its answer came from
+rather than pretending to certainty it does not have:
+
+```go
+capacity, source, ok := offer.MaxPersonCapacity()
+switch {
+case !ok:
+    // Amadeus said nothing. Do not guess from Room.Beds.
+case source == offers.CapacityStructured:
+    // maxPersonCapacity was supplied. Trust it.
+case source == offers.CapacityFromDescription:
+    // Read out of prose like "Apartment with 1 bedroom for 4 persons".
+    // A strong hint, not a guarantee.
+}
+
+fits, certain := offer.Accommodates(4)
+```
+
+**Why this is not a plain field.** Across a captured sandbox search of 44
+offers:
+
+| Source | Offers |
+|---|---|
+| `maxPersonCapacity` field | **0** |
+| Stated in the description | 6 |
+| No capacity at all | 38 |
+
+The structured field exists in the schema and is mapped when present — it never
+arrived once. Meanwhile the descriptions say things like *"Apartment with 1
+bedroom for 4 persons"* in plain English.
+
+Two traps this avoids:
+
+- **`Room.Beds` is not capacity.** A room with two beds may sleep two, three or
+  four. The captured apartment has `beds: 2` and sleeps 4.
+- **`Guests` is not capacity.** It is the occupancy the price was *quoted for*,
+  not what the room holds.
+
+**When it matters commercially, ask Amadeus rather than the SDK.** Search with
+the occupancy you actually want — its filtering is more dependable than
+anything it publishes about capacity:
+
+```go
+results, err := client.Offers.Search(ctx, offers.SearchQuery{
+    HotelIDs: ids,
+    Guests:   offers.Guests{Adults: 4},   // authoritative: it prices or it doesn't
+})
+```
+
 ### Re-checking a price before booking
 
 ```go
