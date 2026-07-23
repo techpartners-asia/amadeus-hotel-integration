@@ -65,7 +65,6 @@ type SearchQuery struct {
 	// CountryOfResidence is the guest's ISO 3166-1 country, which affects
 	// which rates and taxes apply.
 	CountryOfResidence string
-
 	// BestRateOnly returns only the cheapest offer per hotel. Amadeus defaults
 	// to true; set it to codes.Ptr(false) to get every rate, which is what
 	// GroupByRoom needs to be useful.

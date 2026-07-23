@@ -129,6 +129,32 @@ type Envelope[T any] struct {
 	Errors   []apierr.Detail `json:"errors,omitempty"`
 	Warnings []Warning       `json:"warnings,omitempty"`
 	Meta     Meta            `json:"meta"`
+	// Dictionaries holds the lookup tables a response refers to rather than
+	// inlining. Hotel Search uses it for currency conversion rates, and
+	// dropping it makes a requested currency impossible to display: Amadeus
+	// returns prices in the hotel's own currency and expects the caller to
+	// apply the rate.
+	Dictionaries Dictionaries `json:"dictionaries,omitempty"`
+}
+
+// Dictionaries is the lookup block that travels beside a response.
+type Dictionaries struct {
+	// CurrencyConversionLookupRates maps a source currency to the rate for
+	// converting it into the currency the caller asked for.
+	CurrencyConversionLookupRates map[string]ConversionRate `json:"currencyConversionLookupRates,omitempty"`
+}
+
+// ConversionRate is one currency conversion Amadeus supplies.
+type ConversionRate struct {
+	// Rate is the multiplier, as a decimal string. Amadeus quotes it to
+	// sixteen places ("4099.1909999999998035"), most of which is float noise.
+	Rate string `json:"rate"`
+	// Target is the currency being converted to.
+	Target string `json:"target"`
+	// TargetDecimalPlaces is the minor-unit precision of the target currency.
+	// It is 0 for currencies with no subdivision, such as MNT and JPY, and a
+	// converted amount must be rounded to it before being shown or charged.
+	TargetDecimalPlaces int `json:"targetDecimalPlaces"`
 }
 
 // Warning is a non-blocking problem Amadeus reports alongside a successful

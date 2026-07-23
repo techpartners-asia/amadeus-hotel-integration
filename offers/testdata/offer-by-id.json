@@ -10,15 +10,15 @@
       ],
       "chainCode": "RT",
       "cityCode": "PAR",
-      "hotelId": "RTPAR672",
-      "name": "ADAGIO PARIS XV",
+      "hotelId": "RTPAR666",
+      "name": "ADAGIO PORTE DE VERSAILLES",
       "type": "hotel"
     },
     "offers": [
       {
         "boardType": "ROOM_ONLY",
-        "checkInDate": "2026-08-22",
-        "checkOutDate": "2026-08-25",
+        "checkInDate": "2026-08-23",
+        "checkOutDate": "2026-08-26",
         "commission": {
           "description": {
             "text": "Travel agency commission - not applicable"
@@ -31,21 +31,24 @@
         "guests": {
           "adults": 2
         },
-        "id": "REZ7BSRS3E",
+        "id": "3ZB0JCJPDV",
         "isLoyaltyRate": "false",
         "policies": {
           "additionalDetails": [
             {
               "description": [
                 {
-                  "text": "The credit card used for the reservation will be requested upon your arrival. The name on your ID should be identical to the name on your credit card."
+                  "text": "The credit card used for the reservation will be asked upon your arrival. The name on your ID should be identical as the one on the credit card."
+                },
+                {
+                  "text": "Minors under 18 must be accompanied by at least one of the parents and present official ID. Responsible person named by parents must present parent s written authorization (with certified signature)."
                 }
               ]
             }
           ],
           "cancellations": [
             {
-              "deadline": "2026-08-21T18:01:00+02:00",
+              "deadline": "2026-08-22T18:01:00+02:00",
               "description": {
                 "text": "No cancellation charge applies prior to 18:00(local time) on the day of arrival. Beyond that time, the first night will be charged."
               },
@@ -57,7 +60,7 @@
             "checkIn": "15:00:00",
             "checkOut": "12:00:00"
           },
-          "guarantee": {
+          "deposit": {
             "acceptedPayments": {
               "creditCardPolicies": [
                 {
@@ -300,35 +303,21 @@
               "methods": [
                 "CREDIT_CARD"
               ]
-            },
-            "description": {
-              "text": "Booking must be guaranteed by providing a credit card."
             }
           },
-          "paymentType": "guarantee",
+          "paymentType": "deposit",
           "refundable": {
             "cancellationRefund": "REFUNDABLE_UP_TO_DEADLINE"
           }
         },
         "price": {
-          "base": "300.00",
+          "base": "900.00",
           "currency": "EUR",
           "taxes": [
             {
               "applicableDate": {
-                "end": "2026-08-24",
-                "start": "2026-08-22"
-              },
-              "code": "CITY_TAX",
-              "description": "City and local taxes",
-              "included": true,
-              "pricingFrequency": "PER_NIGHT",
-              "pricingMode": "PER_OCCUPANT"
-            },
-            {
-              "applicableDate": {
-                "end": "2026-08-24",
-                "start": "2026-08-22"
+                "end": "2026-08-25",
+                "start": "2026-08-23"
               },
               "code": "COUNTRY_TAX",
               "description": "National taxes on accommodation",
@@ -337,13 +326,13 @@
               "pricingMode": "PER_PRODUCT"
             }
           ],
-          "total": "300.00",
+          "total": "900.00",
           "variations": {
             "changes": [
               {
-                "base": "100.00",
-                "endDate": "2026-08-25",
-                "startDate": "2026-08-22"
+                "base": "300.00",
+                "endDate": "2026-08-26",
+                "startDate": "2026-08-23"
               }
             ]
           }
@@ -356,21 +345,21 @@
         "room": {
           "description": {
             "lang": "EN",
-            "text": "FLEX - RO B2C\nApartment with 1 bedroom for 4 persons\nMaximum occupancy - 4 people per room\nDaily cleaning, taxes and charges (water, power, heating), except local tourist tax.\nWi-Fi in your room - 220/240 V AC\nIron at reception - Pots/Pans/Dishes\nSafe deposit box in room - Accessible bathroom\nDouble-glazing - Opening windows\nSoundproof - Work desk in all rooms\nBathtub - Hair dryer at reception\nToilets - Audible smoke alarms in rooms\nEmergency info in rooms - Cleaning kit\nCoffee maker - Electric stove\nFridge - Furnished kitchen"
+            "text": "FLEX - RO B2C\nStudio for 2 persons\nMaximum occupancy - 2 people per room\nDaily cleaning, taxes and charges (water, electricity, heating), excluding tourist tax\nWi-Fi in the communal areas - Wi-Fi in your room\n220/240 V AC - Iron at reception\nIroning board and flat-iron - Pots/Pans/Dishes\nPulse air - Safe deposit box in room\nVacuum cleaner - Accessible bathroom\nDouble-glazing - Manual temperature control\nOpening windows - Soundproof\nWork desk in all rooms - Bathtub\nHair dryer at reception - Shower\nToilets - Audible smoke alarms in rooms"
           },
-          "type": "P2T",
+          "type": "P1Q",
           "typeEstimated": {
             "bedType": "DOUBLE",
-            "beds": 2,
+            "beds": 1,
             "category": "ACCESSIBLE_ROOM"
           }
         },
         "roomInformation": {
-          "description": "FLEX - RO B2C\nApartment with 1 bedroom for 4 persons\nMaximum occupancy - 4 people per room\nDaily cleaning, taxes and charges (water, power, heating), except local tourist tax.\nWi-Fi in your room - 220/240 V AC\nIron at reception - Pots/Pans/Dishes\nSafe deposit box in room - Accessible bathroom\nDouble-glazing - Opening windows\nSoundproof - Work desk in all rooms\nBathtub - Hair dryer at reception\nToilets - Audible smoke alarms in rooms\nEmergency info in rooms - Cleaning kit\nCoffee maker - Electric stove\nFridge - Furnished kitchen",
-          "type": "P2T",
+          "description": "FLEX - RO B2C\nStudio for 2 persons\nMaximum occupancy - 2 people per room\nDaily cleaning, taxes and charges (water, electricity, heating), excluding tourist tax\nWi-Fi in the communal areas - Wi-Fi in your room\n220/240 V AC - Iron at reception\nIroning board and flat-iron - Pots/Pans/Dishes\nPulse air - Safe deposit box in room\nVacuum cleaner - Accessible bathroom\nDouble-glazing - Manual temperature control\nOpening windows - Soundproof\nWork desk in all rooms - Bathtub\nHair dryer at reception - Shower\nToilets - Audible smoke alarms in rooms",
+          "type": "P1Q",
           "typeEstimated": {
             "bedType": "DOUBLE",
-            "beds": 2,
+            "beds": 1,
             "category": "ACCESSIBLE_ROOM"
           }
         }

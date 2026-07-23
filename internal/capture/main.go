@@ -112,6 +112,14 @@ func run(ctx context.Context, client *amadeus.Client, cityCode, outDir string) e
 		return fmt.Errorf("hotel offers: %w", err)
 	}
 
+	// The same search asking for a currency the hotels do not quote in, which
+	// is what makes Amadeus emit the dictionaries block. It does not convert
+	// the prices; it supplies the rate and expects the caller to apply it, so
+	// without this fixture there is no coverage of the conversion path.
+	if _, err := captureConverted(ctx, client, outDir, bookable, checkIn, checkOut, conversionCurrency); err != nil {
+		fmt.Fprintf(os.Stderr, "warning: no converted-currency fixture captured: %v\n", err)
+	}
+
 	offerID, err := firstOfferID(search)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "warning: no bookable offer found, skipping offer-by-id: %v\n", err)
@@ -159,6 +167,81 @@ func bookableHotels(ctx context.Context, client *amadeus.Client, cityCode string
 		return nil, fmt.Errorf("no %s properties in %s", bookableChain, cityCode)
 	}
 	return ids, nil
+}
+
+// conversionCurrency is the currency the converted-rates fixture asks for.
+//
+// MNT is deliberate: the Mongolian tögrög has no minor unit
+// (targetDecimalPlaces 0), so the fixture exercises rounding to whole units.
+// A target with two decimal places would let a rounding bug pass unnoticed.
+const conversionCurrency = "MNT"
+
+// captureConverted records a search in a foreign currency, which is the only
+// way to get Amadeus to emit currencyConversionLookupRates.
+//
+// It keeps a couple of offers rather than the whole result: the point of this
+// fixture is the dictionaries block, not breadth of pricing.
+func captureConverted(ctx context.Context, client *amadeus.Client, outDir string, ids []string, checkIn, checkOut, currency string) ([]byte, error) {
+	for _, id := range ids {
+		body, err := capture(ctx, client, outDir, "offers", "search-converted", amadeus.Request{
+			Path: "/v3/shopping/hotel-offers",
+			Query: url.Values{
+				"hotelIds":     {id},
+				"checkInDate":  {checkIn},
+				"checkOutDate": {checkOut},
+				"adults":       {"2"},
+				"currency":     {currency},
+			},
+		}, trimOffers(2))
+		if err != nil {
+			continue // this property has no availability; try the next
+		}
+		if !hasConversionRates(body) {
+			// The hotel already quotes in the requested currency, so Amadeus
+			// had no conversion to report. Keep looking.
+			continue
+		}
+		fmt.Printf("captured %s conversion rates from %s\n", currency, id)
+		return body, nil
+	}
+	return nil, fmt.Errorf("no property returned conversion rates for %s", currency)
+}
+
+// hasConversionRates reports whether a response carries the dictionaries block.
+func hasConversionRates(body []byte) bool {
+	var envelope struct {
+		Dictionaries struct {
+			Rates map[string]any `json:"currencyConversionLookupRates"`
+		} `json:"dictionaries"`
+	}
+	if err := json.Unmarshal(body, &envelope); err != nil {
+		return false
+	}
+	return len(envelope.Dictionaries.Rates) > 0
+}
+
+// trimOffers caps the offers kept on the first hotel of a response.
+func trimOffers(limit int) transform {
+	return func(body []byte) ([]byte, error) {
+		var envelope map[string]any
+		if err := json.Unmarshal(body, &envelope); err != nil {
+			return body, nil
+		}
+
+		data, ok := envelope["data"].([]any)
+		if !ok || len(data) == 0 {
+			return body, nil
+		}
+		hotel, ok := data[0].(map[string]any)
+		if !ok {
+			return body, nil
+		}
+		if offers, ok := hotel["offers"].([]any); ok && len(offers) > limit {
+			hotel["offers"] = offers[:limit]
+		}
+		envelope["data"] = data[:1]
+		return json.Marshal(envelope)
+	}
 }
 
 // captureOffers searches for offers, narrowing the hotel set until it finds one

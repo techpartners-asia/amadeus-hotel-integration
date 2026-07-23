@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"math"
+	"math/big"
 	"strconv"
 	"strings"
 )
@@ -100,6 +101,55 @@ func isDigits(s string) bool {
 	return true
 }
 
+// ParseRate parses a decimal that may carry more precision than an Amount can
+// hold, rounding the excess away instead of refusing it.
+//
+// It exists for exchange rates. Amadeus quotes them to sixteen decimal places
+// - "4099.1909999999998035" for EUR to MNT - which is float noise dressed up
+// as precision: the true rate is 4099.191. ParseAmount rightly rejects that as
+// beyond what it can represent exactly, but rejecting a currency conversion
+// over digits nobody means is not useful, so this rounds at the ninth place.
+//
+// Use ParseAmount for prices, where excess precision means the input is wrong
+// and should be reported rather than quietly adjusted.
+func ParseRate(s string) (Amount, error) {
+	amount, err := ParseAmount(s)
+	if err == nil {
+		return amount, nil
+	}
+	if !errors.Is(err, ErrAmountOverflow) {
+		return Amount{}, err
+	}
+
+	text := strings.TrimSpace(s)
+	negative := strings.HasPrefix(text, "-")
+	text = strings.TrimLeft(text, "+-")
+
+	whole, fraction, _ := strings.Cut(text, ".")
+	if len(fraction) <= maxScale {
+		return Amount{}, err // overflowed on magnitude, not precision
+	}
+	if !isDigits(whole) || !isDigits(fraction) {
+		return Amount{}, err
+	}
+
+	// Build the units from the digits that fit, then round using the first
+	// digit that does not. Rounding by integer addition carries correctly into
+	// the whole part, so 0.9999999999 becomes 1 rather than 0.999999999.
+	units, parseErr := strconv.ParseInt(whole+fraction[:maxScale], 10, 64)
+	if parseErr != nil {
+		return Amount{}, err
+	}
+	if fraction[maxScale] >= '5' {
+		units++
+	}
+	if negative {
+		units = -units
+	}
+
+	return Amount{units: units, scale: maxScale}, nil
+}
+
 // MustParseAmount is ParseAmount for values known to be well-formed. It panics
 // on malformed input.
 func MustParseAmount(s string) Amount {
@@ -189,6 +239,73 @@ func (a Amount) DivMod(n int) (part Amount, remainder Amount, ok bool) {
 	return Amount{units: a.units / units, scale: a.scale},
 		Amount{units: a.units % units, scale: a.scale},
 		true
+}
+
+// Scale returns the number of decimal places the amount is held at.
+func (a Amount) Scale() int { return int(a.scale) }
+
+// MulAmount returns a*other, exactly.
+//
+// It reports ok=false when the product cannot be represented - which needs
+// operands far larger than any price or exchange rate - rather than silently
+// saturating, because a wrong conversion is worse than a refused one.
+//
+// The multiplication is performed in arbitrary precision and only then reduced,
+// so intermediate overflow cannot corrupt the result. Amadeus quotes exchange
+// rates to sixteen decimal places, and multiplying one by a price at the
+// int64 level would overflow long before the answer did.
+func (a Amount) MulAmount(other Amount) (Amount, bool) {
+	product := new(big.Int).Mul(big.NewInt(a.units), big.NewInt(other.units))
+	scale := int(a.scale) + int(other.scale)
+
+	// Shed excess precision from the tail, which for a rate is noise anyway.
+	for scale > maxScale {
+		product = roundedDiv(product, big.NewInt(10))
+		scale--
+	}
+
+	if !product.IsInt64() {
+		return Amount{}, false
+	}
+	return Amount{units: product.Int64(), scale: uint8(scale)}, true
+}
+
+// Round returns a rounded to the given number of decimal places, half away
+// from zero - the convention people expect of money, and the one that does not
+// systematically favour either party.
+//
+// Rounding to fewer places than the amount holds loses precision by design:
+// currencies such as the Mongolian tögrög have no minor unit, so a converted
+// price must be reduced to whole units before it is shown or charged.
+func (a Amount) Round(places int) Amount {
+	if places < 0 || places >= int(a.scale) {
+		return a
+	}
+
+	units := big.NewInt(a.units)
+	for i := int(a.scale); i > places; i-- {
+		units = roundedDiv(units, big.NewInt(10))
+	}
+	if !units.IsInt64() {
+		return a
+	}
+	return Amount{units: units.Int64(), scale: uint8(places)}
+}
+
+// roundedDiv divides n by d, rounding half away from zero.
+func roundedDiv(n, d *big.Int) *big.Int {
+	quotient, remainder := new(big.Int).QuoRem(n, d, new(big.Int))
+
+	twice := new(big.Int).Abs(remainder)
+	twice.Mul(twice, big.NewInt(2))
+	if twice.CmpAbs(d) >= 0 {
+		if n.Sign() < 0 {
+			quotient.Sub(quotient, big.NewInt(1))
+		} else {
+			quotient.Add(quotient, big.NewInt(1))
+		}
+	}
+	return quotient
 }
 
 // Mul returns a multiplied by the integer n. Saturates rather than wrapping,

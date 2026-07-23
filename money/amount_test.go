@@ -146,3 +146,84 @@ func TestFloat64(t *testing.T) {
 		t.Errorf("Float64() = %v, want 120.5", got)
 	}
 }
+
+func TestParseRateAcceptsAmadeusPrecision(t *testing.T) {
+	// Amadeus quotes exchange rates to sixteen decimal places, which is float
+	// noise dressed as precision. ParseAmount rightly refuses; ParseRate rounds.
+	cases := []struct{ in, want string }{
+		{"4099.1909999999998035", "4099.191"}, // the real EUR->MNT rate
+		{"1.0000000004999999", "1"},
+		{"0.9999999999999999", "1"}, // carries into the whole part
+		{"1.2345678949999999", "1.234567895"},
+		{"120.50", "120.5"}, // ordinary values pass straight through
+		{"-4099.1909999999998035", "-4099.191"},
+	}
+
+	for _, c := range cases {
+		got, err := ParseRate(c.in)
+		if err != nil {
+			t.Errorf("ParseRate(%q): %v", c.in, err)
+			continue
+		}
+		if got.String() != c.want {
+			t.Errorf("ParseRate(%q) = %s, want %s", c.in, got, c.want)
+		}
+	}
+
+	if _, err := ParseAmount("4099.1909999999998035"); err == nil {
+		t.Error("ParseAmount should still reject excess precision; only ParseRate rounds")
+	}
+	if _, err := ParseRate("not-a-number"); err == nil {
+		t.Error("ParseRate should still reject nonsense")
+	}
+}
+
+func TestMulAmountIsExact(t *testing.T) {
+	// The conversion that matters: 1410.61 EUR at 4099.191 = 5,782,359.82 MNT.
+	price := MustParseAmount("1410.61")
+	rate := MustParseAmount("4099.191")
+
+	product, ok := price.MulAmount(rate)
+	if !ok {
+		t.Fatal("MulAmount overflowed on an ordinary conversion")
+	}
+	if got := product.String(); got != "5782359.81651" {
+		t.Errorf("1410.61 x 4099.191 = %s, want 5782359.81651", got)
+	}
+	// Rounded to whole tögrög, as MNT has no minor unit.
+	if got := product.Round(0).String(); got != "5782360" {
+		t.Errorf("rounded = %s, want 5782360", got)
+	}
+}
+
+func TestRoundHalfAwayFromZero(t *testing.T) {
+	cases := []struct {
+		in     string
+		places int
+		want   string
+	}{
+		{"5782359.82251", 0, "5782360"},
+		{"2.5", 0, "3"},
+		{"-2.5", 0, "-3"},
+		{"2.4", 0, "2"},
+		{"1.005", 2, "1.01"},
+		{"1.004", 2, "1"},
+		{"120.5", 2, "120.5"}, // already coarser than the target
+		{"0.9999", 0, "1"},    // carries
+	}
+
+	for _, c := range cases {
+		if got := MustParseAmount(c.in).Round(c.places).String(); got != c.want {
+			t.Errorf("%s rounded to %d places = %s, want %s", c.in, c.places, got, c.want)
+		}
+	}
+}
+
+func TestMulAmountRefusesRatherThanCorrupts(t *testing.T) {
+	// A wrong conversion is worse than a refused one, so an unrepresentable
+	// product reports failure instead of saturating.
+	huge := Amount{units: math.MaxInt64, scale: 0}
+	if _, ok := huge.MulAmount(huge); ok {
+		t.Error("MaxInt64 squared should not report success")
+	}
+}

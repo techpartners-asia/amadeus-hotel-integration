@@ -3,6 +3,7 @@ package offers
 import (
 	"github.com/techpartners-asia/amadeus-hotel-integration/v2/codes"
 	"github.com/techpartners-asia/amadeus-hotel-integration/v2/geo"
+	"github.com/techpartners-asia/amadeus-hotel-integration/v2/internal/amadeus"
 	"github.com/techpartners-asia/amadeus-hotel-integration/v2/internal/amadeus/dto"
 	"github.com/techpartners-asia/amadeus-hotel-integration/v2/internal/amadeus/dto/offersdto"
 	"github.com/techpartners-asia/amadeus-hotel-integration/v2/money"
@@ -18,7 +19,10 @@ import (
 // protects them.
 
 // mapHotelOffers translates a search result.
-func mapHotelOffers(wire []offersdto.OffersResponse) []HotelOffers {
+//
+// Rates are response-level rather than per-hotel, so the same map is attached
+// to every element; callers reach it wherever they happen to be iterating.
+func mapHotelOffers(wire []offersdto.OffersResponse, rates ConversionRates) []HotelOffers {
 	if wire == nil {
 		return nil
 	}
@@ -29,9 +33,43 @@ func mapHotelOffers(wire []offersdto.OffersResponse) []HotelOffers {
 			Available: h.Available,
 			Offers:    mapOffers(h.Offers),
 			Self:      h.Self,
+			Rates:     rates,
 		}
 	}
 	return out
+}
+
+// mapConversionRates translates the dictionaries block.
+//
+// A rate whose multiplier cannot be parsed is dropped rather than kept as
+// zero: a zero rate would silently convert every price to nothing.
+func mapConversionRates(wire map[string]amadeus.ConversionRate) ConversionRates {
+	if len(wire) == 0 {
+		return nil
+	}
+
+	rates := make(ConversionRates, len(wire))
+	for from, rate := range wire {
+		// ParseRate rather than ParseAmount: Amadeus quotes rates to sixteen
+		// decimal places, beyond what money.Amount holds exactly, and refusing
+		// a conversion over digits nobody means would be unhelpful.
+		parsed, err := money.ParseRate(rate.Rate)
+		if err != nil || parsed.IsZero() {
+			continue
+		}
+		rates[money.Currency(from)] = ConversionRate{
+			From:          money.Currency(from),
+			To:            money.Currency(rate.Target),
+			Rate:          parsed,
+			DecimalPlaces: rate.TargetDecimalPlaces,
+			RawRate:       rate.Rate,
+		}
+	}
+
+	if len(rates) == 0 {
+		return nil
+	}
+	return rates
 }
 
 func mapHotel(h offersdto.HotelResponse) Hotel {

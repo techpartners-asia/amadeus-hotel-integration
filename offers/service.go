@@ -61,7 +61,8 @@ func (s *service) Search(ctx context.Context, query SearchQuery) ([]HotelOffers,
 	if err != nil {
 		return nil, err
 	}
-	return mapHotelOffers(envelope.Data), nil
+	return mapHotelOffers(envelope.Data, mapConversionRates(
+		envelope.Dictionaries.CurrencyConversionLookupRates)), nil
 }
 
 func (s *service) Get(ctx context.Context, query GetQuery) (*OfferDetail, error) {
@@ -79,7 +80,8 @@ func (s *service) Get(ctx context.Context, query GetQuery) (*OfferDetail, error)
 		return nil, err
 	}
 
-	mapped := mapHotelOffers([]offersdto.OffersResponse{envelope.Data})
+	mapped := mapHotelOffers([]offersdto.OffersResponse{envelope.Data},
+		mapConversionRates(envelope.Dictionaries.CurrencyConversionLookupRates))
 	if len(mapped) == 0 || len(mapped[0].Offers) == 0 {
 		// A 200 carrying no offer means the ID no longer resolves, which is
 		// what an expired offer looks like. Reporting it as not-found beats

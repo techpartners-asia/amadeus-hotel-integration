@@ -1,0 +1,160 @@
+{
+  "data": [
+    {
+      "available": true,
+      "hotel": {
+        "chainCode": "RT",
+        "cityCode": "PAR",
+        "dupeId": "700054942",
+        "hotelId": "RTPAREIF",
+        "latitude": 48.85052,
+        "longitude": 2.29245,
+        "name": "Mercure Paris Eiffel Tower Grenelle Hotel",
+        "type": "hotel"
+      },
+      "offers": [
+        {
+          "boardType": "ROOM_ONLY",
+          "checkInDate": "2026-08-23",
+          "checkOutDate": "2026-08-26",
+          "guests": {
+            "adults": 2
+          },
+          "id": "87X55L52DQ",
+          "isLoyaltyRate": "false",
+          "policies": {
+            "cancellations": [
+              {
+                "deadline": "2026-08-22T18:01:00+02:00",
+                "description": {
+                  "text": "No cancellation charge applies prior to 18:00(local time) on the day of arrival. Beyond that time, the first night will be charged."
+                },
+                "numberOfNights": 1,
+                "policyType": "CANCELLATION"
+              }
+            ],
+            "guarantee": {
+              "acceptedPayments": {
+                "creditCardPolicies": [
+                  {
+                    "vendorCode": "AX"
+                  },
+                  {
+                    "vendorCode": "BF"
+                  },
+                  {
+                    "vendorCode": "CA"
+                  },
+                  {
+                    "vendorCode": "DC"
+                  },
+                  {
+                    "vendorCode": "EC"
+                  },
+                  {
+                    "vendorCode": "IK"
+                  },
+                  {
+                    "vendorCode": "JC"
+                  },
+                  {
+                    "vendorCode": "EE"
+                  }
+                ],
+                "creditCards": [
+                  "AX",
+                  "BF",
+                  "CA",
+                  "DC",
+                  "EC",
+                  "IK",
+                  "JC",
+                  "EE"
+                ],
+                "methods": [
+                  "TRAVEL_AGENT_ID",
+                  "CREDIT_CARD"
+                ]
+              }
+            },
+            "paymentType": "guarantee",
+            "refundable": {
+              "cancellationRefund": "REFUNDABLE_UP_TO_DEADLINE"
+            }
+          },
+          "price": {
+            "currency": "EUR",
+            "taxes": [
+              {
+                "amount": "514.56",
+                "applicableDate": {
+                  "end": "2026-08-25",
+                  "start": "2026-08-23"
+                },
+                "code": "COUNTRY_TAX",
+                "currency": "EUR",
+                "included": true,
+                "pricingFrequency": "PER_STAY",
+                "pricingMode": "PER_OCCUPANT"
+              }
+            ],
+            "total": "1424.61",
+            "variations": {
+              "average": {
+                "total": "474.87"
+              },
+              "changes": [
+                {
+                  "base": "122.50",
+                  "endDate": "2026-08-24",
+                  "startDate": "2026-08-23",
+                  "total": "122.50"
+                },
+                {
+                  "base": "136.50",
+                  "endDate": "2026-08-26",
+                  "startDate": "2026-08-24",
+                  "total": "136.50"
+                }
+              ]
+            }
+          },
+          "rateCode": "EAM",
+          "room": {
+            "description": {
+              "lang": "EN",
+              "text": "Mercure Breaks-Early / RO-Room only\nStandard Room 1 dble bed GB Test GB"
+            },
+            "type": "C1D",
+            "typeEstimated": {
+              "bedType": "DOUBLE",
+              "beds": 1,
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "roomInformation": {
+            "description": "Mercure Breaks-Early / RO-Room only\nStandard Room 1 dble bed GB Test GB",
+            "type": "C1D",
+            "typeEstimated": {
+              "bedType": "DOUBLE",
+              "beds": 1,
+              "category": "STANDARD_ROOM"
+            }
+          },
+          "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers/87X55L52DQ"
+        }
+      ],
+      "self": "https://test.travel.api.amadeus.com/v3/shopping/hotel-offers?hotelIds=RTPAREIF\u0026adults=2\u0026checkInDate=2026-08-23\u0026checkOutDate=2026-08-26\u0026currency=MNT",
+      "type": "hotel-offers"
+    }
+  ],
+  "dictionaries": {
+    "currencyConversionLookupRates": {
+      "EUR": {
+        "rate": "4099.1909999999998035",
+        "target": "MNT",
+        "targetDecimalPlaces": 0
+      }
+    }
+  }
+}

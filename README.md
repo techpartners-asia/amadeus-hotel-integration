@@ -302,6 +302,47 @@ Groups are ordered by cheapest price, then room type; offers within a group by
 price, then ID. An offer with no usable price sorts last and never becomes the
 "cheapest" unless it is the only one.
 
+### Currency conversion
+
+**Asking for a currency does not get you prices in it.** Setting
+`SearchQuery.Currency` to `"MNT"` returns offers still priced in the hotel's own
+currency, plus a rate in the response's `dictionaries` block:
+
+```json
+{"currency": "EUR", "total": "1410.61"}
+"dictionaries": { "currencyConversionLookupRates": {
+    "EUR": { "rate": "4099.1909999999998035", "target": "MNT", "targetDecimalPlaces": 0 }}}
+```
+
+Applying the rate is the caller's job, and the SDK does it:
+
+```go
+results, _ := client.Offers.Search(ctx, offers.SearchQuery{
+    HotelIDs: ids,
+    Currency: "MNT",
+})
+
+local, err := results[0].Rates.Convert(offer.Price.Total)
+// 1410.61 EUR -> 5782360 MNT, rounded to whole tögrög
+```
+
+Rounding follows `targetDecimalPlaces`: **0 for MNT and JPY**, which have no
+minor unit, so a converted price lands on whole units rather than 5,782,359.82.
+
+`Convert` **fails** rather than returning the unconverted amount when no rate
+covers that currency — a search across several hotels can return more than one
+currency while Amadeus supplies a rate for only some, and silently handing back
+euros to a caller expecting tögrög shows a guest a price three orders of
+magnitude out. Where a fallback is acceptable for display:
+
+```go
+amount, converted := results[0].Rates.ConvertOrOriginal(offer.Price.Total)
+// converted=false means `amount` is still in the original currency — label it so
+```
+
+The rate Amadeus sends carries sixteen decimal places, most of it float noise.
+It is held rounded to nine (`Rate`) with the original preserved (`RawRate`).
+
 ### Room capacity — how many people fit
 
 Amadeus is unreliable here, so the SDK tells you where its answer came from

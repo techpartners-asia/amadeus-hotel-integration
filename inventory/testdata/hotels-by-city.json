@@ -31,30 +31,6 @@
     },
     {
       "address": {
-        "cityName": "PARIS",
-        "countryCode": "FR",
-        "lines": [
-          "15, QUAI SAINT-MICHEL"
-        ],
-        "postalCode": "75005"
-      },
-      "chainCode": "BK",
-      "distance": {
-        "unit": "KM",
-        "value": 0.12
-      },
-      "dupeId": 900080354,
-      "geoCode": {
-        "latitude": 48.8533,
-        "longitude": 2.34574
-      },
-      "hotelId": "BKPARAOV",
-      "iataCode": "PAR",
-      "lastUpdate": "2026-07-16T13:52:47",
-      "name": "LES RIVES DE NOTRE-DAME"
-    },
-    {
-      "address": {
         "cityName": "Paris",
         "countryCode": "FR",
         "lines": [
@@ -107,6 +83,30 @@
         "cityName": "PARIS",
         "countryCode": "FR",
         "lines": [
+          "15, QUAI SAINT-MICHEL"
+        ],
+        "postalCode": "75005"
+      },
+      "chainCode": "BK",
+      "distance": {
+        "unit": "KM",
+        "value": 0.12
+      },
+      "dupeId": 900080354,
+      "geoCode": {
+        "latitude": 48.8533,
+        "longitude": 2.34574
+      },
+      "hotelId": "BKPARAOV",
+      "iataCode": "PAR",
+      "lastUpdate": "2026-07-23T05:16:16",
+      "name": "LES RIVES DE NOTRE-DAME"
+    },
+    {
+      "address": {
+        "cityName": "PARIS",
+        "countryCode": "FR",
+        "lines": [
           "15 QUAI SAINT MICHEL"
         ],
         "postalCode": "75005"
@@ -123,7 +123,7 @@
       },
       "hotelId": "YXPARRND",
       "iataCode": "PAR",
-      "lastUpdate": "2025-06-03T10:19:00",
+      "lastUpdate": "2026-07-22T09:01:43",
       "name": "HOTEL LES RIVES DE NOTRE DAME"
     },
     {
@@ -147,7 +147,7 @@
       },
       "hotelId": "BKPARBHT",
       "iataCode": "PAR",
-      "lastUpdate": "2026-07-16T06:02:59",
+      "lastUpdate": "2026-07-22T21:17:05",
       "name": "HOTEL ALBE SAINT MICHEL"
     },
     {
@@ -171,7 +171,7 @@
       },
       "hotelId": "BKPARCVR",
       "iataCode": "PAR",
-      "lastUpdate": "2026-07-16T05:45:30",
+      "lastUpdate": "2026-07-23T05:28:15",
       "name": "HOTEL LE CLOS DE NOTRE DAME"
     },
     {
@@ -219,7 +219,7 @@
       },
       "hotelId": "BKPARCYA",
       "iataCode": "PAR",
-      "lastUpdate": "2026-07-15T05:51:20",
+      "lastUpdate": "2026-07-23T09:08:06",
       "name": "RELAIS HOTEL DU VIEUX PARIS"
     },
     {
@@ -291,7 +291,7 @@
       },
       "hotelId": "BKPARAJR",
       "iataCode": "PAR",
-      "lastUpdate": "2026-07-16T07:55:45",
+      "lastUpdate": "2026-07-22T16:02:21",
       "name": "HOTEL LE NOTRE DAME SAINT MICHEL"
     },
     {
@@ -339,7 +339,7 @@
       },
       "hotelId": "BKPARCXG",
       "iataCode": "PAR",
-      "lastUpdate": "2026-07-15T05:00:14",
+      "lastUpdate": "2026-07-23T08:58:00",
       "name": "EUROPE SAINT SEVERIN-PARIS NOTRE DAME"
     },
     {
@@ -364,7 +364,7 @@
       },
       "hotelId": "BKPARCPP",
       "iataCode": "PAR",
-      "lastUpdate": "2026-07-16T01:20:03",
+      "lastUpdate": "2026-07-23T02:40:24",
       "name": "HOTEL RESIDENCE DES ARTS"
     },
     {
@@ -422,30 +422,6 @@
         "cityName": "PARIS",
         "countryCode": "FR",
         "lines": [
-          "17, RUE GIT LE COEUR"
-        ],
-        "postalCode": "75006"
-      },
-      "chainCode": "BK",
-      "distance": {
-        "unit": "KM",
-        "value": 0.19
-      },
-      "dupeId": 900080195,
-      "geoCode": {
-        "latitude": 48.85352,
-        "longitude": 2.34249
-      },
-      "hotelId": "BKPARAGX",
-      "iataCode": "PAR",
-      "lastUpdate": "2026-07-16T04:04:31",
-      "name": "VILLA D'ESTREES"
-    },
-    {
-      "address": {
-        "cityName": "PARIS",
-        "countryCode": "FR",
-        "lines": [
           "RUE SAINT-SEVERIN"
         ],
         "postalCode": "75005"
@@ -464,6 +440,30 @@
       "iataCode": "PAR",
       "lastUpdate": "2025-10-09T09:01:19",
       "name": "LUXURY AND SPACIOUS APPARTMENT IN SAINT"
+    },
+    {
+      "address": {
+        "cityName": "PARIS",
+        "countryCode": "FR",
+        "lines": [
+          "17, RUE GIT LE COEUR"
+        ],
+        "postalCode": "75006"
+      },
+      "chainCode": "BK",
+      "distance": {
+        "unit": "KM",
+        "value": 0.19
+      },
+      "dupeId": 900080195,
+      "geoCode": {
+        "latitude": 48.85352,
+        "longitude": 2.34249
+      },
+      "hotelId": "BKPARAGX",
+      "iataCode": "PAR",
+      "lastUpdate": "2026-07-23T05:35:38",
+      "name": "VILLA D'ESTREES"
     },
     {
       "address": {
@@ -511,7 +511,7 @@
       },
       "hotelId": "BKPARDIZ",
       "iataCode": "PAR",
-      "lastUpdate": "2026-07-15T20:04:08",
+      "lastUpdate": "2026-07-23T07:49:01",
       "name": "HOTEL DU LEVANT"
     },
     {
@@ -559,7 +559,7 @@
       },
       "hotelId": "BKPARDPR",
       "iataCode": "PAR",
-      "lastUpdate": "2026-07-14T10:31:07",
+      "lastUpdate": "2026-07-23T05:06:35",
       "name": "HOTEL EUGENIE"
     },
     {
@@ -583,7 +583,7 @@
       },
       "hotelId": "BKPARDRA",
       "iataCode": "PAR",
-      "lastUpdate": "2026-07-15T16:53:16",
+      "lastUpdate": "2026-07-22T23:13:04",
       "name": "NEW RENOVATED SAINT GERMAIN 2BD"
     },
     {
@@ -608,7 +608,7 @@
       },
       "hotelId": "BKPARBSE",
       "iataCode": "PAR",
-      "lastUpdate": "2026-07-16T13:33:02",
+      "lastUpdate": "2026-07-22T20:06:30",
       "name": "HOLIDAY INN PARIS NOTRE DAME"
     }
   ],

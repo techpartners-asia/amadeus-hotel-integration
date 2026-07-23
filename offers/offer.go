@@ -42,6 +42,25 @@ type HotelOffers struct {
 	Offers []Offer
 	// Self is the Amadeus URL that reproduces this result.
 	Self string
+
+	// Rates are the currency conversions the search returned, present when
+	// SearchQuery.Currency asked for a currency the hotels do not quote in.
+	//
+	// Amadeus does not convert the prices: it returns them in the hotel's own
+	// currency and supplies the rate. Applying it is the caller's job, and
+	// Rates.Convert does it. This is response-level data, so every hotel in
+	// one search carries the same map.
+	Rates ConversionRates
+}
+
+// Price returns an offer's total in the currency the search asked for, falling
+// back to the currency Amadeus quoted when no rate covers it.
+//
+// The bool reports whether a conversion happened, so the currency label shown
+// beside the figure is right either way.
+func (h HotelOffers) Price(offer Offer) (converted bool, total string) {
+	amount, ok := h.Rates.ConvertOrOriginal(offer.Price.Total)
+	return ok, amount.String()
 }
 
 // Cheapest returns the lowest-priced offer, and false when the hotel has none.
