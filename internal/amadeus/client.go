@@ -13,6 +13,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log/slog"
 	"net/http"
 	"net/url"
 	"strings"
@@ -58,6 +59,9 @@ type Options struct {
 	Timeout time.Duration
 	// UserAgent identifies the caller to Amadeus.
 	UserAgent string
+	// Logger receives request and response logging at Debug level. Nil means no
+	// logging.
+	Logger *slog.Logger
 }
 
 // Client sends authenticated requests to Amadeus.
@@ -69,6 +73,7 @@ type Client struct {
 	http      *http.Client
 	tokens    *tokenManager
 	userAgent string
+	logger    *slog.Logger
 }
 
 // NewClient returns a Client for opts. It does not contact Amadeus: the first
@@ -86,15 +91,24 @@ func NewClient(opts Options) *Client {
 
 	host := strings.TrimSuffix(opts.Host, "/")
 
+	// A non-nil logger everywhere means the call sites never guard for nil; a
+	// discard handler is the cheap default when the caller supplied none.
+	logger := opts.Logger
+	if logger == nil {
+		logger = slog.New(slog.DiscardHandler)
+	}
+
 	return &Client{
 		host:      host,
 		http:      httpClient,
 		userAgent: opts.UserAgent,
+		logger:    logger,
 		tokens: &tokenManager{
 			id:     opts.ClientID,
 			secret: opts.ClientSecret,
 			host:   host,
 			http:   httpClient,
+			logger: logger,
 		},
 	}
 }
@@ -246,6 +260,11 @@ func (c *Client) attempt(ctx context.Context, req Request) (int, []byte, error) 
 		return 0, nil, err
 	}
 
+	// httpReq.URL carries the rendered query; req.Body is the pre-encoding
+	// value, redacted before it is logged.
+	c.logRequest(ctx, httpReq.Method, httpReq.URL.String(), req.Body)
+
+	started := time.Now()
 	res, err := c.http.Do(httpReq)
 	if err != nil {
 		// A cancelled or timed-out context surfaces here; wrapping keeps
@@ -258,6 +277,8 @@ func (c *Client) attempt(ctx context.Context, req Request) (int, []byte, error) 
 	if err != nil {
 		return 0, nil, fmt.Errorf("amadeus: reading %s %s: %w", req.method(), req.Path, err)
 	}
+
+	c.logResponse(ctx, httpReq.Method, httpReq.URL.String(), res.StatusCode, started, body)
 	return res.StatusCode, body, nil
 }
 

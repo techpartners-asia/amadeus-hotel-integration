@@ -112,6 +112,7 @@ func New(cfg Config) (*Client, error) {
 		HTTPClient:   cfg.HTTPClient,
 		Timeout:      cfg.Timeout,
 		UserAgent:    cfg.userAgent(),
+		Logger:       cfg.Logger,
 	})
 
 	if !cfg.SkipCredentialCheck {

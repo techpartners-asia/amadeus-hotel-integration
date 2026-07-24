@@ -734,6 +734,41 @@ if err := client.Ping(ctx); err != nil { /* health check */ }
 Every method takes a `context.Context` as its first argument, so cancellation,
 deadlines and tracing all work.
 
+### Logging requests and responses
+
+Pass an `slog.Logger` and every request and response is logged at `Debug`:
+
+```go
+client, _ := sdk.New(sdk.Config{
+    ClientID:     id,
+    ClientSecret: secret,
+    Logger: slog.New(slog.NewJSONHandler(os.Stderr, &slog.HandlerOptions{
+        Level: slog.LevelDebug,
+    })),
+})
+```
+
+```json
+{"level":"DEBUG","msg":"amadeus request","method":"GET","url":".../hotels/by-city?cityCode=PAR"}
+{"level":"DEBUG","msg":"amadeus response","method":"GET","url":"...","status":200,"elapsed":"1.06s","bytes":14063,"body":"{\"data\":[...]}"}
+```
+
+It logs the method, URL, status, timing and body of each call. Leave your
+handler at `Info` or higher and nothing is logged — and nothing is spent
+formatting it, because the work is skipped when `Debug` is disabled.
+
+**Sensitive data is redacted, not logged.** This is the same guarantee the
+booking validation makes about error messages, extended to the log:
+
+- **Request bodies** have the card number, security code and 3DS cryptogram
+  replaced with `[REDACTED]` before logging. A body that cannot be parsed is
+  omitted, never emitted raw.
+- **The authentication exchange logs no body at all** — its request carries the
+  client secret and its response carries the access token, so it logs status
+  only.
+- **Response bodies are logged as received**, where Amadeus has already masked
+  card numbers.
+
 ---
 
 ## Testing

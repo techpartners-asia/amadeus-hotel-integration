@@ -1,6 +1,7 @@
 package sdk
 
 import (
+	"log/slog"
 	"net/http"
 	"time"
 
@@ -81,6 +82,27 @@ type Config struct {
 	// UserAgent identifies your application to Amadeus. Defaults to the SDK's
 	// own identifier.
 	UserAgent string
+
+	// Logger, when set, receives every request and response at Debug level.
+	//
+	// It logs the method, URL, status, timing and body of each call. Set your
+	// handler to emit Debug to see it; leave the handler at Info or higher and
+	// nothing is logged and nothing is spent formatting it.
+	//
+	// Request bodies are redacted before logging: the card number, security
+	// code and 3DS cryptogram a booking carries are replaced with a
+	// placeholder, and the authentication exchange logs no body at all, so its
+	// client secret and access token never reach the log. Response bodies are
+	// logged as received, where Amadeus has already masked card numbers.
+	//
+	//	sdk.New(sdk.Config{
+	//	    ClientID:     id,
+	//	    ClientSecret: secret,
+	//	    Logger: slog.New(slog.NewJSONHandler(os.Stderr, &slog.HandlerOptions{
+	//	        Level: slog.LevelDebug,
+	//	    })),
+	//	})
+	Logger *slog.Logger
 
 	// SkipCredentialCheck stops New from verifying the credentials before
 	// returning, deferring the first token fetch to the first call. Use it when

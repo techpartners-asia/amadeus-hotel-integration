@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log/slog"
 	"net/http"
 	"net/url"
 	"strings"
@@ -32,6 +33,7 @@ type tokenManager struct {
 	secret string
 	host   string
 	http   *http.Client
+	logger *slog.Logger
 
 	mu        sync.Mutex
 	cached    string
@@ -93,6 +95,12 @@ func (m *tokenManager) authenticate(ctx context.Context) (*tokenResponse, error)
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	req.Header.Set("Accept", "application/json")
 
+	// The auth exchange is logged by status alone, never by body. The request
+	// form carries client_secret and the response carries the access token;
+	// neither belongs in a log, so unlike an API call there is no raw body here.
+	m.logger.LogAttrs(ctx, slog.LevelDebug, "amadeus auth request",
+		slog.String("url", m.host+tokenPath))
+
 	res, err := m.http.Do(req)
 	if err != nil {
 		return nil, fmt.Errorf("amadeus: authenticating: %w", err)
@@ -103,6 +111,9 @@ func (m *tokenManager) authenticate(ctx context.Context) (*tokenResponse, error)
 	if err != nil {
 		return nil, fmt.Errorf("amadeus: reading token response: %w", err)
 	}
+
+	m.logger.LogAttrs(ctx, slog.LevelDebug, "amadeus auth response",
+		slog.Int("status", res.StatusCode))
 
 	if res.StatusCode != http.StatusOK {
 		// A bad credential arrives here as a 401. Surfacing it as a typed
