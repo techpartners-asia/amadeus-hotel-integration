@@ -622,3 +622,22 @@ func TestAmadeusRejectionSurfacesTyped(t *testing.T) {
 		t.Errorf("source = %+v, want the pointer to the offending field", apiErr.Details[0].Source)
 	}
 }
+
+func TestBookedPricePayableFallsBackToTotal(t *testing.T) {
+	// A booked order without a markup: Payable is Total, not the zero
+	// SellingTotal.
+	service, _ := newService(t)
+	order, _ := service.Create(context.Background(), validReservation())
+
+	price := order.Bookings[0].Offer.Price
+	if price == nil {
+		t.Fatal("price was dropped")
+	}
+	if price.HasMarkup() {
+		if price.Payable().String() != price.SellingTotal.String() {
+			t.Errorf("with a markup, Payable() should be SellingTotal")
+		}
+	} else if price.Payable().String() != price.Total.String() {
+		t.Errorf("Payable() = %s, want Total %s", price.Payable(), price.Total)
+	}
+}

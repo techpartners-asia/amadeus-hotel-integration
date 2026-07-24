@@ -77,9 +77,13 @@ func (h HotelOffers) Display(amount money.Money) DisplayMoney {
 	}
 }
 
-// DisplayTotal is Display(offer.Price.Total), the common case.
+// DisplayTotal is the common case: the amount to show the guest, converted into
+// the requested currency.
+//
+// It displays offer.Price.Payable(), not Total, so an agency markup is included
+// when one applies and a zero SellingTotal is never mistaken for the price.
 func (h HotelOffers) DisplayTotal(offer Offer) DisplayMoney {
-	return h.Display(offer.Price.Total)
+	return h.Display(offer.Price.Payable())
 }
 
 // DisplayMoney is an amount prepared for the screen: converted into the

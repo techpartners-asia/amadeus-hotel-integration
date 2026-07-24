@@ -42,6 +42,36 @@ type Price struct {
 	Variations Variations
 }
 
+// Payable returns the amount to charge the guest: SellingTotal when a markup
+// was applied, and Total otherwise.
+//
+// This is the price to display and to collect. It exists because the field with
+// the customer-sounding name is a trap: Amadeus omits SellingTotal unless a
+// travel-agency markup applies, so it is zero on most offers and on every
+// self-service rate. A caller reaching for SellingTotal directly shows the
+// guest a price of zero. Payable picks the right one.
+//
+//   - No markup (net rates, GDS, self-service): SellingTotal is zero, so Total
+//     is charged. Total already includes taxes (Total = Base + taxes).
+//   - Agency markup applied: SellingTotal is Total plus the markup, and is what
+//     the guest pays; Total is the agency's own cost.
+//
+// It does not add taxes marked payable at the property - those are collected on
+// arrival, not at booking. See PayableAtProperty for that figure.
+func (p Price) Payable() money.Money {
+	if !p.SellingTotal.Amount().IsZero() {
+		return p.SellingTotal
+	}
+	return p.Total
+}
+
+// HasMarkup reports whether a travel-agency markup was applied, i.e. whether
+// SellingTotal is set and Payable differs from Total.
+func (p Price) HasMarkup() bool {
+	return !p.SellingTotal.Amount().IsZero() &&
+		p.SellingTotal.Amount().Compare(p.Total.Amount()) != 0
+}
+
 // TaxesTotal sums the tax lines that are not already included in Base.
 //
 // It returns an error only when the lines disagree on currency, which Amadeus

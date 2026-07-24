@@ -251,9 +251,10 @@ results, err := client.Offers.Search(ctx, offers.SearchQuery{
 ```go
 offer := results[0].Offers[0]
 
-offer.Price.Total          // money.Money — "600 EUR"
+offer.Price.Payable()      // ← the price to charge the guest. Use this.
+offer.Price.Total          // money.Money — "600 EUR" (Base + taxes)
 offer.Price.Base           // before taxes
-offer.Price.SellingTotal   // including markups
+offer.Price.SellingTotal   // Total + agency markup; ZERO unless a markup applies
 
 // Taxes carry their own semantics
 taxes, _ := offer.Price.TaxesTotal()            // excludes taxes already in Base
@@ -265,6 +266,14 @@ perNight, remainder, ok := offer.Price.PerNight(offer.Stay.Nights())
 
 `PayableAtProperty` is frequently non-zero. Showing a guest only the booking
 total understates what they will actually pay.
+
+> **Which figure do I charge?** `offer.Price.Payable()`. It returns
+> `SellingTotal` when a travel-agency markup applies and `Total` otherwise — and
+> `Total` already includes taxes. **Do not display `SellingTotal` directly:**
+> Amadeus leaves it zero unless a markup applies (it is zero on every
+> self-service and GDS rate), so reaching for the customer-sounding field shows
+> the guest a price of **0**. `Payable()` picks the right one; `HasMarkup()`
+> tells you whether a markup was applied.
 
 ### Refundability is answered honestly
 

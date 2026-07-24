@@ -30,6 +30,25 @@ type Price struct {
 	Variations *Variations
 }
 
+// Payable returns the amount charged for the booking: SellingTotal when a
+// travel-agency markup was applied, and Total otherwise.
+//
+// Amadeus omits SellingTotal unless a markup applies, so it is zero on most
+// bookings; reaching for it directly would report a charge of zero. Total
+// already includes taxes collected at booking.
+func (p Price) Payable() money.Money {
+	if !p.SellingTotal.Amount().IsZero() {
+		return p.SellingTotal
+	}
+	return p.Total
+}
+
+// HasMarkup reports whether a travel-agency markup was applied.
+func (p Price) HasMarkup() bool {
+	return !p.SellingTotal.Amount().IsZero() &&
+		p.SellingTotal.Amount().Compare(p.Total.Amount()) != 0
+}
+
 // TaxesTotal sums the tax lines not already included in Base.
 func (p Price) TaxesTotal() (money.Money, error) {
 	var amounts []money.Money
