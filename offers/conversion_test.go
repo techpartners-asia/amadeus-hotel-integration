@@ -198,17 +198,59 @@ func TestZeroRateIsDroppedRatherThanApplied(t *testing.T) {
 	}
 }
 
-func TestPriceHelperLabelsTheCurrencyCorrectly(t *testing.T) {
+func TestDisplayConvertsWithoutTouchingTheOriginal(t *testing.T) {
 	result := convertedSearch(t)
+	offer := result.Offers[0]
 
-	converted, total := result.Price(result.Offers[0])
-	if !converted {
+	shown := result.DisplayTotal(offer)
+
+	if !shown.Converted {
 		t.Error("the price should have converted")
 	}
-	if !strings.HasSuffix(total, " MNT") {
-		t.Errorf("total = %q, want it labelled MNT", total)
+	if shown.Currency() != "MNT" {
+		t.Errorf("display currency = %s, want MNT", shown.Currency())
 	}
-	if strings.Contains(total, ".") {
-		t.Errorf("total = %q, want whole tögrög", total)
+	if strings.Contains(shown.String(), ".") {
+		t.Errorf("display = %q, want whole tögrög", shown.String())
+	}
+
+	// The crucial guarantee: Display did not mutate the offer. The price the
+	// booking is charged is still the euro figure Amadeus quoted.
+	if offer.Price.Total.Currency() != "EUR" {
+		t.Errorf("offer.Price was changed to %s; it must stay the source of truth",
+			offer.Price.Total.Currency())
+	}
+	if shown.Original.Currency() != "EUR" || shown.Original.String() != offer.Price.Total.String() {
+		t.Errorf("Original = %s, want the untouched %s", shown.Original, offer.Price.Total)
+	}
+}
+
+func TestDisplayFallsBackToOriginalCurrency(t *testing.T) {
+	// With no rate for the amount's currency, Display shows the original and
+	// says so, so the caller never renders a bare number with the wrong label.
+	result := convertedSearch(t)
+
+	shown := result.Display(money.MustParse("100.00", "USD"))
+	if shown.Converted {
+		t.Error("USD has no rate here and must not report as converted")
+	}
+	if shown.Currency() != "USD" || shown.String() != "100 USD" {
+		t.Errorf("display = %s, want the original 100 USD", shown)
+	}
+}
+
+func TestDisplayWorksForAnyMoneyOnTheOffer(t *testing.T) {
+	// Not just the total: base, taxes and per-night rates convert the same way.
+	result := convertedSearch(t)
+	offer := result.Offers[0]
+
+	perNight, _, ok := offer.Price.PerNight(offer.Stay.Nights())
+	if !ok {
+		t.Skip("offer has no divisible total")
+	}
+
+	shown := result.Display(perNight)
+	if !shown.Converted || shown.Currency() != "MNT" {
+		t.Errorf("per-night display = %s (converted=%v), want MNT", shown, shown.Converted)
 	}
 }

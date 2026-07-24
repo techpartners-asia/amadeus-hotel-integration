@@ -53,15 +53,58 @@ type HotelOffers struct {
 	Rates ConversionRates
 }
 
-// Price returns an offer's total in the currency the search asked for, falling
-// back to the currency Amadeus quoted when no rate covers it.
+// Display converts any amount from this result into the currency the search
+// asked for, ready to show to a user.
 //
-// The bool reports whether a conversion happened, so the currency label shown
-// beside the figure is right either way.
-func (h HotelOffers) Price(offer Offer) (converted bool, total string) {
-	amount, ok := h.Rates.ConvertOrOriginal(offer.Price.Total)
-	return ok, amount.String()
+// It never mutates the offer: offer.Price stays in the hotel's own currency,
+// which is the price the booking is charged in and the figure that reconciles
+// against Amadeus. Display produces a separate value for the screen. Use it for
+// any money on the offer - the total, the base, a tax, a per-night rate:
+//
+//	shown := result.Display(offer.Price.Total)
+//	fmt.Println(shown)              // "5782360 MNT", or the original if no rate
+//	if shown.Converted { ... }      // label the currency accordingly
+//
+// When no rate covers the amount's currency the original is returned unchanged,
+// with Converted false, so the caller always has something displayable and
+// always knows which currency it is in.
+func (h HotelOffers) Display(amount money.Money) DisplayMoney {
+	converted, ok := h.Rates.ConvertOrOriginal(amount)
+	return DisplayMoney{
+		Amount:    converted,
+		Original:  amount,
+		Converted: ok,
+	}
 }
+
+// DisplayTotal is Display(offer.Price.Total), the common case.
+func (h HotelOffers) DisplayTotal(offer Offer) DisplayMoney {
+	return h.Display(offer.Price.Total)
+}
+
+// DisplayMoney is an amount prepared for the screen: converted into the
+// currency the search asked for when a rate was available, and left in its
+// original currency when not.
+//
+// It carries the original alongside so nothing is lost. Amount is what to show
+// the user; Original is what the booking is actually charged.
+type DisplayMoney struct {
+	// Amount is the figure to display, in the target currency when Converted
+	// is true and in the original currency otherwise.
+	Amount money.Money
+	// Original is the price exactly as Amadeus quoted it - the source of truth
+	// for booking, never a converted estimate.
+	Original money.Money
+	// Converted reports whether Amount was converted. When false, Amount equals
+	// Original; use it to choose the right currency label.
+	Converted bool
+}
+
+// String renders the display amount, e.g. "5782360 MNT".
+func (d DisplayMoney) String() string { return d.Amount.String() }
+
+// Currency returns the currency of the display amount.
+func (d DisplayMoney) Currency() money.Currency { return d.Amount.Currency() }
 
 // Cheapest returns the lowest-priced offer, and false when the hotel has none.
 // Offers with an unparseable price are skipped rather than winning by default.

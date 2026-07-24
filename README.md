@@ -314,7 +314,10 @@ currency, plus a rate in the response's `dictionaries` block:
     "EUR": { "rate": "4099.1909999999998035", "target": "MNT", "targetDecimalPlaces": 0 }}}
 ```
 
-Applying the rate is the caller's job, and the SDK does it:
+**The SDK does not convert automatically.** `offer.Price` stays in the hotel's
+own currency — it is the price the booking is charged and the figure that
+reconciles against Amadeus, so it is never overwritten with a display estimate.
+You convert when you want to show a figure:
 
 ```go
 results, _ := client.Offers.Search(ctx, offers.SearchQuery{
@@ -322,9 +325,22 @@ results, _ := client.Offers.Search(ctx, offers.SearchQuery{
     Currency: "MNT",
 })
 
+// For display — one call, correct currency, original preserved:
+shown := results[0].DisplayTotal(offer)
+fmt.Println(shown)              // "5782360 MNT"  (or the original if no rate)
+if shown.Converted {
+    // shown.Amount is MNT; shown.Original is the EUR the card is charged
+}
+
+// Or convert an explicit amount and handle the error yourself:
 local, err := results[0].Rates.Convert(offer.Price.Total)
 // 1410.61 EUR -> 5782360 MNT, rounded to whole tögrög
 ```
+
+`Display` works on any money value from the offer — total, base, a tax, a
+per-night rate — and returns the original unchanged (with `Converted: false`)
+when no rate covers its currency, so you never render a bare number with the
+wrong label.
 
 Rounding follows `targetDecimalPlaces`: **0 for MNT and JPY**, which have no
 minor unit, so a converted price lands on whole units rather than 5,782,359.82.
